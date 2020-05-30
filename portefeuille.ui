@@ -218,7 +218,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="lineEdit_dateChoisie">
+            <widget class="QLineEdit" name="tb_dateChoisie">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -233,7 +233,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_5">
+          <widget class="QPushButton" name="btn_transfert">
            <property name="text">
             <string>Transférer le dernier portefeuille</string>
            </property>
@@ -242,7 +242,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QCalendarWidget" name="calendarWidget">
+        <widget class="CalendarWidgetPerso" name="calendarWidget">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -274,7 +274,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
-           <widget class="QPushButton" name="pushButton_12">
+           <widget class="QPushButton" name="btn_import">
             <property name="text">
              <string>Importation XLS</string>
             </property>
@@ -291,7 +291,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_11">
+           <widget class="QPushButton" name="btn_export">
             <property name="text">
              <string>Exportation XLS</string>
             </property>
@@ -375,7 +375,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_10">
+              <widget class="QPushButton" name="btn_search">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -401,7 +401,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="lineEdit_nombre"/>
+            <widget class="QLineEdit" name="tb_nombre"/>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_9">
@@ -411,7 +411,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_prix"/>
+            <widget class="QLineEdit" name="tb_prix"/>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_10">
@@ -435,7 +435,7 @@
             </widget>
            </item>
            <item row="5" column="1">
-            <widget class="QLineEdit" name="lineEdit_valo"/>
+            <widget class="QLineEdit" name="tb_valo"/>
            </item>
            <item row="6" column="0">
             <widget class="QLabel" name="label_12">
@@ -445,7 +445,7 @@
             </widget>
            </item>
            <item row="6" column="1">
-            <widget class="QLineEdit" name="lineEdit_valoAcqui"/>
+            <widget class="QLineEdit" name="tb_valoAcqui"/>
            </item>
            <item row="3" column="1">
             <widget class="QLabel" name="label_date">
@@ -477,7 +477,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_6">
+          <widget class="QPushButton" name="btn_add">
            <property name="text">
             <string>Ajouter la ligne</string>
            </property>
@@ -494,7 +494,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_7">
+          <widget class="QPushButton" name="btn_modif">
            <property name="text">
             <string>Modifier la ligne</string>
            </property>
@@ -511,7 +511,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_8">
+          <widget class="QPushButton" name="btn_suppr">
            <property name="text">
             <string>Supprimer la ligne</string>
            </property>
@@ -528,7 +528,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_9">
+          <widget class="QPushButton" name="btn_vis">
            <property name="text">
             <string>Menu Visualisation</string>
            </property>
@@ -629,6 +629,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CalendarWidgetPerso</class>
+   <extends>QCalendarWidget</extends>
+   <header>calendarwidgetperso.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

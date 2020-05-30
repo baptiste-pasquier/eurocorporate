@@ -1,7 +1,7 @@
 import sys
 import json
 from PyQt5 import QtCore, QtGui, QtWidgets, uic, QtSql
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtWidgets import QInputDialog, QMessageBox
 from database import createconnection
 
@@ -119,14 +119,13 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_unlockPortefeuille.setEnabled(False)
 
 
-        # Table vide
-        self.update_model()
-
-
         # Calendrier
         self.date = self.calendarWidget.selectedDate()
         self.calendarWidget.selectionChanged.connect(self.change_date)
 
+
+        # Table vide
+        self.update_modelContenir()
 
         # Nouveau portefeuille
         self.btn_newPortefeuille.setEnabled(False)
@@ -137,8 +136,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.mapper = QtWidgets.QDataWidgetMapper(self)
         self.mapper.setModel(self.modelContenir)
         self.mapper.addMapping(self.comboBox_ISIN, self.modelContenir.fieldIndex('ISIN'))
-        self.mapper.addMapping(self.lineEdit_nombre, self.modelContenir.fieldIndex('nombre'))
-        self.mapper.addMapping(self.lineEdit_prix, self.modelContenir.fieldIndex('prixAchat'))
+        self.mapper.addMapping(self.tb_nombre, self.modelContenir.fieldIndex('nombre'))
+        self.mapper.addMapping(self.tb_prix, self.modelContenir.fieldIndex('prixAchat'))
 
 
     def client_choose(self):
@@ -148,12 +147,11 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             ID = model.index(index, model.fieldIndex('noClient')).data(2)
             print('noClient = ',str(ID))
             self.noClient = ID
-
-            self.btn_chooseClient.setEnabled(False)
+            
             self.btn_newPortefeuille.setEnabled(True)
             
             self.btn_unlockClient.setEnabled(True)
-            
+            self.btn_chooseClient.setEnabled(False)
             self.comboBox_clients.setEnabled(False)
 
             self.modelPortefeuille.setFilter('noClient = '+str(self.noClient))
@@ -175,26 +173,65 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.comboBox_clients.setEnabled(True)
         self.btn_choosePortefeuille.setEnabled(False)
         self.comboBox_portefeuilles.setEnabled(False)
+        #
         self.btn_newPortefeuille.setEnabled(False)
+        self.action_deletePortefeuille.setEnable(False)
         self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
-   
+        #
+        #
+        self.btn_search.setEnabled(False)
+        self.comboBox_ISIN.setEnabled(False)
+        self.tb_nombre.setEnabled(False)
+        self.tb_prix.setEnabled(False)
+        self.btn_modif.setEnabled(False)
+        self.btn_suppr.setEnabled(False)
+        self.btn_add.setEnabled(False)
+        self.btn_import.setEnabled(False)
+        self.btn_export.setEnabled(False)
+
 
     def portefeuille_choose(self):
         if self.comboBox_portefeuilles.currentIndex() >= 0:
+            self.calendarWidget.setSelectedDate(QDate.currentDate())
+            
+            self.calendarWidget.setEnabled(True)
+            self.action_deletePortefeuille.setEnabled(True)
+            self.btn_import.setEnabled(True)
+
             model = self.modelPortefeuille
             index = self.comboBox_portefeuilles.currentIndex()
             noPortefeuille = model.index(index, model.fieldIndex('noPortefeuille')).data(2)
             print('noPortefeuille = ',str(noPortefeuille))
-
             self.noPortefeuille = noPortefeuille    
             self.label_portefeuilleChoisi.setText('Portefeuille choisi : '+model.index(index, model.fieldIndex('noPortefeuille')).data())
 
-            self.update_model()
+            # Dates de mise à jour
+            query = QtSql.QSqlQuery()
+            query.exec("SELECT DISTINCT DateDeMAJ FROM Contenir WHERE noPortefeuille = " + str(self.noPortefeuille) + " ORDER BY DateDeMAJ ASC")
+            while query.next():
+                datemax = query.value(0).date()
+                self.calendarWidget.highlight.append(datemax)
+            query.clear()
 
-            self.btn_choosePortefeuille.setEnabled(False)
+            self.calendarWidget.setSelectedDate(datemax)
+
+            self.update_modelContenir()
+            self.btn_choosePortefeuille.setEnabled(False)           
+            
+
+            self.btn_search.setEnabled(True)
+            self.comboBox_ISIN.setEnabled(True)
+            self.tb_nombre.setEnabled(True)
+            self.tb_prix.setEnabled(True)
             self.comboBox_portefeuilles.setEnabled(False)
             self.btn_unlockPortefeuille.setEnabled(True)
+            self.btn_add.setEnabled(False)            
             self.btn_unlockClient.setEnabled(False)
+            self.btn_vis.setEnabled(True)
+            self.action_modifyPortefeuilleName.setEnabled(True)
+            self.btn_export.setEnabled(True)
+
+            ### Affichage liquidité
 
         else:
             QMessageBox.warning(None, '', 'Veuillez choisir un portefeuille.')
@@ -211,13 +248,12 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.date = self.calendarWidget.selectedDate()
         print('Date : '+ self.date.toString("dd/MM/yyyy"))
 
-        self.update_model()
-        self.lineEdit_dateChoisie.setText(self.date.toString("dd/MM/yyyy"))
+        self.update_modelContenir()
+        self.tb_dateChoisie.setText(self.date.toString("dd/MM/yyyy"))
         
 
-    def update_model(self):
-        # self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.noPortefeuille, self.date.toString("dd/MM/yyyy")))
-        self.modelContenir.setFilter('noPortefeuille = {}'.format(self.noPortefeuille))
+    def update_modelContenir(self):
+        self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.noPortefeuille, self.date.toString("dd/MM/yyyy")))
         self.modelContenir.select()
 
     
@@ -246,7 +282,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                     query.exec("SELECT MAX(noPortefeuille) FROM Portefeuille")
                     if query.next():
                         max_no_portefeuille = int(query.value(0))
-                    query.finish()
+                    query.clear()
 
                     defaults = {
                         'noPortefeuille': max_no_portefeuille + 1,
