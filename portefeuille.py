@@ -3,12 +3,13 @@ import json
 from PyQt5 import QtCore, QtGui, QtWidgets, uic, QtSql
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QInputDialog, QMessageBox
+from database import createconnection
 
 
-qt_creator_file = "portefeuille.ui"
-Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
-# import PortefeuilleUI
-# from PortefeuilleUI import Ui_MainWindowPortefeuille
+# qt_creator_file = "portefeuille.ui"
+# Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
+import PortefeuilleUI
+from PortefeuilleUI import Ui_MainWindowPortefeuille
 
 
 class ModelClient(QtSql.QSqlTableModel):
@@ -27,7 +28,8 @@ class ModelClient(QtSql.QSqlTableModel):
             nomEntreprise = super().data(self.index(index.row(), nomEntreprise_column), 0)
             value = '{'+'{:0>2d}}} {}'.format(noClient, nomEntreprise) 
             return value
-        return super().data(index, role)
+        else:
+            return super().data(index, role)
 
 
 class ModelPortefeuille(QtSql.QSqlTableModel):
@@ -95,8 +97,11 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         
         self.comboBox_clients.setModel(self.modelClient)
         self.comboBox_clients.setModelColumn(self.modelClient.fieldIndex('noClient'))
-        self.comboBox_clients.currentIndexChanged.connect(self.change_client)
         self.comboBox_clients.setCurrentIndex(-1)
+        
+        self.btn_chooseClient.clicked.connect(self.client_choose)
+        self.btn_unlockClient.clicked.connect(self.client_unlock)
+        self.btn_unlockClient.setEnabled(False)
 
 
         # Liste des portefeuilles
@@ -104,8 +109,18 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.noPortefeuille = None
 
         self.comboBox_portefeuilles.setModel(self.modelPortefeuille)
-        self.comboBox_portefeuilles.currentIndexChanged.connect(self.change_portefeuille)        
         self.comboBox_portefeuilles.setCurrentIndex(-1)
+        self.comboBox_portefeuilles.setEnabled(False)
+
+        self.btn_choosePortefeuille.clicked.connect(self.portefeuille_choose)
+        self.btn_choosePortefeuille.setEnabled(False)        
+
+        self.btn_unlockPortefeuille.clicked.connect(self.portefeuille_unlock)
+        self.btn_unlockPortefeuille.setEnabled(False)
+
+
+        # Table vide
+        self.update_model()
 
 
         # Calendrier
@@ -114,7 +129,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
 
         # Nouveau portefeuille
-        self.pushButton_nouveauPortefeuille.clicked.connect(self.new_portefeuille)
+        self.btn_newPortefeuille.setEnabled(False)
+        self.btn_newPortefeuille.clicked.connect(self.new_portefeuille)
 
 
         # Mapping table
@@ -125,36 +141,71 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.mapper.addMapping(self.lineEdit_prix, self.modelContenir.fieldIndex('prixAchat'))
 
 
-    def change_client(self, index_combo):
-        if index_combo == -1:
-            self.noClient = None
-        else:
+    def client_choose(self):
+        if self.comboBox_clients.currentIndex() >= 0:
             model = self.modelClient
             index = self.comboBox_clients.currentIndex()
             ID = model.index(index, model.fieldIndex('noClient')).data(2)
             print('noClient = ',str(ID))
             self.noClient = ID
 
-            self.modelPortefeuille.setFilter('noClient = '+str(ID))
-        
+            self.btn_chooseClient.setEnabled(False)
+            self.btn_newPortefeuille.setEnabled(True)
+            
+            self.btn_unlockClient.setEnabled(True)
+            
+            self.comboBox_clients.setEnabled(False)
 
-    def change_portefeuille(self, index_combo):
-        if index_combo == -1:
-            self.noPortefeuille = None
-            self.modelContenir.setFilter('noPortefeuille = 0')
-            self.modelContenir.select()
+            self.modelPortefeuille.setFilter('noClient = '+str(self.noClient))
+            
+            if self.modelPortefeuille.columnCount() > 0:
+                self.btn_choosePortefeuille.setEnabled(True)
+                self.comboBox_portefeuilles.setEnabled(True)
+            else:
+                self.btn_choosePortefeuille.setEnabled(False)
+                self.comboBox_portefeuilles.setEnabled(False)
+                QMessageBox.warning(None, '', "Aucun portefeuille créé pour le client choisi.")
+         
         else:
+            QMessageBox.warning(None, '', 'Veuillez choisir un client.')
+               
+    def client_unlock(self):
+        self.btn_unlockClient.setEnabled(False)
+        self.btn_chooseClient.setEnabled(True)
+        self.comboBox_clients.setEnabled(True)
+        self.btn_choosePortefeuille.setEnabled(False)
+        self.comboBox_portefeuilles.setEnabled(False)
+        self.btn_newPortefeuille.setEnabled(False)
+        self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
+   
+
+    def portefeuille_choose(self):
+        if self.comboBox_portefeuilles.currentIndex() >= 0:
             model = self.modelPortefeuille
             index = self.comboBox_portefeuilles.currentIndex()
             noPortefeuille = model.index(index, model.fieldIndex('noPortefeuille')).data(2)
-            print('noPortefeuille',str(noPortefeuille))
+            print('noPortefeuille = ',str(noPortefeuille))
 
-            self.noPortefeuille = noPortefeuille
-        
-            self.update_model()
- 
+            self.noPortefeuille = noPortefeuille    
             self.label_portefeuilleChoisi.setText('Portefeuille choisi : '+model.index(index, model.fieldIndex('noPortefeuille')).data())
 
+            self.update_model()
+
+            self.btn_choosePortefeuille.setEnabled(False)
+            self.comboBox_portefeuilles.setEnabled(False)
+            self.btn_unlockPortefeuille.setEnabled(True)
+            self.btn_unlockClient.setEnabled(False)
+
+        else:
+            QMessageBox.warning(None, '', 'Veuillez choisir un portefeuille.')
+  
+
+    def portefeuille_unlock(self):
+        self.btn_unlockClient.setEnabled(False)
+        self.comboBox_portefeuilles.setEnabled(True)
+        self.btn_choosePortefeuille.setEnabled(True)
+
+         
 
     def change_date(self):
         self.date = self.calendarWidget.selectedDate()
@@ -222,6 +273,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    createconnection()
     window = MainWindowPortefeuille()
     window.show()
     sys.exit(app.exec_())

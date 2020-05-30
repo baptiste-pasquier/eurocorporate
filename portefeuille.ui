@@ -25,8 +25,8 @@
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="1" column="2">
-            <widget class="QPushButton" name="pushButton_2">
+           <item row="0" column="3">
+            <widget class="QPushButton" name="btn_unlockClient">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -39,19 +39,6 @@
              <property name="icon">
               <iconset>
                <normaloff>img/unlock-48.png</normaloff>img/unlock-48.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Liste des clients existants :</string>
              </property>
             </widget>
            </item>
@@ -71,6 +58,19 @@
              </property>
             </widget>
            </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Liste des clients existants :</string>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="1">
             <widget class="QComboBox" name="comboBox_portefeuilles">
              <property name="minimumSize">
@@ -78,23 +78,6 @@
                <width>300</width>
                <height>0</height>
               </size>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QPushButton" name="pushButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>UnLock</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>img/unlock-48.png</normaloff>img/unlock-48.png</iconset>
              </property>
             </widget>
            </item>
@@ -111,12 +94,43 @@
              </property>
             </widget>
            </item>
+           <item row="1" column="3">
+            <widget class="QPushButton" name="btn_unlockPortefeuille">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>UnLock</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/unlock-48.png</normaloff>img/unlock-48.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QPushButton" name="btn_chooseClient">
+             <property name="text">
+              <string>Choisir</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QPushButton" name="btn_choosePortefeuille">
+             <property name="text">
+              <string>Choisir</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="QPushButton" name="pushButton_nouveauPortefeuille">
+            <widget class="QPushButton" name="btn_newPortefeuille">
              <property name="text">
               <string>Nouveau portefeuille</string>
              </property>
