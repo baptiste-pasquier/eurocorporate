@@ -572,8 +572,62 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionClient"/>
+   <addaction name="action_addClient"/>
+   <addaction name="action_ficheClient"/>
    <addaction name="separator"/>
+   <addaction name="actionPortefeuille"/>
+   <addaction name="action_deletePortefeuille"/>
+   <addaction name="action_modifyPortefeuilleName"/>
   </widget>
+  <action name="actionClient">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Client</string>
+   </property>
+  </action>
+  <action name="action_addClient">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>img/add-48.png</normaloff>img/add-48.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ajouter un client</string>
+   </property>
+  </action>
+  <action name="action_ficheClient">
+   <property name="text">
+    <string>Fiche Client</string>
+   </property>
+  </action>
+  <action name="actionPortefeuille">
+   <property name="text">
+    <string>Portefeuille</string>
+   </property>
+  </action>
+  <action name="action_deletePortefeuille">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/delete-48.png</normaloff>img/delete-48.png</iconset>
+   </property>
+   <property name="text">
+    <string>Supprimer le portefeuille</string>
+   </property>
+  </action>
+  <action name="action_modifyPortefeuilleName">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/edit-48.png</normaloff>img/edit-48.png</iconset>
+   </property>
+   <property name="text">
+    <string>Modifier le nom du portefeuille</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
