@@ -11,21 +11,6 @@ Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
 # from PortefeuilleUI import Ui_MainWindowPortefeuille
 
 
-def createconnection():
-    db = QtSql.QSqlDatabase.addDatabase('QODBC')
-    db.setHostName("localhost")
-    db.setDatabaseName('DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};FIL={MS Access};DBQ=C:\\Users\\pasqu\\OneDrive\\Documents\\Scolaire\\ENSAE\\Mission JE\\CodeBaptiste\\IS_beC.mdb')
-
-
-    if db.open():
-        print('connect to SQL Server successfully')
-        return db
-    else:
-        print('connection failed')
-        print(db.lastError().text())
-        return False
-
-
 class ModelClient(QtSql.QSqlTableModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -91,7 +76,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         Ui_MainWindowPortefeuille.__init__(self)
         self.setupUi(self)
         
-        self.db = createconnection()
+        # self.db = createconnection()
 
         # crée le modèle et sa liaison avec la base SQL ouverte
         self.modelContenir = ModelContenir()
