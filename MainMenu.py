@@ -31,10 +31,10 @@ class Controller:
 
 
     def show_portefeuille(self):
-        self.portefeuille = MainWindowPortefeuille()
+        self.portefeuille_window = MainWindowPortefeuille()
         # self.main_menu.close()
         
-        self.portefeuille.show()
+        self.portefeuille_window.show()
 
     
 

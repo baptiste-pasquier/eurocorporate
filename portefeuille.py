@@ -2,9 +2,11 @@ import sys
 import json
 from PyQt5 import QtCore, QtGui, QtWidgets, uic, QtSql
 from PyQt5.QtCore import Qt, QDate
-from PyQt5.QtWidgets import QInputDialog, QMessageBox
+from PyQt5.QtWidgets import QInputDialog, QMessageBox, QDialogButtonBox
 from database import createconnection
-
+from Classes.client import Client
+from Assistants.AddPortefeuille import WindowAddPortefeuille
+from Tools import regex
 
 # qt_creator_file = "portefeuille.ui"
 # Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
@@ -93,7 +95,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         # Liste des clients
         self.modelClient = ModelClient()
-        self.noClient = None
+        self.clientChoisi = Client()
+
         
         self.comboBox_clients.setModel(self.modelClient)
         self.comboBox_clients.setModelColumn(self.modelClient.fieldIndex('noClient'))
@@ -129,7 +132,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         # Nouveau portefeuille
         self.btn_newPortefeuille.setEnabled(False)
-        self.btn_newPortefeuille.clicked.connect(self.new_portefeuille)
+        self.btn_newPortefeuille.clicked.connect(self.add_portefeuille)
 
 
         # Mapping table
@@ -146,7 +149,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             index = self.comboBox_clients.currentIndex()
             ID = model.index(index, model.fieldIndex('noClient')).data(2)
             print('noClient = ',str(ID))
-            self.noClient = ID
+            
+            self.clientChoisi.noClient = ID
+            self.clientChoisi.get_values()
             
             self.btn_newPortefeuille.setEnabled(True)
             
@@ -154,7 +159,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.btn_chooseClient.setEnabled(False)
             self.comboBox_clients.setEnabled(False)
 
-            self.modelPortefeuille.setFilter('noClient = '+str(self.noClient))
+            self.modelPortefeuille.setFilter('noClient = '+str(self.clientChoisi.noClient))
             
             if self.modelPortefeuille.columnCount() > 0:
                 self.btn_choosePortefeuille.setEnabled(True)
@@ -162,10 +167,10 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             else:
                 self.btn_choosePortefeuille.setEnabled(False)
                 self.comboBox_portefeuilles.setEnabled(False)
-                QMessageBox.warning(None, '', "Aucun portefeuille créé pour le client choisi.")
+                QMessageBox.warning(self, '', "Aucun portefeuille créé pour le client choisi.")
          
         else:
-            QMessageBox.warning(None, '', 'Veuillez choisir un client.')
+            QMessageBox.warning(self, '', 'Veuillez choisir un client.')
                
     def client_unlock(self):
         self.btn_unlockClient.setEnabled(False)
@@ -173,9 +178,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.comboBox_clients.setEnabled(True)
         self.btn_choosePortefeuille.setEnabled(False)
         self.comboBox_portefeuilles.setEnabled(False)
-        #
+        self.comboBox_portefeuilles.setCurrentIndex(-1)
         self.btn_newPortefeuille.setEnabled(False)
-        self.action_deletePortefeuille.setEnable(False)
+        self.action_deletePortefeuille.setEnabled(False)
         self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
         #
         #
@@ -234,26 +239,47 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             ### Affichage liquidité
 
         else:
-            QMessageBox.warning(None, '', 'Veuillez choisir un portefeuille.')
+            QMessageBox.warning(self, '', 'Veuillez choisir un portefeuille.')
   
 
     def portefeuille_unlock(self):
         self.btn_unlockClient.setEnabled(False)
         self.comboBox_portefeuilles.setEnabled(True)
+        self.action_deletePortefeuille.setEnabled(False)
+        self.btn_add.setEnabled(False)
+        self.btn_modif.setEnabled(False)
+        self.btn_suppr.setEnabled(False)
+        self.btn_unlockClient.setEnabled(True)
+        self.action_modifyPortefeuilleName.setEnabled(False)
+        self.btn_import.setEnabled(False)
+        self.btn_export.setEnabled(False)
+        self.calendarWidget.setEnabled(False)
+        self.calendarWidget.highlight = []
+
         self.btn_choosePortefeuille.setEnabled(True)
+        self.noPortefeuille=None
+
+        self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
+        self.update_modelContenir()
+
+
+        
 
          
 
     def change_date(self):
         self.date = self.calendarWidget.selectedDate()
         print('Date : '+ self.date.toString("dd/MM/yyyy"))
+        self.tb_dateChoisie.setText(self.date.toString("dd/MM/yyyy"))
 
         self.update_modelContenir()
-        self.tb_dateChoisie.setText(self.date.toString("dd/MM/yyyy"))
+        
         
 
     def update_modelContenir(self):
+        # self.modelContenir.setFilter('noPortefeuille = {}'.format(self.noPortefeuille))
         self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.noPortefeuille, self.date.toString("dd/MM/yyyy")))
+        print('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.noPortefeuille, self.date.toString("dd/MM/yyyy")))
         self.modelContenir.select()
 
     
@@ -264,47 +290,77 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.mapper.setCurrentModelIndex(index)
 
         
-    def new_portefeuille(self):
-        if not self.noClient:
+    def add_portefeuille(self):
+        def textchanged():
+            if regex.VerifAdresse(dialog.tb_libelle.text()):
+                query = QtSql.QSqlQuery()
+                query.exec("SELECT count(*) FROM Portefeuille WHERE nomPortefeuille = '" + dialog.tb_libelle.text() + "' AND noClient = " + str(self.clientChoisi.noClient))
+                if query.next():
+                    compteur = int(query.value(0))
+                query.clear()
+                if compteur == 0:
+                    dialog.tb_message.setText("...")
+                    dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)                
+                else:
+                    dialog.tb_message.setText("Un portefeuille porte déjà ce nom.")
+                    dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+            else:
+                dialog.tb_message.setText("Format incorrect.")
+                dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+
+        if not self.clientChoisi.noClient:
             QMessageBox.warning(None, 'Nouveau portefeuille', 'Veuillez choisir un client.')
         
         else:
-            nom_portefeuille, ok = QInputDialog().getText(None, 'Nouveau protefeuille', 'Client : \nNom du nouveau portefeuille')
-            if ok:
-                if not nom_portefeuille:
-                    QMessageBox.warning(None, 'Nouveau portefeuille', 'Veuillez définir un nom de portefeuille.')
+            dialog = WindowAddPortefeuille(self)
+            dialog.tb_client.setText(self.clientChoisi.nomEntreprise)
+            dialog.tb_message.setText("Définir un libellé.")
+            dialog.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+
+            dialog.tb_libelle.textEdited.connect(textchanged)   
+
+
+            if dialog.exec_():                
+                nom_portefeuille = dialog.tb_libelle.text()
+
+                model = self.modelPortefeuille
+                new_row = model.record()
+
+                # Nouveau numéro du portefeuille
+                query = QtSql.QSqlQuery()
+                query.exec("SELECT MAX(noPortefeuille) FROM Portefeuille")
+                if query.next():
+                    max_no_portefeuille = int(query.value(0))
+                query.clear()
+
+                defaults = {
+                    'noPortefeuille': max_no_portefeuille + 1,
+                    'noClient' : self.clientChoisi.noClient,
+                    'nomPortefeuille' : nom_portefeuille
+                }
+
+                for field, value in defaults.items():
+                    index = model.fieldIndex(field)
+                    new_row .setValue(index, value)
+
+                inserted = model.insertRecord(-1, new_row)
+                if not inserted:
+                    error = model.lastError().text()
+                    print(f"Insert Failed: {error}")
+                    model.select()
+
+                if model.submitAll():
+                    QMessageBox.information(self, "Nouveau portefeuille", "Ajout réussi")
                 else:
-                    model = self.modelPortefeuille
-                    new_row = model.record()
+                    error = model.lastError().text()
+                    QMessageBox.critical(self, "Database returned an error", error)
 
-                    # Nouveau numéro du portefeuille
-                    query = QtSql.QSqlQuery()
-                    query.exec("SELECT MAX(noPortefeuille) FROM Portefeuille")
-                    if query.next():
-                        max_no_portefeuille = int(query.value(0))
-                    query.clear()
+                self.comboBox_portefeuilles.setEnabled(True)
+                self.btn_choosePortefeuille.setEnabled(True)
+                self.btn_unlockPortefeuille.setEnabled(True)
 
-                    defaults = {
-                        'noPortefeuille': max_no_portefeuille + 1,
-                        'noClient' : self.noClient,
-                        'nomPortefeuille' : nom_portefeuille
-                    }
 
-                    for field, value in defaults.items():
-                        index = model.fieldIndex(field)
-                        new_row .setValue(index, value)
 
-                    inserted = model.insertRecord(-1, new_row)
-                    if not inserted:
-                        error = model.lastError().text()
-                        print(f"Insert Failed: {error}")
-                        model.select()
-
-                    if model.submitAll():
-                        QMessageBox.information(self, "Nouveau portefeuille", "Ajout réussi")
-                    else:
-                        error = model.lastError().text()
-                        QMessageBox.critical(self, "Database returned an error", error)
 
 
 def main():
