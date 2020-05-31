@@ -278,8 +278,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
     def update_modelContenir(self):
         # self.modelContenir.setFilter('noPortefeuille = {}'.format(self.noPortefeuille))
-        self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.noPortefeuille, self.date.toString("dd/MM/yyyy")))
-        print('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.noPortefeuille, self.date.toString("dd/MM/yyyy")))
+        self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.noPortefeuille, self.date.toString("MM/dd/yyyy")))
         self.modelContenir.select()
 
     
