@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'portefeuille.ui'
+# Form implementation generated from reading ui file 'GestionnairePortefeuille.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -362,4 +362,4 @@ class Ui_MainWindowPortefeuille(object):
         self.action_deletePortefeuille.setText(_translate("MainWindowPortefeuille", "Supprimer le portefeuille"))
         self.action_modifyPortefeuilleName.setText(_translate("MainWindowPortefeuille", "Modifier le nom du portefeuille"))
 
-from calendarwidgetperso import CalendarWidgetPerso
+from Tools.calendarwidgetperso import CalendarWidgetPerso

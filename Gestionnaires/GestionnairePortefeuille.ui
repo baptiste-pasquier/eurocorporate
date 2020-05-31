@@ -633,7 +633,7 @@
   <customwidget>
    <class>CalendarWidgetPerso</class>
    <extends>QCalendarWidget</extends>
-   <header>calendarwidgetperso.h</header>
+   <header>Tools.calendarwidgetperso.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -3,7 +3,6 @@ import json
 from PyQt5 import QtCore, QtGui, QtWidgets, uic, QtSql
 from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtWidgets import QInputDialog, QMessageBox, QDialogButtonBox, QWidget
-from Tools.database import createconnection
 from Classes.client import Client
 from Classes.portefeuille import Portefeuille
 from Assistants.AddPortefeuille import WindowAddPortefeuille
@@ -12,8 +11,8 @@ from Tools import regex
 
 # qt_creator_file = "portefeuille.ui"
 # Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
-import GestionnairePortefeuilleUI
-from GestionnairePortefeuilleUI import Ui_MainWindowPortefeuille
+from Gestionnaires import GestionnairePortefeuilleUI
+from Gestionnaires.GestionnairePortefeuilleUI import Ui_MainWindowPortefeuille
 
 
 class ModelClient(QtSql.QSqlTableModel):
@@ -458,16 +457,3 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.modelPortefeuille.select()
         else:
             QMessageBox.information(self, "Suppresion", "Suppression annulée")
-
-
-
-
-def main():
-    app = QtWidgets.QApplication(sys.argv)
-    createconnection()
-    window = MainWindowPortefeuille()
-    window.show()
-    sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    main()
