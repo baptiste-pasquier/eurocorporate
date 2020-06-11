@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, uic, QtSql
+from PyQt5 import QtWidgets, uic, QtSql, QtCore
 from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtWidgets import QMessageBox, QDialogButtonBox
 from Classes.client import Client
@@ -75,7 +75,10 @@ class ModelContenir(QtSql.QSqlTableModel):
 class ModelISIN(QtSql.QSqlQueryModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setQuery("SELECT DISTINCT ISIN, Libelle FROM Obligation ORDER BY ISIN ASC")
+        # self.setQuery("SELECT DISTINCT ISIN, Libelle FROM Obligation ORDER BY ISIN ASC")
+        self.setQuery("SELECT DISTINCT ISIN FROM Obligation ORDER BY ISIN ASC")
+        while self.canFetchMore():
+            self.fetchMore()
 
 
 class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
@@ -168,6 +171,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         self.btn_add.clicked.connect(self.add_ligne)
         # self.btn_modif.clicked.connect(self.modif_ligne)
+        self.btn_suppr.clicked.connect(self.suppr_ligne)
 
         self.tb_nombre.textEdited.connect(self.tb_nombre_changed)
         self.tb_nombre_etat = True
@@ -378,8 +382,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 index = model.fieldIndex(field)
                 new_row .setValue(index, value)
 
-            inserted = model.insertRecord(-1, new_row)
-            if not inserted:
+            resul = model.insertRecord(-1, new_row)
+            if not resul:
                 error = model.lastError().text()
                 print(f"Insert Failed: {error}")
                 model.select()
@@ -444,8 +448,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             QMessageBox.information(self, "Modification portefeuille", "Modification annulée")
 
     def delete_portefeuille(self):
-        buttonReply = QMessageBox.warning(self, 'Suppression', "Êtes vous sûr de vouloir supprimez ce portefeuille?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel, QMessageBox.Cancel)
-        if buttonReply == QMessageBox.Yes:
+        reply = QMessageBox.warning(self, 'Suppression', "Êtes vous sûr de vouloir supprimer ce portefeuille?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel, QMessageBox.Cancel)
+        if reply == QMessageBox.Yes:
             query = QtSql.QSqlQuery()
             resul1 = query.exec("DELETE FROM Contenir WHERE noPortefeuille = " + str(self.portefeuilleChoisi.noPortefeuille))
             resul2 = query.exec("DELETE FROM Portefeuille WHERE noPortefeuille = " + str(self.portefeuilleChoisi.noPortefeuille))
@@ -505,14 +509,14 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 index = model.fieldIndex(field)
                 new_row .setValue(index, value)
 
-            inserted = model.insertRecord(-1, new_row)
-            if not inserted:
+            resul = model.insertRecord(-1, new_row)
+            if not resul:
                 error = model.lastError().text()
                 print(f"Insert Failed: {error}")
                 model.select()
 
             if model.submitAll():
-                QMessageBox.information(self, "Nouveau portefeuille", "Ajout réussi")
+                QMessageBox.information(self, "Nouvelle ligne", "Ajout réussi")
             else:
                 error = model.lastError().text()
                 QMessageBox.critical(self, "Database returned an error", error)
@@ -575,6 +579,30 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                         QMessageBox.information(self, "Date future", "Ajout à la date future : " + date.toString("dd/MM/yyyy"))
                     else:
                         QMessageBox.critical(self, "Date future", "Ajout non réussi")
+
+    def suppr_ligne(self):
+        model = self.modelContenir
+        if self.indexRowSelected > -1 and self.comboBox_ISIN.currentIndex() > -1:
+            reply = QMessageBox.warning(self, 'Suppression', "Êtes vous sûr de vouloir supprimer la ligne sélectionnée ?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel, QMessageBox.Cancel)
+            if reply == QMessageBox.Yes:
+                resul = model.removeRows(self.indexRowSelected, 1)
+            if not resul:
+                error = model.lastError().text()
+                print(f"Insert Failed: {error}")
+                model.select()
+
+            if model.submitAll():
+                QMessageBox.information(self, "Suppression de ligne", "Suppression réussie")
+            else:
+                error = model.lastError().text()
+                QMessageBox.critical(self, "Database returned an error", error)
+
+            self.tb_nombre.setText("")
+            self.tb_prix.setText("")
+            self.modelContenir.select()
+            self.indexRowSelected = 0
+            if model.rowCount() > 0:
+                self.tableView.selectRow(0)
 
     def tb_nombre_changed(self):
         try:
