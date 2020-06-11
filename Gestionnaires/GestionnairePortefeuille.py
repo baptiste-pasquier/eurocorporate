@@ -3,6 +3,7 @@ import json
 from PyQt5 import QtCore, QtGui, QtWidgets, uic, QtSql
 from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtWidgets import QInputDialog, QMessageBox, QDialogButtonBox, QWidget
+from PyQt5.QtGui import QPalette
 from Classes.client import Client
 from Classes.portefeuille import Portefeuille
 from Assistants.AddPortefeuille import WindowAddPortefeuille
@@ -27,8 +28,8 @@ class ModelClient(QtSql.QSqlTableModel):
         noClient_column = self.fieldIndex('noClient')   
         nomEntreprise_column = self.fieldIndex('nomEntreprise')     
         if role == Qt.DisplayRole and index.column() == noClient_column:
-            noClient = super().data(index, 0)
-            nomEntreprise = super().data(self.index(index.row(), nomEntreprise_column), 0)
+            noClient = super().data(index, Qt.DisplayRole)
+            nomEntreprise = super().data(self.index(index.row(), nomEntreprise_column), Qt.DisplayRole)
             value = '{'+'{:0>2d}}} {}'.format(noClient, nomEntreprise) 
             return value
         else:
@@ -48,8 +49,8 @@ class ModelPortefeuille(QtSql.QSqlTableModel):
         noPortefeuille_column = self.fieldIndex('noPortefeuille')   
         nomPortefeuille_column = self.fieldIndex('nomPortefeuille')     
         if role == Qt.DisplayRole and index.column() == noPortefeuille_column:
-            noPortefeuille = super().data(index, 0)
-            nomPortefeuille = super().data(self.index(index.row(), nomPortefeuille_column), 0)
+            noPortefeuille = super().data(index, Qt.DisplayRole)
+            nomPortefeuille = super().data(self.index(index.row(), nomPortefeuille_column), Qt.DisplayRole)
             value = '{'+'{:0>3d}}} {}'.format(noPortefeuille, nomPortefeuille) 
             return value
         return super().data(index, role)
@@ -67,13 +68,17 @@ class ModelContenir(QtSql.QSqlTableModel):
         # Affichage date
         date_column = self.fieldIndex('DateDeMAJ')    
         if role == Qt.DisplayRole and index.column() == date_column:
-            date = super().data(index, 2)
+            date = super().data(index, Qt.EditRole)
             value = date.toString("dd/MM/yyyy")
             return value
 
         return super().data(index, role)
 
 
+class ModelISIN(QtSql.QSqlQueryModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setQuery("SELECT DISTINCT ISIN, Libelle FROM Obligation ORDER BY ISIN ASC");
 
 
 
@@ -93,8 +98,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.tableView.setModel(self.modelContenir)
         self.tableView.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.tableView.selectionModel().selectionChanged.connect(self.change_mapper_index)
-
+        # self.tableView.selectionModel().selectionChanged.connect(self.change_mapper_index)
+        self.tableView.selectionModel().selectionChanged.connect(self.selection_changed)
+        self.indexRowSelected = -1
 
         # Liste des clients
         self.modelClient = ModelClient()
@@ -126,7 +132,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
 
         # Calendrier
-        self.date = self.calendarWidget.selectedDate()
+        self.dateChoisie = self.calendarWidget.selectedDate()
         self.calendarWidget.selectionChanged.connect(self.change_date)
         self.calendarWidget.setEnabled(False)
 
@@ -146,12 +152,20 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_newPortefeuille.clicked.connect(self.add_portefeuille)
 
 
-        # Mapping table
-        self.mapper = QtWidgets.QDataWidgetMapper(self)
-        self.mapper.setModel(self.modelContenir)
-        self.mapper.addMapping(self.comboBox_ISIN, self.modelContenir.fieldIndex('ISIN'))
-        self.mapper.addMapping(self.tb_nombre, self.modelContenir.fieldIndex('nombre'))
-        self.mapper.addMapping(self.tb_prix, self.modelContenir.fieldIndex('prixAchat'))
+        # Combobox ISIN
+        self.modelISIN = ModelISIN()
+
+        self.comboBox_ISIN.setModel(self.modelISIN)
+        self.comboBox_ISIN.setModelColumn(0)
+        self.comboBox_ISIN.setCurrentIndex(-1)
+
+
+        # # Mapping table
+        # self.mapper = QtWidgets.QDataWidgetMapper(self)
+        # self.mapper.setModel(self.modelContenir)
+        # self.mapper.addMapping(self.comboBox_ISIN, self.modelContenir.fieldIndex('ISIN'))
+        # self.mapper.addMapping(self.tb_nombre, self.modelContenir.fieldIndex('nombre'))
+        # self.mapper.addMapping(self.tb_prix, self.modelContenir.fieldIndex('prixAchat'))
 
         self.btn_search.setEnabled(False)
         self.comboBox_ISIN.setEnabled(False)
@@ -164,6 +178,19 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.tb_valo.setEnabled(False)
         self.tb_valoAcqui.setEnabled(False)
         
+        self.btn_add.clicked.connect(self.add_ligne)
+        # self.btn_modif.clicked.connect(self.modif_ligne)
+
+        self.tb_nombre.textEdited.connect(self.tb_nombre_changed)
+        self.tb_nombre_etat = True
+        self.tb_prix.textEdited.connect(self.tb_prix_changed)
+        self.tb_prix_etat = True
+
+        self.color_error = "#FFCCCC"
+        self.color_ok = "#CCE5FF"
+
+
+
 
 
 
@@ -171,7 +198,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         if self.comboBox_clients.currentIndex() >= 0:
             model = self.modelClient
             index = self.comboBox_clients.currentIndex()
-            ID = model.index(index, model.fieldIndex('noClient')).data(2)
+            ID = model.index(index, model.fieldIndex('noClient')).data(Qt.EditRole)
             print('noClient = ',str(ID))
             
             self.clientChoisi.noClient = ID
@@ -231,7 +258,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             model = self.modelPortefeuille
             index = self.comboBox_portefeuilles.currentIndex()
-            noPortefeuille = model.index(index, model.fieldIndex('noPortefeuille')).data(2)
+            noPortefeuille = model.index(index, model.fieldIndex('noPortefeuille')).data(Qt.EditRole)
             print('noPortefeuille = ',str(noPortefeuille))
             self.portefeuilleChoisi.noPortefeuille = noPortefeuille    
             self.portefeuilleChoisi.get_values()
@@ -271,7 +298,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
   
 
     def portefeuille_unlock(self):
-        self.btn_unlockClient.setEnabled(False)
+        self.btn_unlockPortefeuille.setEnabled(False)
         self.comboBox_portefeuilles.setEnabled(True)
         self.action_deletePortefeuille.setEnabled(False)
         self.btn_add.setEnabled(False)
@@ -292,24 +319,40 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
          
 
     def change_date(self):
-        self.date = self.calendarWidget.selectedDate()
-        print('Date : '+ self.date.toString("dd/MM/yyyy"))
-        self.tb_dateChoisie.setText(self.date.toString("dd/MM/yyyy"))
+        self.dateChoisie = self.calendarWidget.selectedDate()
+        print('Date : '+ self.dateChoisie.toString("dd/MM/yyyy"))
+        self.tb_dateChoisie.setText(self.dateChoisie.toString("dd/MM/yyyy"))
 
         self.update_modelContenir()
         
 
     def update_modelContenir(self):
         # self.modelContenir.setFilter('noPortefeuille = {}'.format(self.portefeuilleChoisi.noPortefeuille))
-        self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.portefeuilleChoisi.noPortefeuille, self.date.toString("MM/dd/yyyy")))
+        self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.portefeuilleChoisi.noPortefeuille, self.dateChoisie.toString("MM/dd/yyyy")))
         self.modelContenir.select()
 
     
-    def change_mapper_index(self):
+    # def change_mapper_index(self):
+    #     select = self.tableView.selectionModel()
+    #     if select.hasSelection():
+    #         index = select.selectedRows()[0]
+    #         self.mapper.setCurrentModelIndex(index)
+
+    def selection_changed(self):
         select = self.tableView.selectionModel()
         if select.hasSelection():
-            index = select.selectedRows()[0]
-            self.mapper.setCurrentModelIndex(index)
+            index = select.selectedRows()[0]  
+        self.indexRowSelected = index.row()
+        print('indexRowSelected = ',str(self.indexRowSelected))
+        self.btn_modif.setEnabled(True)
+        self.btn_suppr.setEnabled(True)
+        self.btn_add.setEnabled(False)
+
+        model = self.modelContenir
+        Isin = model.index(index.row(), model.fieldIndex('ISIN')).data()
+        print(Isin)
+        self.comboBox_ISIN.setCurrentText(Isin)
+
 
         
     def add_portefeuille(self):
@@ -457,3 +500,156 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.modelPortefeuille.select()
         else:
             QMessageBox.information(self, "Suppresion", "Suppression annulée")
+
+
+    def add_ligne(self):
+        if self.comboBox_ISIN.currentIndex() > -1 and self.tb_nombre_etat and self.tb_prix_etat :  #### A MODIFIER
+
+            model = self.modelContenir
+            new_row = model.record()
+
+            if self.tb_nombre.isEnabled:
+                nbOrValo = self.tb_nombre.text
+                prixOrValoAC = self.tb_prix.text
+            else:
+                nbOrValo = self.tb_valo.text
+                prixOrValoAC = self.tb_valoAcqui.text
+
+            noPort = self.portefeuilleChoisi.noPortefeuille
+            Isin = self.comboBox_ISIN.currentText
+
+            defaults = {
+                'noPortefeuille': noPort,
+                'ISIN' : Isin,
+                'DateDeMAJ' : self.dateChoisie.toString("MM/dd/yyyy")
+            }
+
+            if self.tb_prix.isEnabled :
+                defaults['Nombre'] = self.tb_nombre.text
+                defaults['PrixAchat'] = self.tb_prix.text
+            else:
+                defaults['Valorisation'] = self.tb_valo.text
+                defaults['ValorisationAC'] = self.tb_valoAcqui.text
+
+
+            for field, value in defaults.items():
+                index = model.fieldIndex(field)
+                new_row .setValue(index, value)
+
+            inserted = model.insertRecord(-1, new_row)
+            if not inserted:
+                error = model.lastError().text()
+                print(f"Insert Failed: {error}")
+                model.select()
+
+            if model.submitAll():
+                QMessageBox.information(self, "Nouveau portefeuille", "Ajout réussi")
+            else:
+                error = model.lastError().text()
+                QMessageBox.critical(self, "Database returned an error", error)
+
+            self.RajoutObligDateFutur(Isin, noPort, nbOrValo, prixOrValoAC)
+
+            self.modelContenir.select()
+
+        else:
+            QMessageBox.information(self, "Ajout", "Ajout impossible: remplir le formulaire")
+
+    
+    def RajoutObligDateFutur(self, Isin, noPort, nbOrValo, prixOrValoAC):
+
+        # On va ajouter dans les jours suivants l'Obligation pour chaque date de valorisation
+        listDate = []
+        query = QtSql.QSqlQuery()
+        query.exec("SELECT DISTINCT DateDeMAJ FROM Contenir WHERE noPortefeuille = " + noPort + " AND DateDeMAJ > #" + self.dateChoisie.toString("MM/dd/yyyy") + "#")
+        while query.next():
+            listDate.append(query.value(0).date())
+        query.clear()
+
+        for date in listDate:
+            query = QtSql.QSqlQuery()
+            query.exec("SELECT count(*) FROM Contenir WHERE noPortefeuille = " + noPort + " AND DateDeMAJ = #" + self.date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
+            if query.next():
+                count = int(query.value(0))
+            query.clear()
+
+            # On vérifie si elle existe déjà, si oui on l'update (1)
+            if count == 1 :
+                if self.tb_nombre.isEnabled : # Si c'est pas une structure
+                    query = QtSql.QSqlQuery()                
+                    resul = query.exec("UPDATE Contenir SET nombre = '" + nbOrValo + "', prixAchat = '" + prixOrValoAC + "' WHERE noPortefeuille = " + noPort + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
+                    query.clear()
+                    if resul:
+                        QMessageBox.information(self, "Date future", "Mise à jour à la date future : " + date.toString("dd/MM/yyyy"))
+                    else:
+                        QMessageBox.critical(self, "Date future", "Mise à jour non réussie")                
+                else:
+                    query = QtSql.QSqlQuery()                
+                    resul = query.exec("UPDATE Contenir SET Valorisation = '" + nbOrValo + "', ValorisationAC = '" + prixOrValoAC + "' WHERE noPortefeuille = " + noPort + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
+                    query.clear()
+                    if resul:
+                        QMessageBox.information(self, "Date future", "Mise à jour à la date future : " + date.toString("dd/MM/yyyy"))
+                    else:
+                        QMessageBox.critical(self, "Date future", "Mise à jour non réussie")                
+            else:
+                if self.tb_nombre.isEnabled : # Si c'est pas une structure
+                    query = QtSql.QSqlQuery()                
+                    resul = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, prixAchat) VALUES (" + noPort + ",'" + Isin + "',#" + date.toString("MM/dd/yyyy") + "#, '" + nbOrValo + "','" + prixOrValoAC + "')")
+                    query.clear()
+                    if resul:
+                        QMessageBox.information(self, "Date future", "Ajout à la date future : " + date.toString("dd/MM/yyyy"))
+                    else:
+                        QMessageBox.critical(self, "Date future", "Ajout non réussi")                
+                else:
+                    query = QtSql.QSqlQuery()                
+                    resul = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, Valorisation, ValorisationAC) VALUES (" + noPort + ",'" + Isin + "',#" + date.toString("MM/dd/yyyy") + "#, '" + nbOrValo + "','" + prixOrValoAC + "')")
+                    query.clear()
+                    if resul:
+                        QMessageBox.information(self, "Date future", "Ajout à la date future : " + date.toString("dd/MM/yyyy"))
+                    else:
+                        QMessageBox.critical(self, "Date future", "Ajout non réussi") 
+
+    def tb_nombre_changed(self):
+        try:
+            float(self.tb_nombre.text().replace(",", "."))
+            test = True
+        except:
+            test = False
+        
+        if test:
+            self.tb_nombre.setStyleSheet("background : " + self.color_ok)
+            self.tb_nombre_etat = True
+        else:
+            self.tb_nombre.setStyleSheet("background : " + self.color_error)
+            self.tb_nombre_etat = False
+            self.btn_modif.setEnabled(False)        
+        self.verif()
+
+    def tb_prix_changed(self):
+        try:
+            float(self.tb_prix.text().replace(",", "."))
+            test = True
+        except:
+            test = False
+        
+        if test:
+            self.tb_prix.setStyleSheet("background : " + self.color_ok)
+            self.tb_prix_etat = True
+        else:
+            self.tb_prix.setStyleSheet("background : " + self.color_error)
+            self.tb_prix_etat = False        
+        self.verif()
+
+
+    def verif(self):
+        if self.tb_nombre_etat and self.tb_prix_etat:
+            if self.indexRowSelected > -1:
+                self.btn_modif.setEnabled(True)
+                self.btn_suppr.setEnabled(True)
+            else:
+                self.btn_add.setEnabled(True)
+        else:
+            self.btn_modif.setEnabled(False)
+            self.btn_suppr.setEnabled(False)
+            self.btn_add.setEnabled(False)
+
