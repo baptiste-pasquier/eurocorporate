@@ -6,6 +6,7 @@ from Classes.portefeuille import Portefeuille
 from Assistants.AddPortefeuille import WindowAddPortefeuille
 from Assistants.ModifyPortefeuille import WindowModifyPortefeuille
 from Tools import regex
+import win32com.client as win32
 
 # qt_creator_file = "portefeuille.ui"
 # Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
@@ -158,14 +159,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.comboBox_ISIN.setModel(self.modelISIN)
         self.comboBox_ISIN.setModelColumn(0)
         self.comboBox_ISIN.setCurrentIndex(-1)
-        self.comboBox_ISIN.currentIndexChanged.connect(self.Isin_changed)
-
-        # # Mapping table
-        # self.mapper = QtWidgets.QDataWidgetMapper(self)
-        # self.mapper.setModel(self.modelContenir)
-        # self.mapper.addMapping(self.comboBox_ISIN, self.modelContenir.fieldIndex('ISIN'))
-        # self.mapper.addMapping(self.tb_nombre, self.modelContenir.fieldIndex('nombre'))
-        # self.mapper.addMapping(self.tb_prix, self.modelContenir.fieldIndex('prixAchat'))
+        self.comboBox_ISIN.currentIndexChanged.connect(self.comboBox_ISIN_changed)
 
         self.tb_dateChoisie.setEnabled(False)
         self.btn_today.setEnabled(False)
@@ -182,7 +176,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.tb_valoAcqui.setEnabled(False)
 
         self.btn_add.clicked.connect(self.add_ligne)
-        # self.btn_modif.clicked.connect(self.modif_ligne)
+        self.btn_modif.clicked.connect(self.modif_ligne)
         self.btn_suppr.clicked.connect(self.suppr_ligne)
 
         self.tb_nombre.textChanged.connect(self.tb_nombre_changed)
@@ -203,6 +197,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         self.color_error = "#FFCCCC"
         self.color_ok = "#CCE5FF"
+
+        # Export import
+        self.btn_export.clicked.connect(self.export)
 
     def client_choose(self):
         if self.comboBox_clients.currentIndex() >= 0:
@@ -240,31 +237,18 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_choosePortefeuille.setEnabled(False)
         self.comboBox_portefeuilles.setEnabled(False)
         self.comboBox_portefeuilles.setCurrentIndex(-1)
-        # self.btn_newPortefeuille.setEnabled(False)
-        # self.action_deletePortefeuille.setEnabled(False)
-        # self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
-        #
-        #
-        # self.btn_search.setEnabled(False)
-        # self.comboBox_ISIN.setEnabled(False)
-        # self.tb_nombre.setEnabled(False)
-        # self.tb_prix.setEnabled(False)
-        # self.btn_modif.setEnabled(False)
-        # self.btn_suppr.setEnabled(False)
-        # self.btn_add.setEnabled(False)
-        # self.btn_import.setEnabled(False)
-        # self.btn_export.setEnabled(False)
 
         self.clientChoisi = Client()
 
     def portefeuille_choose(self):
         if self.comboBox_portefeuilles.currentIndex() >= 0:
-            self.calendarWidget.setSelectedDate(QDate.currentDate())
-
-            self.calendarWidget.setEnabled(True)
+            self.btn_unlockPortefeuille.setEnabled(True)
+            self.btn_unlockClient.setEnabled(False)
+            self.comboBox_portefeuilles.setEnabled(False)
             self.action_deletePortefeuille.setEnabled(True)
-            self.btn_import.setEnabled(True)
+            self.action_modifyPortefeuilleName.setEnabled(True)
 
+            self.btn_choosePortefeuille.setEnabled(False)
             model = self.modelPortefeuille
             index = self.comboBox_portefeuilles.currentIndex()
             noPortefeuille = model.index(index, model.fieldIndex('noPortefeuille')).data(Qt.EditRole)
@@ -274,69 +258,29 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.label_portefeuilleChoisi.setText('Portefeuille choisi : ' + model.index(index, model.fieldIndex('noPortefeuille')).data())
 
             datemax = self.update_calendar()
-
             self.calendarWidget.setSelectedDate(datemax)
+            self.calendarWidget.setEnabled(True)
             self.date_changed()  # On force
 
             self.update_modelContenir()
-            self.btn_choosePortefeuille.setEnabled(False)
-
-            self.btn_search.setEnabled(True)
-            self.comboBox_ISIN.setEnabled(True)
-            self.tb_nombre.setEnabled(True)
-            self.tb_prix.setEnabled(True)
-            self.comboBox_portefeuilles.setEnabled(False)
-            self.btn_unlockPortefeuille.setEnabled(True)
-            self.btn_add.setEnabled(False)
-            self.btn_unlockClient.setEnabled(False)
-            self.btn_vis.setEnabled(True)
-            self.action_modifyPortefeuilleName.setEnabled(True)
-            self.btn_export.setEnabled(True)
 
             self.tb_dateChoisie.setEnabled(True)
             self.btn_today.setEnabled(True)
             self.btn_newPortefeuille.setEnabled(False)
             self.tb_liquidite.setEnabled(True)
 
+            self.btn_search.setEnabled(True)
+            self.comboBox_ISIN.setEnabled(True)
+            self.btn_vis.setEnabled(True)
+
+            self.btn_import.setEnabled(True)
+            self.btn_export.setEnabled(True)
+
         else:
             QMessageBox.warning(self, '', 'Veuillez choisir un portefeuille.')
 
     def portefeuille_unlock(self):
-        self.btn_unlockPortefeuille.setEnabled(False)
-        self.comboBox_portefeuilles.setEnabled(True)
-        self.action_deletePortefeuille.setEnabled(False)
-        self.btn_add.setEnabled(False)
-        self.btn_modif.setEnabled(False)
-        self.btn_suppr.setEnabled(False)
-        self.btn_unlockClient.setEnabled(True)
-        self.action_modifyPortefeuilleName.setEnabled(False)
-        self.btn_import.setEnabled(False)
-        self.btn_export.setEnabled(False)
-        self.calendarWidget.setSelectedDate(QDate.currentDate())
-        self.calendarWidget.setEnabled(False)
-
-        self.btn_choosePortefeuille.setEnabled(True)
-        self.portefeuilleChoisi = Portefeuille()
-
-        self.update_calendar()
-
-        self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
-        self.update_modelContenir()
-        self.selection_changed()    # On force si on était déjà à -1
-        self.comboBox_ISIN.setCurrentIndex(-1)
-        self.Isin_changed()
-        self.btn_search.setEnabled(False)
-        self.comboBox_ISIN.setEnabled(False)
-        self.tb_nombre.setEnabled(False)
-        self.tb_prix.setEnabled(False)
-        self.btn_vis.setEnabled(False)
-
-        self.tb_dateChoisie.setEnabled(False)
-        self.tb_dateChoisie.setText("")
-        self.btn_today.setEnabled(False)
-        self.tb_liquidite.setText("")
-        self.tb_liquidite.setStyleSheet("")
-        self.tb_liquidite.setEnabled(False)
+        self.disable()
 
     def date_changed(self):
         self.dateChoisie = self.calendarWidget.selectedDate()
@@ -344,9 +288,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.tb_dateChoisie.setText(self.dateChoisie.toString("dd/MM/yyyy"))
 
         self.update_modelContenir()
-        self.selection_changed()    # On force si on était déjà à -1
+        self.selection_changed()    # On force à cause de l'absence de selection
         self.comboBox_ISIN.setCurrentIndex(-1)
-        self.Isin_changed()         # On force si on était déjà à -1
+        self.comboBox_ISIN_changed()         # On force si on était déjà à -1
 
         self.affichage_liquidite()
         ####
@@ -355,16 +299,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         ####
 
     def update_modelContenir(self):
-        # self.modelContenir.setFilter('noPortefeuille = {}'.format(self.portefeuilleChoisi.noPortefeuille))
         self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.portefeuilleChoisi.noPortefeuille, self.dateChoisie.toString("MM/dd/yyyy")))
         self.modelContenir.select()
         self.label_nbLignes.setText("Nombres de lignes : " + str(self.modelContenir.rowCount()))
-
-    # def change_mapper_index(self):
-    #     select = self.tableView.selectionModel()
-    #     if select.hasSelection():
-    #         index = select.selectedRows()[0]
-    #         self.mapper.setCurrentModelIndex(index)
 
     def selection_changed(self):
         select = self.tableView.selectionModel()
@@ -377,15 +314,14 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             if self.comboBox_ISIN.currentText() != isin:
                 self.comboBox_ISIN.setCurrentIndex(-1)
+                self.comboBox_ISIN_changed()
 
             self.btn_modif.setEnabled(True)
             self.btn_suppr.setEnabled(True)
-            self.btn_add.setEnabled(False)
         else:
             self.indexRowSelected = -1
             self.btn_modif.setEnabled(False)
             self.btn_suppr.setEnabled(False)
-            self.btn_add.setEnabled(False)
 
         print('indexRowSelected = ', str(self.indexRowSelected))
 
@@ -519,76 +455,63 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 error = query.lastError().text()
                 QMessageBox.critical(self, "Database error", "Delete failed : " + error)
 
-            self.portefeuilleChoisi = Portefeuille()
-            self.label_portefeuilleChoisi.setText("Portefeuille choisi :")
-            self.action_deletePortefeuille.setEnabled(False)
-            self.btn_unlockPortefeuille.setEnabled(False)
-            self.comboBox_portefeuilles.setEnabled(True)
-            self.btn_add.setEnabled(False)
-            self.btn_modif.setEnabled(False)
-            self.btn_suppr.setEnabled(False)
-            self.btn_unlockClient.setEnabled(True)
-            self.action_modifyPortefeuilleName.setEnabled(False)
+            self.modelPortefeuille.select()
             self.comboBox_portefeuilles.setCurrentIndex(-1)
 
-            self.btn_choosePortefeuille.setEnabled(True)
-            self.modelPortefeuille.select()
+            self.disable()
+
         else:
             QMessageBox.information(self, "Suppresion", "Suppression annulée")
 
     def add_ligne(self):
-        if self.comboBox_ISIN.currentIndex() > -1 and self.tb_nombre_etat and self.tb_prix_etat:
+        model = self.modelContenir
+        new_row = model.record()
 
-            model = self.modelContenir
-            new_row = model.record()
-
-            if self.tb_nombre.isEnabled:
-                nbOrValo = self.tb_nombre.text()
-                prixOrValoAC = self.tb_prix.text()
-            else:
-                nbOrValo = self.tb_valo.text()
-                prixOrValoAC = self.tb_valoAcqui.text()
-
-            noPort = self.portefeuilleChoisi.noPortefeuille
-            Isin = self.comboBox_ISIN.currentText()
-
-            defaults = {
-                'noPortefeuille': int(noPort),
-                'ISIN': str(Isin),
-                'DateDeMAJ': self.dateChoisie
-            }
-
-            if self.tb_prix.isEnabled:
-                defaults['Nombre'] = float(self.tb_nombre.text())
-                defaults['PrixAchat'] = float(self.tb_prix.text())
-            else:
-                defaults['Valorisation'] = float(self.tb_valo.text())
-                defaults['ValorisationAC'] = float(self.tb_valoAcqui.text())
-
-            for field, value in defaults.items():
-                index = model.fieldIndex(field)
-                new_row .setValue(index, value)
-
-            resul = model.insertRecord(-1, new_row)
-            if not resul:
-                error = model.lastError().text()
-                QMessageBox.critical(self, "Python error", "Insert failed : " + error)
-            else:
-                if model.submitAll():
-                    QMessageBox.information(self, "Nouvelle ligne", "Ajout réussi")
-                else:
-                    error = model.lastError().text()
-                    QMessageBox.critical(self, "Database error", "Insert failed : " + error)
-                    model.select()
-
-            self.update_modelContenir()
-            self.RajoutObligDateFutur(Isin, noPort, nbOrValo, prixOrValoAC)
-            self.update_modelContenir()
-            self.comboBox_ISIN.setCurrentIndex(-1)
-            self.update_calendar()
-
+        if self.tb_nombre.isEnabled:
+            nbOrValo = self.tb_nombre.text()
+            prixOrValoAC = self.tb_prix.text()
         else:
-            QMessageBox.information(self, "Ajout", "Ajout impossible: remplir le formulaire")
+            nbOrValo = self.tb_valo.text()
+            prixOrValoAC = self.tb_valoAcqui.text()
+
+        noPort = self.portefeuilleChoisi.noPortefeuille
+        Isin = self.comboBox_ISIN.currentText()
+
+        defaults = {
+            'noPortefeuille': int(noPort),
+            'ISIN': str(Isin),
+            'DateDeMAJ': self.dateChoisie
+        }
+
+        if self.tb_prix.isEnabled:
+            defaults['Nombre'] = float(self.tb_nombre.text())
+            defaults['PrixAchat'] = float(self.tb_prix.text())
+        else:
+            defaults['Valorisation'] = float(self.tb_valo.text())
+            defaults['ValorisationAC'] = float(self.tb_valoAcqui.text())
+
+        for field, value in defaults.items():
+            index = model.fieldIndex(field)
+            new_row .setValue(index, value)
+
+        resul = model.insertRecord(-1, new_row)
+        if not resul:
+            error = model.lastError().text()
+            QMessageBox.critical(self, "Python error", "Insert failed : " + error)
+        else:
+            if model.submitAll():
+                QMessageBox.information(self, "Nouvelle ligne", "Ajout réussi")
+            else:
+                error = model.lastError().text()
+                QMessageBox.critical(self, "Database error", "Insert failed : " + error)
+                model.select()
+
+        self.update_modelContenir()
+        self.RajoutObligDateFutur(Isin, noPort, nbOrValo, prixOrValoAC)
+        self.update_modelContenir()
+        # On a déjà indexRowSelected = -1
+        self.comboBox_ISIN.setCurrentIndex(-1)
+        self.update_calendar()
 
     def RajoutObligDateFutur(self, Isin, noPort, nbOrValo, prixOrValoAC):
         # On va ajouter dans les jours suivants l'Obligation pour chaque date de valorisation
@@ -634,32 +557,76 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                     error = query.lastError().text()
                     QMessageBox.critical(self, "Database error", "Insert failed : " + error)
 
+    def modif_ligne(self):
+        model = self.modelContenir
+        new_row = model.record()
+
+        if self.tb_nombre.isEnabled:
+            nbOrValo = self.tb_nombre.text()
+            prixOrValoAC = self.tb_prix.text()
+        else:
+            nbOrValo = self.tb_valo.text()
+            prixOrValoAC = self.tb_valoAcqui.text()
+
+        noPort = self.portefeuilleChoisi.noPortefeuille
+        row = self.indexRowSelected
+        isin = str(model.record(row).value('ISIN'))
+
+        defaults = {
+            'noPortefeuille': int(noPort),
+            'ISIN': str(isin),
+            'DateDeMAJ': self.dateChoisie
+        }
+
+        if self.tb_prix.isEnabled:
+            defaults['Nombre'] = float(self.tb_nombre.text())
+            defaults['PrixAchat'] = float(self.tb_prix.text())
+        else:
+            defaults['Valorisation'] = float(self.tb_valo.text())
+            defaults['ValorisationAC'] = float(self.tb_valoAcqui.text())
+
+        for field, value in defaults.items():
+            index = model.fieldIndex(field)
+            new_row.setValue(index, value)
+
+        resul = model.setRecord(row, new_row)
+        if not resul:
+            error = model.lastError().text()
+            QMessageBox.critical(self, "Python error", "Modification failed : " + error)
+        else:
+            if model.submitAll():
+                QMessageBox.information(self, "Modification ligne", "Modification réussie")
+            else:
+                error = model.lastError().text()
+                QMessageBox.critical(self, "Database error", "Modification failed : " + error)
+                model.select()
+
+        self.update_modelContenir()
+        self.RajoutObligDateFutur(isin, noPort, nbOrValo, prixOrValoAC)
+        self.update_modelContenir()
+        self.tableView.selectRow(row)
+
     def suppr_ligne(self):
         model = self.modelContenir
-        # if self.indexRowSelected > -1 and self.comboBox_ISIN.currentIndex() > -1:
-        if self.indexRowSelected > -1:
-            reply = QMessageBox.warning(self, 'Suppression', "Êtes vous sûr de vouloir supprimer la ligne sélectionnée ?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            if reply == QMessageBox.Yes:
-                resul = model.removeRows(self.indexRowSelected, 1)
-                if not resul:
+        reply = QMessageBox.warning(self, 'Suppression', "Êtes vous sûr de vouloir supprimer la ligne sélectionnée ?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            resul = model.removeRows(self.indexRowSelected, 1)
+            if not resul:
+                error = model.lastError().text()
+                QMessageBox.critical(self, "Python error", "Delete failed : " + error)
+            else:
+                if model.submitAll():
+                    QMessageBox.information(self, "Suppression de ligne", "Suppression réussie")
+                else:
                     error = model.lastError().text()
-                    QMessageBox.critical(self, "Python error", "Delete failed : " + error)
-                else:
-                    if model.submitAll():
-                        QMessageBox.information(self, "Suppression de ligne", "Suppression réussie")
-                    else:
-                        error = model.lastError().text()
-                        QMessageBox.critical(self, "Database error", "Delete failed : " + error)
-                        model.select()
+                    QMessageBox.critical(self, "Database error", "Delete failed : " + error)
+                    model.select()
 
-                self.tb_nombre.setText("")
-                self.tb_prix.setText("")
-                self.update_modelContenir()
-                self.update_calendar()
-                if model.rowCount() > 0:
-                    self.tableView.selectRow(0)
-                else:
-                    self.tableView.selectRow(-1)
+            self.update_modelContenir()
+            self.tableView.clearSelection()
+            self.selection_changed()
+            self.comboBox_ISIN.setCurrentIndex(-1)
+            self.update_calendar()
 
     def tb_nombre_changed(self):
         try:
@@ -741,108 +708,97 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.btn_modif.setEnabled(False)
             self.btn_add.setEnabled(False)
 
-    def Isin_changed(self):
-        if self.comboBox_ISIN.currentIndex() > -1 or self.indexRowSelected > -1:
-            trouve = False
+    def comboBox_ISIN_changed(self):
+        self.tb_nombre.setText("")
+        self.tb_prix.setText("")
+        self.tb_valo.setText("")
+        self.tb_valoAcqui.setText("")
+        self.label_libelle.setText("")
+        self.label_dateMAJ.setText("")
+        self.label_nominal.setText("")
+        self.tb_nombre.setStyleSheet("")
+        self.tb_prix.setStyleSheet("")
+        self.tb_valo.setStyleSheet("")
+        self.tb_valoAcqui.setStyleSheet("")
+        self.tb_nombre.setEnabled(False)
+        self.tb_prix.setEnabled(False)
+        self.tb_valo.setEnabled(False)
+        self.tb_valoAcqui.setEnabled(False)
+
+        model = self.modelContenir
+        isin_bool = False   # Si on travaille sur une obligation
+        struct = False
+        in_base_obligation = False  # Si l'obligation est dans la base Obligation
+        in_table = False  # Si l'obligation est dans la table
+
+        if self.comboBox_ISIN.currentIndex() > -1:
+            # Cas où on sélectionne directement un ISIN, ou si on a sélectionné une ligne du tableau et arrivé ici
+            isin = self.comboBox_ISIN.currentText()
+            isin_bool = True
+            in_base_obligation = True
+
+            # On vérifie le type de l'obligation
+            query = QtSql.QSqlQuery()
+            query.exec("SELECT noType FROM Obligation WHERE ISIN = '" + isin + "'")
+            if query.next():
+                notype = int(query.value(0))
+            query.clear()
+            if notype == 2:  # Structuré
+                struct = True
+
+            # On vérifie si l'obligation est dans le tableau et on sélectionne la ligne
             i = 0
-            struct = False
-
-            if self.comboBox_ISIN.currentIndex() > -1:
-                isin = self.comboBox_ISIN.currentText()
-                # On vérifie le type de l'obligation
-                query = QtSql.QSqlQuery()
-                query.exec("SELECT noType FROM Obligation WHERE ISIN = '" + isin + "'")
-                if query.next():
-                    notype = int(query.value(0))
-                query.clear()
-                if notype == 2:  # Structuré
-                    struct = True
-            else:   # dans tableau (mais pas dans liste ISIN)
-                isin = str(self.modelContenir.record(self.indexRowSelected).value("ISIN"))
-
-            model = self.modelContenir
-            while i < model.rowCount() and trouve is False:
+            while i < model.rowCount() and in_table is False:
                 if str(model.record(i).value("ISIN")) == isin:
-                    if struct:
-                        self.tb_nombre.setText("")
-                        self.tb_prix.setText("")
-                        self.tb_valo.setText(str(model.record(i).value("Valorisation")))
-                        self.tb_valoAcqui.setText(str(model.record(i).value("ValorisationAC")))
-                        self.tb_valo.setEnabled(True)
-                        self.tb_valoAcqui.setEnabled(True)
-                        self.tb_valo_changed()
-                        self.tb_valoAcqui_changed()
-                        self.tb_nombre.setStyleSheet("")
-                        self.tb_prix.setStyleSheet("")
-                        self.tb_nombre.setEnabled(False)
-                        self.tb_prix.setEnabled(False)
-                    else:
-                        self.tb_valo.setText("")
-                        self.tb_valoAcqui.setText("")
-                        self.tb_nombre.setText(str(model.record(i).value("nombre")))
-                        self.tb_prix.setText(str(model.record(i).value("prixAchat")))
-                        self.tb_valo.setStyleSheet("")
-                        self.tb_valoAcqui.setStyleSheet("")
-                        self.tb_valo.setEnabled(False)
-                        self.tb_valoAcqui.setEnabled(False)
-                        self.tb_nombre.setEnabled(True)
-                        self.tb_prix.setEnabled(True)
-                        self.tb_nombre_changed()
-                        self.tb_prix_changed()
                     self.tableView.selectRow(i)
-                    trouve = True
-                    self.btn_modif.setEnabled(True)
-                    self.btn_suppr.setEnabled(True)
+                    in_table = True
                 i += 1
 
-            if trouve is False:
-                self.tableView.clearSelection()
-                if struct:
-                    self.tb_valo.setEnabled(True)
-                    self.tb_valoAcqui.setEnabled(True)
-                    self.tb_valo_changed()
-                    self.tb_valoAcqui_changed()
-                    self.tb_nombre.setStyleSheet("")
-                    self.tb_prix.setStyleSheet("")
-                    self.tb_nombre.setEnabled(False)
-                    self.tb_prix.setEnabled(False)
-                else:
-                    self.tb_valo.setStyleSheet("")
-                    self.tb_valoAcqui.setStyleSheet("")
-                    self.tb_valo.setEnabled(False)
-                    self.tb_valoAcqui.setEnabled(False)
-                    self.tb_nombre.setEnabled(True)
-                    self.tb_prix.setEnabled(True)
-                    self.tb_nombre_changed()
-                    self.tb_prix_changed()
+        elif self.indexRowSelected > -1:
+            # Cas où on sélectionne une ligne dans le tableau non présente dans la combobox
+            in_table = True
+            isin = str(self.modelContenir.record(self.indexRowSelected).value("ISIN"))
+            isin_bool = True
 
+        if struct:
+            # Si obligation structurée
+            self.tb_valo.setEnabled(True)
+            self.tb_valoAcqui.setEnabled(True)
+            self.tb_valo_changed()
+            self.tb_valoAcqui_changed()
+        elif isin_bool:
+            # Si obligation non structurée
+            self.tb_nombre.setEnabled(True)
+            self.tb_prix.setEnabled(True)
+            self.tb_nombre_changed()
+            self.tb_prix_changed()
+
+        if in_base_obligation:
+            # Si obligation dans la base obligation
             query = QtSql.QSqlQuery()
             query.exec("SELECT Nominal, DateDeMAJ, Libelle FROM Obligation WHERE ISIN = '" + isin + "' ORDER BY DateDeMAJ DESC")
             if query.next():
                 self.label_nominal.setText(str(query.value(0)))
                 self.label_dateMAJ.setText(query.value(1).toString("dd/MM/yyyy"))
                 self.label_libelle.setText(str(query.value(2)))
+        elif isin_bool:
+            # Si obligation non dans la base obligation
+            self.label_nominal.setText("ISIN inconnu")
+            self.label_dateMAJ.setText("ISIN inconnu")
+            self.label_libelle.setText("ISIN inconnu")
+
+        if in_table:
+            # Si obligation dans la table
+            index = self.indexRowSelected
+            if struct:
+                self.tb_valo.setText(str(model.record(index).value("Valorisation")))
+                self.tb_valoAcqui.setText(str(model.record(index).value("ValorisationAC")))
             else:
-                self.label_nominal.setText("ISIN inconnu")
-                self.label_dateMAJ.setText("ISIN inconnu")
-                self.label_libelle.setText("ISIN inconnu")
-            query.clear()
-        else:
-            self.tb_nombre.setText("")
-            self.tb_prix.setText("")
-            self.tb_valo.setText("")
-            self.tb_valoAcqui.setText("")
-            self.label_libelle.setText("")
-            self.label_dateMAJ.setText("")
-            self.label_nominal.setText("")
-            self.tb_nombre.setStyleSheet("")
-            self.tb_prix.setStyleSheet("")
-            self.tb_valo.setStyleSheet("")
-            self.tb_valoAcqui.setStyleSheet("")
-            self.tb_nombre.setEnabled(False)
-            self.tb_prix.setEnabled(False)
-            self.tb_valo.setEnabled(False)
-            self.tb_valoAcqui.setEnabled(False)
+                self.tb_nombre.setText(str(model.record(index).value("nombre")))
+                self.tb_prix.setText(str(model.record(index).value("prixAchat")))
+        elif isin_bool:
+            # Si obligation non dans la table
+            self.tableView.clearSelection()
 
     def update_calendar(self):
         noPortefeuille = self.portefeuilleChoisi.noPortefeuille
@@ -904,3 +860,59 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.tb_liquidite.setStyleSheet("background : " + self.color_error)
             self.tb_liquidite_etat = True
             self.btn_liquidite.setEnabled(False)
+
+    def disable(self):
+        self.btn_unlockPortefeuille.setEnabled(False)
+        self.btn_unlockClient.setEnabled(True)
+        self.comboBox_portefeuilles.setEnabled(True)
+        self.action_deletePortefeuille.setEnabled(False)
+        self.action_modifyPortefeuilleName.setEnabled(False)
+
+        self.btn_choosePortefeuille.setEnabled(True)
+        self.portefeuilleChoisi = Portefeuille()
+        self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
+
+        self.calendarWidget.setSelectedDate(QDate.currentDate())
+        self.calendarWidget.setEnabled(False)
+        self.update_calendar()
+        self.date_changed()
+
+        self.tb_dateChoisie.setEnabled(False)
+        self.tb_dateChoisie.setText("")
+        self.btn_today.setEnabled(False)
+        self.tb_liquidite.setText("")
+        self.tb_liquidite.setStyleSheet("")
+        self.tb_liquidite.setEnabled(False)
+
+        self.btn_search.setEnabled(False)
+        self.comboBox_ISIN.setEnabled(False)
+        self.btn_vis.setEnabled(False)
+
+        self.btn_import.setEnabled(False)
+        self.btn_export.setEnabled(False)
+
+    def export(self):
+        xls = win32.dynamic.Dispatch('Excel.Application')
+
+        xls.Visible = True
+
+        xls.Workbooks.Add()
+        xls.Worksheets(1).Name = "Portefeuille"
+        xls.Worksheets(1).Rows("1").Font.Bold = True
+
+        xls.Worksheets(1).Range("A1").Value = "ISIN"
+        xls.Worksheets(1).Range("B1").Value = "Libelle"
+        xls.Worksheets(1).Range("C1").Value = "Emetteur"
+        xls.Worksheets(1).Range("D1").Value = "Maturite"
+
+        ligne = 2
+
+        query = QtSql.QSqlQuery()
+        # query.exec("SELECT ISIN, Libelle, Emetteur, Maturite, Coupon, Nominal, Cours, Rating, dateDeMAJ, MAJ, nombre, PrixAchat, Rendement, Duration, Sensibilite, Convexite, VieMoyenne, nomRegion, nomType, nomSection, nomSousSecteur, SpreadASW, SpreadBund, ClasseDuration, RatingSP, Valorisation, ValorisationAC, [Valeur d'acquisition], [Valo par le prix], Remboursement, [+ ou - value], [+ ou - value %] FROM  Valorisation WHERE [noPortefeuille] = " + str(self.portefeuilleChoisi.noPortefeuille) + " AND DateDeMAJ = #" + self.dateChoisie.toString("MM/dd/yyyy") + "#")
+        query.exec("SELECT ISIN, Libelle, Emetteur, Maturite FROM Valorisation WHERE noPortefeuille = " + str(self.portefeuilleChoisi.noPortefeuille) + " AND DateDeMAJ = #" + self.dateChoisie.toString("MM/dd/yyyy") + "#")
+        while query.next():
+            for i in range(3):
+                xls.Worksheets(1).Cells(ligne, i + 1).Value = str(query.value(i))
+            ligne += 1
+
+        query.clear()
