@@ -125,6 +125,19 @@
      <string>Fichier MAJ Secteur</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_config">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>380</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Configuration</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

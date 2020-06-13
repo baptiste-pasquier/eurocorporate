@@ -9,6 +9,7 @@ class Client:
         self.mailContact = None
 
     def get_values(self):
+        assert self.noClient is not None
         query = QtSql.QSqlQuery()
         query.exec("SELECT nomEntreprise, nomContact, prenomContact, mailContact, noClient FROM Client WHERE noClient = " + str(self.noClient))
         if query.next():

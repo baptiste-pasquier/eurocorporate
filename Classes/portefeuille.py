@@ -1,5 +1,6 @@
 from PyQt5 import QtSql
 
+
 class Portefeuille:
     def __init__(self):
         self.noPortefeuille = None
@@ -7,8 +8,9 @@ class Portefeuille:
         self.nomPortefeuille = None
 
     def get_values(self):
+        assert self.noPortefeuille is not None
         query = QtSql.QSqlQuery()
-        query.exec("SELECT noClient, nomPortefeuille FROM Portefeuille WHERE noPortefeuille = "+str(self.noPortefeuille))
+        query.exec("SELECT noClient, nomPortefeuille FROM Portefeuille WHERE noPortefeuille = " + str(self.noPortefeuille))
         if query.next():
             self.noClient = str(query.value(0))
             self.nomPortefeuille = str(query.value(1))

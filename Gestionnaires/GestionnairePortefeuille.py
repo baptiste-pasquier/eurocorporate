@@ -5,6 +5,7 @@ from Classes.client import Client
 from Classes.portefeuille import Portefeuille
 from Assistants.AddPortefeuille import WindowAddPortefeuille
 from Assistants.ModifyPortefeuille import WindowModifyPortefeuille
+from Assistants.FindISIN import WindowFindISIN
 from Tools import regex
 import win32com.client as win32
 import time
@@ -96,6 +97,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindowPortefeuille.__init__(self)
         self.setupUi(self)
+        self.setWindowModality(Qt.ApplicationModal)
 
         # self.db = createconnection()
 
@@ -165,6 +167,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_today.setEnabled(False)
         self.btn_today.clicked.connect(lambda: self.calendarWidget.setSelectedDate(QDate.currentDate()))
         self.btn_search.setEnabled(False)
+        self.btn_search.clicked.connect(self.search_ISIN)
         self.comboBox_ISIN.setEnabled(False)
         self.tb_nombre.setEnabled(False)
         self.tb_prix.setEnabled(False)
@@ -199,6 +202,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.color_ok = "#CCE5FF"
 
         # Export import
+        self.btn_import.setEnabled(False)
+        self.btn_export.setEnabled(False)
+        self.btn_import.clicked.connect(self.impor)
         self.btn_export.clicked.connect(self.export)
 
     def client_choose(self):
@@ -235,6 +241,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_chooseClient.setEnabled(True)
         self.comboBox_clients.setEnabled(True)
         self.btn_choosePortefeuille.setEnabled(False)
+        self.btn_newPortefeuille.setEnabled(False)
         self.comboBox_portefeuilles.setEnabled(False)
         self.comboBox_portefeuilles.setCurrentIndex(-1)
 
@@ -248,6 +255,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.action_deletePortefeuille.setEnabled(True)
             self.action_modifyPortefeuilleName.setEnabled(True)
 
+            self.btn_newPortefeuille.setEnabled(False)
             self.btn_choosePortefeuille.setEnabled(False)
             model = self.modelPortefeuille
             index = self.comboBox_portefeuilles.currentIndex()
@@ -266,7 +274,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             self.tb_dateChoisie.setEnabled(True)
             self.btn_today.setEnabled(True)
-            self.btn_newPortefeuille.setEnabled(False)
             self.tb_liquidite.setEnabled(True)
 
             self.btn_search.setEnabled(True)
@@ -327,6 +334,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
     def add_portefeuille(self):
         def textchanged():
+            print(regex.VerifAdresse(dialog.tb_libelle.text()))
             if regex.VerifAdresse(dialog.tb_libelle.text()):
                 query = QtSql.QSqlQuery()
                 query.exec("SELECT count(*) FROM Portefeuille WHERE nomPortefeuille = '" + dialog.tb_libelle.text() + "' AND noClient = " + str(self.clientChoisi.noClient))
@@ -459,9 +467,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.comboBox_portefeuilles.setCurrentIndex(-1)
 
             self.disable()
-
-        else:
-            QMessageBox.information(self, "Suppresion", "Suppression annulée")
 
     def add_ligne(self):
         model = self.modelContenir
@@ -868,6 +873,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.action_deletePortefeuille.setEnabled(False)
         self.action_modifyPortefeuilleName.setEnabled(False)
 
+        self.btn_newPortefeuille.setEnabled(True)
         self.btn_choosePortefeuille.setEnabled(True)
         self.portefeuilleChoisi = Portefeuille()
         self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
@@ -991,3 +997,12 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         else:
             QMessageBox.warning(self, "Exportation", "Aucune valeur")
+
+    def impor(self):
+        1
+
+    def search_ISIN(self):
+        dialog = WindowFindISIN(self)
+        if dialog.exec() == QtWidgets.QDialog.Accepted:
+            new_ISIN = dialog.resul
+            self.comboBox_ISIN.setCurrentText(new_ISIN)
