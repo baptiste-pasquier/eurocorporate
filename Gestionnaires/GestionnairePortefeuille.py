@@ -1,5 +1,5 @@
-from PyQt5 import QtWidgets, uic, QtSql, QtCore
-from PyQt5.QtCore import Qt, QDate, QTimer
+from PyQt5 import QtWidgets, QtSql, QtCore
+from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtWidgets import QMessageBox, QDialogButtonBox, QProgressDialog
 from Classes.client import Client
 from Classes.portefeuille import Portefeuille
@@ -8,10 +8,10 @@ from Assistants.ModifyPortefeuille import WindowModifyPortefeuille
 from Assistants.FindISIN import WindowFindISIN
 from Tools import regex
 import win32com.client as win32
-import time
+
+# from PyQt5 import uic
 # qt_creator_file = "portefeuille.ui"
 # Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
-from Gestionnaires import GestionnairePortefeuilleUI
 from Gestionnaires.GestionnairePortefeuilleUI import Ui_MainWindowPortefeuille
 
 
@@ -920,7 +920,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             xls.ShowWindowsInTaskbar = True  # visible dans la barre de tâches
             xls.DisplayFormulaBar = True  # affichage de la barre de formule
             xls.Caption = "Portefeuille " + self.portefeuilleChoisi.nomPortefeuille
-            wb = xls.Workbooks.Add()  # ajout d'un classeur Excel
+            xls.Workbooks.Add()  # ajout d'un classeur Excel
             xls.Worksheets(1).Name = "Portefeuille"
             xls.Worksheets(1).Rows("1").Font.Bold = True
 

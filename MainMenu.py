@@ -8,8 +8,6 @@ from Gestionnaires.GestionnairePortefeuille import MainWindowPortefeuille
 
 qt_creator_file = "MainMenu.ui"
 Ui_MainWindowMenu, QtBaseClass = uic.loadUiType(qt_creator_file)
-# import MainMenuUI
-# from MainMenuUI import Ui_MainWindowMenu
 
 
 class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
