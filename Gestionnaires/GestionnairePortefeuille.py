@@ -1,13 +1,13 @@
 from PyQt5 import QtWidgets, uic, QtSql, QtCore
-from PyQt5.QtCore import Qt, QDate
-from PyQt5.QtWidgets import QMessageBox, QDialogButtonBox
+from PyQt5.QtCore import Qt, QDate, QTimer
+from PyQt5.QtWidgets import QMessageBox, QDialogButtonBox, QProgressDialog
 from Classes.client import Client
 from Classes.portefeuille import Portefeuille
 from Assistants.AddPortefeuille import WindowAddPortefeuille
 from Assistants.ModifyPortefeuille import WindowModifyPortefeuille
 from Tools import regex
 import win32com.client as win32
-
+import time
 # qt_creator_file = "portefeuille.ui"
 # Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
 from Gestionnaires import GestionnairePortefeuilleUI
@@ -892,27 +892,102 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_export.setEnabled(False)
 
     def export(self):
-        xls = win32.dynamic.Dispatch('Excel.Application')
-
-        xls.Visible = True
-
-        xls.Workbooks.Add()
-        xls.Worksheets(1).Name = "Portefeuille"
-        xls.Worksheets(1).Rows("1").Font.Bold = True
-
-        xls.Worksheets(1).Range("A1").Value = "ISIN"
-        xls.Worksheets(1).Range("B1").Value = "Libelle"
-        xls.Worksheets(1).Range("C1").Value = "Emetteur"
-        xls.Worksheets(1).Range("D1").Value = "Maturite"
-
-        ligne = 2
-
         query = QtSql.QSqlQuery()
-        # query.exec("SELECT ISIN, Libelle, Emetteur, Maturite, Coupon, Nominal, Cours, Rating, dateDeMAJ, MAJ, nombre, PrixAchat, Rendement, Duration, Sensibilite, Convexite, VieMoyenne, nomRegion, nomType, nomSection, nomSousSecteur, SpreadASW, SpreadBund, ClasseDuration, RatingSP, Valorisation, ValorisationAC, [Valeur d'acquisition], [Valo par le prix], Remboursement, [+ ou - value], [+ ou - value %] FROM  Valorisation WHERE [noPortefeuille] = " + str(self.portefeuilleChoisi.noPortefeuille) + " AND DateDeMAJ = #" + self.dateChoisie.toString("MM/dd/yyyy") + "#")
-        query.exec("SELECT ISIN, Libelle, Emetteur, Maturite FROM Valorisation WHERE noPortefeuille = " + str(self.portefeuilleChoisi.noPortefeuille) + " AND DateDeMAJ = #" + self.dateChoisie.toString("MM/dd/yyyy") + "#")
-        while query.next():
-            for i in range(3):
-                xls.Worksheets(1).Cells(ligne, i + 1).Value = str(query.value(i))
-            ligne += 1
+        query.exec("SELECT COUNT(*) FROM Valorisation WHERE noPortefeuille = " + str(self.portefeuilleChoisi.noPortefeuille) + " AND DateDeMAJ = #" + self.dateChoisie.toString("MM/dd/yyyy") + "#")
+        nb_lignes = 0
+        if query.next():
+            nb_lignes = int(query.value(0))
 
-        query.clear()
+        if nb_lignes != 0:
+            progress = QProgressDialog("Chargement des données", "Annuler", 2, nb_lignes + 3, self)
+            progress.setWindowTitle("Exportation")
+            progress.setWindowModality(Qt.WindowModal)
+            progress.show()
+
+            query.exec("SELECT ISIN, Libelle, Emetteur, Maturite, Coupon, Nominal, Cours, Rating, dateDeMAJ, MAJ, nombre, PrixAchat, Rendement, Duration, Sensibilite, Convexite, VieMoyenne, nomRegion, nomType, nomSection, nomSousSecteur, SpreadASW, SpreadBund, ClasseDuration, RatingSP, Valorisation, ValorisationAC, [Valeur d'acquisition], [Valo par le prix], Remboursement, [+ ou - value], [+ ou - value %] FROM  Valorisation WHERE [noPortefeuille] = " + str(self.portefeuilleChoisi.noPortefeuille) + " AND DateDeMAJ = #" + self.dateChoisie.toString("MM/dd/yyyy") + "#")
+            progress.setLabelText("Transfert vers Excel")
+
+            xls = win32.Dispatch('Excel.Application')
+
+            # Paramètres
+            # xls.WindowState = Excel.XlWindowState.xlMaximized  # format plein écran
+            xls.ShowWindowsInTaskbar = True  # visible dans la barre de tâches
+            xls.DisplayFormulaBar = True  # affichage de la barre de formule
+            xls.Caption = "Portefeuille " + self.portefeuilleChoisi.nomPortefeuille
+            wb = xls.Workbooks.Add()  # ajout d'un classeur Excel
+            xls.Worksheets(1).Name = "Portefeuille"
+            xls.Worksheets(1).Rows("1").Font.Bold = True
+
+            # Entête de colonne
+            xls.Worksheets(1).Range("A1").Value = "ISIN"
+            xls.Worksheets(1).Range("B1").Value = "Libelle"
+            xls.Worksheets(1).Range("C1").Value = "Emetteur"
+            xls.Worksheets(1).Range("D1").Value = "Maturite"
+            xls.Worksheets(1).Range("E1").Value = "Coupon"
+            xls.Worksheets(1).Range("F1").Value = "Nominal"
+            xls.Worksheets(1).Range("G1").Value = "Cours"
+            xls.Worksheets(1).Range("H1").Value = "Rating"
+            xls.Worksheets(1).Range("I1").Value = "+ ou - value %"
+            xls.Worksheets(1).Range("J1").Value = "dateDeMAJ"
+            xls.Worksheets(1).Range("K1").Value = "MAJ"
+            xls.Worksheets(1).Range("L1").Value = "nombre"
+            xls.Worksheets(1).Range("M1").Value = "PrixAchat"
+            xls.Worksheets(1).Range("N1").Value = "Rendement"
+            xls.Worksheets(1).Range("O1").Value = "Duration"
+            xls.Worksheets(1).Range("P1").Value = "Sensibilite"
+            xls.Worksheets(1).Range("Q1").Value = "Convexite"
+            xls.Worksheets(1).Range("R1").Value = "VieMoyenne"
+            xls.Worksheets(1).Range("S1").Value = "nomRegion"
+            xls.Worksheets(1).Range("T1").Value = "nomType"
+            xls.Worksheets(1).Range("U1").Value = "nomSection"
+            xls.Worksheets(1).Range("V1").Value = "nomSousSecteur"
+            xls.Worksheets(1).Range("W1").Value = "SpreadASW"
+            xls.Worksheets(1).Range("X1").Value = "SpreadBund"
+            xls.Worksheets(1).Range("Y1").Value = "ClasseDuration"
+            xls.Worksheets(1).Range("Z1").Value = "RatingSP"
+            xls.Worksheets(1).Range("AA1").Value = "Valorisation"
+            xls.Worksheets(1).Range("AB1").Value = "ValorisationAC"
+            xls.Worksheets(1).Range("AC1").Value = "Valeur d'acquisition"
+            xls.Worksheets(1).Range("AD1").Value = "Valo par le prix"
+            xls.Worksheets(1).Range("AE1").Value = "Remboursement"
+            xls.Worksheets(1).Range("AF1").Value = "+ ou - value"
+
+            nb_col = 32
+            ligne = 2
+
+            break_bool = False
+            while query.next():
+                QtCore.QCoreApplication.processEvents()
+                progress.setValue(ligne)
+                for i in range(1, nb_col + 1):
+                    value = query.value(str(xls.Worksheets(1).Cells(1, i).Value))
+                    if isinstance(value, QtCore.QDateTime) or isinstance(value, QtCore.QDate):
+                        resul = value.toString("MM/dd/yyyy")
+                        # resul = str(value)
+                    elif isinstance(value, float):
+                        resul = float(value)
+                    elif isinstance(value, int):
+                        resul = int(value)
+                    else:
+                        resul = str(value)
+                    xls.Worksheets(1).Cells(ligne, i).Value = resul
+                if progress.wasCanceled():
+                    break_bool = True
+                    break
+                ligne += 1
+
+            progress.setValue(nb_lignes + 3)
+            query.clear()
+
+            if not break_bool:
+                QMessageBox.information(self, "Exportation", "Exportation terminée")
+                xls.Worksheets(1).Columns("A:AG").EntireColumn.AutoFit()
+                xls.Visible = True
+            else:
+                QMessageBox.warning(self, "Exportation", "Exportation annulée")
+                xls.DisplayAlerts = False
+                map(lambda book: book.Close(False), xls.Workbooks)
+                xls.Quit()
+
+        else:
+            QMessageBox.warning(self, "Exportation", "Aucune valeur")
