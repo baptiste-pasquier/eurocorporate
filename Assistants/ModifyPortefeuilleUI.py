@@ -55,7 +55,7 @@ class Ui_DialogModifyPortefeuille(object):
 
     def retranslateUi(self, DialogModifyPortefeuille):
         _translate = QtCore.QCoreApplication.translate
-        DialogModifyPortefeuille.setWindowTitle(_translate("DialogModifyPortefeuille", "Création de portefeuille"))
+        DialogModifyPortefeuille.setWindowTitle(_translate("DialogModifyPortefeuille", "Modification de portefeuille"))
         self.label.setText(_translate("DialogModifyPortefeuille", "Client"))
         self.label_2.setText(_translate("DialogModifyPortefeuille", "Ancien libellé"))
         self.label_3.setText(_translate("DialogModifyPortefeuille", "Nouveau libellé"))

@@ -44,7 +44,6 @@ class WindowFindISIN(QtWidgets.QDialog, Ui_DialogFindISIN):
                     self.listWidget.item(i).setHidden(False)
                 else:
                     self.listWidget.item(i).setHidden(True)
-            print("ISIN " + str(compteur))
         else:
             if len(self.tb_libelle.text()) == 0:
                 for i in range(len(self.listeISIN)):
@@ -61,7 +60,6 @@ class WindowFindISIN(QtWidgets.QDialog, Ui_DialogFindISIN):
                     self.listWidget.item(i).setHidden(False)
                 else:
                     self.listWidget.item(i).setHidden(True)
-            print("Libelle " + str(compteur))
         else:
             if len(self.tb_ISIN.text()) == 0:
                 for i in range(len(self.listeISIN)):
