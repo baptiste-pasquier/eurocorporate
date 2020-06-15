@@ -1,23 +1,24 @@
 from PyQt5 import QtSql
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QSettings
+from Tools.message import detailed_message
 
 
 def createconnection():
     settings = QSettings()
 
-    BDD = settings.value("BDD", defaultValue='')
+    fileBDD = settings.value("BDD", defaultValue='')
 
-    if BDD == '':
+    if fileBDD == '':
         QMessageBox.critical(None, "Base de données inconnue", "Veuillez configurer la base de données et relancer l'application")
 
     db = QtSql.QSqlDatabase.addDatabase('QODBC')
     db.setHostName("localhost")
-    db.setDatabaseName('DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};FIL={MS Access};DBQ=' + BDD)
+    db.setDatabaseName('DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};FIL={MS Access};DBQ=' + fileBDD)
 
     if db.open():
         return db
     else:
         error = db.lastError().text()
-        QMessageBox.critical(None, "Database error", "Connection failed : " + error)
+        detailed_message(None, QMessageBox.Critical, "Erreur de la base Access", "Echec de la connexion", error)
         return False
