@@ -10,7 +10,7 @@ def createconnection():
     fileBDD = settings.value("BDD", defaultValue='')
 
     if fileBDD == '':
-        QMessageBox.critical(None, "Base de données inconnue", "Veuillez configurer la base de données et relancer l'application")
+        QMessageBox.critical(None, "Base Access inconnue", "Veuillez configurer la base Access et relancer l'application")
 
     db = QtSql.QSqlDatabase.addDatabase('QODBC')
     db.setHostName("localhost")
@@ -20,5 +20,5 @@ def createconnection():
         return db
     else:
         error = db.lastError().text()
-        detailed_message(None, QMessageBox.Critical, "Erreur de la base Access", "Echec de la connexion", error)
+        detailed_message(None, QMessageBox.Critical, "Erreur de la base Access", "Échec de la connexion", error)
         return False
