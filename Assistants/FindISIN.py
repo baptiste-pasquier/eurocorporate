@@ -17,21 +17,21 @@ class WindowFindISIN(QtWidgets.QDialog, Ui_DialogFindISIN):
         query = QtSql.QSqlQuery()
         query.exec("SELECT DISTINCT ISIN, Libelle FROM Obligation ORDER BY ISIN ASC")
         while query.next():
-            oblig = Obligation()
-            oblig.ISIN = str(query.value(0))
-            oblig.Libelle = str(query.value(1))
-            self.listeISIN.append(oblig)
+            obligation = Obligation()
+            obligation.ISIN = str(query.value(0))
+            obligation.Libelle = str(query.value(1))
+            self.listeISIN.append(obligation)
         query.clear()
 
-        for oblig in self.listeISIN:
-            self.listWidget.addItem(oblig.ISIN + "  |  " + oblig.Libelle)
+        for obligation in self.listeISIN:
+            self.listWidget.addItem(obligation.ISIN + "  |  " + obligation.Libelle)
 
         self.tb_ISIN.textChanged.connect(self.tb_ISIN_changed)
         self.tb_libelle.textChanged.connect(self.tb_libelle_changed)
         self.listWidget.currentRowChanged.connect(self.row_changed)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
 
-        self.resul = None
+        self.result = None
 
     def tb_ISIN_changed(self):
         if len(self.tb_ISIN.text()) > 0:
@@ -68,7 +68,7 @@ class WindowFindISIN(QtWidgets.QDialog, Ui_DialogFindISIN):
     def row_changed(self, row):
         if row > -1:
             self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
-            self.resul = self.listeISIN[row].ISIN
+            self.result = self.listeISIN[row].ISIN
         else:
             self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
-            self.resul = None
+            self.result = None

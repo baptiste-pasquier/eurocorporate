@@ -1,6 +1,6 @@
 from PyQt5 import QtSql
-from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QSettings
+from PyQt5.QtWidgets import QMessageBox
 from Tools.message import detailed_message
 
 

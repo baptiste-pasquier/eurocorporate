@@ -1,10 +1,11 @@
 import sys
-from PyQt5 import QtWidgets, uic, QtCore
-from Tools.database import createconnection
+
+from PyQt5 import QtCore, QtWidgets, uic
+from PyQt5.QtCore import QDir, QSettings
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
-from PyQt5.QtCore import QSettings, QDir
 
 from Gestionnaires.GestionnairePortefeuille import MainWindowPortefeuille
+from Tools.database import createconnection
 
 qt_creator_file = "MainMenu.ui"
 Ui_MainWindowMenu, QtBaseClass = uic.loadUiType(qt_creator_file)

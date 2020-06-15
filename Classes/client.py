@@ -1,5 +1,6 @@
 from PyQt5 import QtSql
 
+
 class Client:
     def __init__(self):
         self.noClient = None

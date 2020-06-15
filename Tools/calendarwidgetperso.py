@@ -1,6 +1,7 @@
-from PyQt5.QtCore    import Qt, QRectF
-from PyQt5.QtGui     import QPainter, QPen, QBrush
-from PyQt5.QtWidgets import QCalendarWidget, QApplication
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter, QPen, QBrush
+from PyQt5.QtWidgets import QCalendarWidget
+
 
 class CalendarWidgetPerso(QCalendarWidget):
     def __init__(self, *args, **kwargs):
@@ -13,7 +14,7 @@ class CalendarWidgetPerso(QCalendarWidget):
 
     def paintCell(self, painter, rect, date):
         painter.setRenderHint(QPainter.Antialiasing, True)
-        
+
         QCalendarWidget.paintCell(self, painter, rect, date)
         if date in self.highlight:
             painter.save()
