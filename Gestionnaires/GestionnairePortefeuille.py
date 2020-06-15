@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtSql, QtCore
 from PyQt5.QtCore import Qt, QDate
-from PyQt5.QtWidgets import QMessageBox, QDialogButtonBox, QProgressDialog
+from PyQt5.QtWidgets import QMessageBox, QDialogButtonBox, QProgressDialog, QFileDialog
 from Classes.client import Client
 from Classes.portefeuille import Portefeuille
 from Assistants.AddPortefeuille import WindowAddPortefeuille
@@ -8,17 +8,19 @@ from Assistants.ModifyPortefeuille import WindowModifyPortefeuille
 from Assistants.FindISIN import WindowFindISIN
 from Tools import regex
 import win32com.client as win32
+from Tools.message import detailed_message
 
-# from PyQt5 import uic
-# qt_creator_file = "portefeuille.ui"
-# Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
-from Gestionnaires.GestionnairePortefeuilleUI import Ui_MainWindowPortefeuille
+from PyQt5 import uic
+qt_creator_file = "Gestionnaires/GestionnairePortefeuille.ui"
+Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
+# from Gestionnaires.GestionnairePortefeuilleUI import Ui_MainWindowPortefeuille
 
 
 class ModelClient(QtSql.QSqlTableModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setTable('Client')
+        self.setSort(self.fieldIndex('noClient'), Qt.AscendingOrder)
         self.select()
 
     def data(self, index, role=Qt.DisplayRole):
@@ -40,6 +42,7 @@ class ModelPortefeuille(QtSql.QSqlTableModel):
         super().__init__(*args, **kwargs)
         self.setTable('Portefeuille')
         self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.setSort(self.fieldIndex('noPortefeuille'), Qt.AscendingOrder)
         self.select()
 
     def data(self, index, role=Qt.DisplayRole):
@@ -98,8 +101,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         Ui_MainWindowPortefeuille.__init__(self)
         self.setupUi(self)
         self.setWindowModality(Qt.ApplicationModal)
-
-        # self.db = createconnection()
 
         # crée le modèle et sa liaison avec la base SQL ouverte
         self.modelContenir = ModelContenir()
@@ -334,7 +335,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
     def add_portefeuille(self):
         def textchanged():
-            print(regex.VerifAdresse(dialog.tb_libelle.text()))
             if regex.VerifAdresse(dialog.tb_libelle.text()):
                 query = QtSql.QSqlQuery()
                 query.exec("SELECT count(*) FROM Portefeuille WHERE nomPortefeuille = '" + dialog.tb_libelle.text() + "' AND noClient = " + str(self.clientChoisi.noClient))
@@ -388,15 +388,17 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             resul = model.insertRecord(-1, new_row)
             if not resul:
                 error = model.lastError().text()
-                QMessageBox.critical(self, "Python error", "Insert failed : " + error)
+                # ERROR
+                detailed_message(self, QMessageBox.Critical, "Erreur Python", "Echec de l'insertion du portefeuille", error)
             else:
                 if model.submitAll():
                     QMessageBox.information(self, "Nouveau portefeuille", "Ajout réussi")
                 else:
                     error = model.lastError().text()
-                    QMessageBox.critical(self, "Database error", "Insert failed : " + error)
-                    model.select()
+                    # ERROR
+                    detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Echec de l'insertion du portefeuille", error)
 
+            model.select()
             self.comboBox_portefeuilles.setEnabled(True)
             self.btn_choosePortefeuille.setEnabled(True)
             self.btn_unlockClient.setEnabled(True)
@@ -435,12 +437,12 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             query = QtSql.QSqlQuery()
             resul = query.exec("UPDATE Portefeuille SET nomPortefeuille = '" + nouv_nom_portefeuille + "' WHERE noPortefeuille = " + str(self.portefeuilleChoisi.noPortefeuille))
-
             if resul:
                 QMessageBox.information(self, "Modification portefeuille", "Modification réussie")
             else:
                 error = query.lastError().text()
-                QMessageBox.critical(self, "Database error", "Modification failed : " + error)
+                # ERROR
+                detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Echec de la modification du portefeuille", error)
 
             self.portefeuilleChoisi.get_values()
             self.label_portefeuilleChoisi.setText("Portefeuille choisie : " + self.portefeuilleChoisi.nomPortefeuille)
@@ -461,7 +463,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 QMessageBox.information(self, "Suppresion", "Suppression réussie")
             else:
                 error = query.lastError().text()
-                QMessageBox.critical(self, "Database error", "Delete failed : " + error)
+                # ERROR
+                detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Echec de la suppression du portefeuille", error)
 
             self.modelPortefeuille.select()
             self.comboBox_portefeuilles.setCurrentIndex(-1)
@@ -502,13 +505,15 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         resul = model.insertRecord(-1, new_row)
         if not resul:
             error = model.lastError().text()
-            QMessageBox.critical(self, "Python error", "Insert failed : " + error)
+            # ERROR
+            detailed_message(self, QMessageBox.Critical, "Erreur Python", "Echec de l'insertion de la ligne", error)
         else:
             if model.submitAll():
                 QMessageBox.information(self, "Nouvelle ligne", "Ajout réussi")
             else:
                 error = model.lastError().text()
-                QMessageBox.critical(self, "Database error", "Insert failed : " + error)
+                # ERROR
+                detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Echec de l'insertion de la ligne", error)
                 model.select()
 
         self.update_modelContenir()
@@ -527,6 +532,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             listDate.append(query.value(0).date())
         query.clear()
 
+        string_info = ""
+        string_error = ""
         for date in listDate:
             query = QtSql.QSqlQuery()
             query.exec("SELECT count(*) FROM Contenir WHERE noPortefeuille = " + str(noPort) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
@@ -537,30 +544,36 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             if count == 1:
                 if self.tb_nombre.isEnabled:  # Si c'est pas une structure
                     query = QtSql.QSqlQuery()
-                    resul = query.exec("UPDATE Contenir SET nombre = '" + nbOrValo + "', prixAchat = '" + prixOrValoAC + "' WHERE noPortefeuille = " + str(noPort) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
+                    resul = query.exec("UPDATE Contenir SET nombre = " + nbOrValo + ", prixAchat = " + prixOrValoAC + " WHERE noPortefeuille = " + str(noPort) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
                 else:
                     query = QtSql.QSqlQuery()
-                    resul = query.exec("UPDATE Contenir SET Valorisation = '" + nbOrValo + "', ValorisationAC = '" + prixOrValoAC + "' WHERE noPortefeuille = " + str(noPort) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
+                    resul = query.exec("UPDATE Contenir SET Valorisation = " + nbOrValo + ", ValorisationAC = " + prixOrValoAC + " WHERE noPortefeuille = " + str(noPort) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
 
                 if resul:
-                    QMessageBox.information(self, "Date future", "Mise à jour à la date future : " + date.toString("dd/MM/yyyy"))
+                    string_info += "Mise à jour à la date future : " + date.toString("dd/MM/yyyy") + "\n"
                 else:
-                    error = query.lastError().text()
-                    QMessageBox.critical(self, "Database error", "Update failed : " + error)
+                    # error = query.lastError().text()
+                    string_error += "Echec de la mise à jour à la date future : " + date.toString("dd/MM/yyyy") + "\n"
 
             else:
                 if self.tb_nombre.isEnabled:  # Si c'est pas une structure
                     query = QtSql.QSqlQuery()
-                    resul = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, prixAchat) VALUES (" + str(noPort) + ",'" + Isin + "',#" + date.toString("MM/dd/yyyy") + "#, '" + nbOrValo + "','" + prixOrValoAC + "')")
+                    resul = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, prixAchat) VALUES (" + str(noPort) + ",'" + Isin + "',#" + date.toString("MM/dd/yyyy") + "#, " + nbOrValo + "," + prixOrValoAC + ")")
                 else:
                     query = QtSql.QSqlQuery()
-                    resul = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, Valorisation, ValorisationAC) VALUES (" + str(noPort) + ",'" + Isin + "',#" + date.toString("MM/dd/yyyy") + "#, '" + nbOrValo + "','" + prixOrValoAC + "')")
+                    resul = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, Valorisation, ValorisationAC) VALUES (" + str(noPort) + ",'" + Isin + "',#" + date.toString("MM/dd/yyyy") + "#, " + nbOrValo + "," + prixOrValoAC + ")")
 
                 if resul:
-                    QMessageBox.information(self, "Date future", "Ajout à la date future : " + date.toString("dd/MM/yyyy"))
+                    string_info += "Ajout à la date future : " + date.toString("dd/MM/yyyy") + "\n"
                 else:
-                    error = query.lastError().text()
-                    QMessageBox.critical(self, "Database error", "Insert failed : " + error)
+                    # error = query.lastError().text()
+                    string_error += "Echec de l'insertion à la date future : " + date.toString("dd/MM/yyyy") + "\n"
+
+        if string_info:
+            detailed_message(self, QMessageBox.Information, "Date future", "Mise à jour et insertion aux dates futures \nISIN : " + Isin, string_info)
+        if string_error:
+            # ERROR
+            detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Echec de la mise à jour et insertion aux dates futures \nISIN : " + Isin, string_error)
 
     def modif_ligne(self):
         model = self.modelContenir
@@ -597,13 +610,15 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         resul = model.setRecord(row, new_row)
         if not resul:
             error = model.lastError().text()
-            QMessageBox.critical(self, "Python error", "Modification failed : " + error)
+            # ERROR
+            detailed_message(self, QMessageBox.Critical, "Erreur Python", "Echec de la modification de la ligne", error)
         else:
             if model.submitAll():
                 QMessageBox.information(self, "Modification ligne", "Modification réussie")
             else:
                 error = model.lastError().text()
-                QMessageBox.critical(self, "Database error", "Modification failed : " + error)
+                # ERROR
+                detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Echec de la modification de la ligne", error)
                 model.select()
 
         self.update_modelContenir()
@@ -618,13 +633,15 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             resul = model.removeRows(self.indexRowSelected, 1)
             if not resul:
                 error = model.lastError().text()
-                QMessageBox.critical(self, "Python error", "Delete failed : " + error)
+                # ERROR
+                detailed_message(self, QMessageBox.Critical, "Erreur Python", "Echec de la suppression de la ligne", error)
             else:
                 if model.submitAll():
                     QMessageBox.information(self, "Suppression de ligne", "Suppression réussie")
                 else:
                     error = model.lastError().text()
-                    QMessageBox.critical(self, "Database error", "Delete failed : " + error)
+                    # ERROR
+                    detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Echec de la suppression de la ligne", error)
                     model.select()
 
             self.update_modelContenir()
@@ -634,12 +651,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.update_calendar()
 
     def tb_nombre_changed(self):
-        try:
-            float(self.tb_nombre.text())
-            test = True
-        except ValueError:
-            test = False
-
+        test = regex.VerifFloat(self.tb_nombre.text())
         if test:
             self.tb_nombre.setStyleSheet("background : " + self.color_ok)
             self.tb_nombre_etat = True
@@ -649,12 +661,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.verif()
 
     def tb_prix_changed(self):
-        try:
-            float(self.tb_prix.text())
-            test = True
-        except ValueError:
-            test = False
-
+        test = regex.VerifFloat(self.tb_prix.text())
         if test:
             self.tb_prix.setStyleSheet("background : " + self.color_ok)
             self.tb_prix_etat = True
@@ -674,12 +681,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.btn_add.setEnabled(False)
 
     def tb_valo_changed(self):
-        try:
-            float(self.tb_valo.text())
-            test = True
-        except ValueError:
-            test = False
-
+        test = regex.VerifFloat(self.tb_valo.text())
         if test:
             self.tb_valo.setStyleSheet("background : " + self.color_ok)
             self.tb_valo_etat = True
@@ -689,12 +691,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.verif_valo()
 
     def tb_valoAcqui_changed(self):
-        try:
-            float(self.tb_valoAcqui.text())
-            test = True
-        except ValueError:
-            test = False
-
+        test = regex.VerifFloat(self.tb_valoAcqui.text())
         if test:
             self.tb_valoAcqui.setStyleSheet("background : " + self.color_ok)
             self.tb_valoAcqui_etat = True
@@ -848,7 +845,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         if resul1 and resul2:
             QMessageBox.information(self, "Modification liquidité", "Modification réussie")
         else:
-            QMessageBox.critical(self, "Modification liquidité", "Modification non réussie")
+            error = query.lastError().text()
+            # ERROR
+            detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Echec de la modification des liquidités", error)
 
     def tb_liquidite_changed(self):
         try:
@@ -916,11 +915,11 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             xls = win32.Dispatch('Excel.Application')
 
             # Paramètres
-            # xls.WindowState = Excel.XlWindowState.xlMaximized  # format plein écran
+            xls.WindowState = win32.constants.xlMaximized  # format plein écran
             xls.ShowWindowsInTaskbar = True  # visible dans la barre de tâches
             xls.DisplayFormulaBar = True  # affichage de la barre de formule
             xls.Caption = "Portefeuille " + self.portefeuilleChoisi.nomPortefeuille
-            xls.Workbooks.Add()  # ajout d'un classeur Excel
+            wb = xls.Workbooks.Add()  # ajout d'un classeur Excel
             xls.Worksheets(1).Name = "Portefeuille"
             xls.Worksheets(1).Rows("1").Font.Bold = True
 
@@ -969,7 +968,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                     value = query.value(str(xls.Worksheets(1).Cells(1, i).Value))
                     if isinstance(value, QtCore.QDateTime) or isinstance(value, QtCore.QDate):
                         resul = value.toString("MM/dd/yyyy")
-                        # resul = str(value)
                     elif isinstance(value, float):
                         resul = float(value)
                     elif isinstance(value, int):
@@ -991,15 +989,119 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 xls.Visible = True
             else:
                 QMessageBox.warning(self, "Exportation", "Exportation annulée")
-                xls.DisplayAlerts = False
-                map(lambda book: book.Close(False), xls.Workbooks)
+                wb.Close(False)
                 xls.Quit()
-
         else:
             QMessageBox.warning(self, "Exportation", "Aucune valeur")
 
     def impor(self):
-        1
+        fileName = QFileDialog.getOpenFileName(self, filter='Fichiers Excel (*.xls *.xlsx)')[0]
+        if fileName:
+            progress = QProgressDialog("Traitement du fichier", "", 1, 100, self)
+            progress.setWindowTitle("Importation")
+            progress.setWindowModality(Qt.WindowModal)
+            progress.setAutoClose(False)
+            progress.setAutoReset(False)
+            progress.show()
+
+            # On charge le fichier sélectionné
+            xls = win32.Dispatch('Excel.Application')
+            wb = xls.Workbooks.Open(fileName)
+
+            # On prend la feuille de données
+            ws = wb.Worksheets(1)
+            ws.Activate()
+
+            # Nombre de lignes
+            nb_lignes = 0
+            while ws.Cells(nb_lignes + 2, 1).Value:
+                nb_lignes += 1
+            progress.setMaximum(1 + nb_lignes)
+
+            if str(ws.Cells(1, 1).Value).lower() == 'isin' and str(ws.Cells(1, 2).Value).lower() == 'nombre' and str(ws.Cells(1, 3).Value).lower() == "prix d'achat":
+                progress.setLabelText('Vérification du format des données')
+
+                # On vérifie les ISIN, le nombre et le prix d'achat
+                error_string = ""
+                for numRow in range(2, 2 + nb_lignes):
+                    isin = str(ws.Cells(numRow, 1).Value)
+                    nombre = ws.Cells(numRow, 2).Value
+                    prix = ws.Cells(numRow, 3).Value
+                    progress.setValue(numRow)
+
+                    if not regex.VerifISIN(isin):
+                        error_string += "Ligne {} : ISIN invalide \n".format(numRow)
+                    if not isinstance(nombre, float):
+                        error_string += "Ligne {} : Nombre invalide \n".format(numRow)
+                    if not isinstance(prix, float):
+                        error_string += "Ligne {} : Prix d'achat invalide \n".format(numRow)
+
+                if error_string:
+                    # ERROR
+                    detailed_message(self, QMessageBox.Critical, "Importation", "Format des données incorrect", error_string)
+                else:
+                    progress.reset()
+                    progress.setLabelText("Insertion dans la base Access")
+                    noPortefeuille = self.portefeuilleChoisi.noPortefeuille
+                    date = self.dateChoisie.toString("MM/dd/yyyy")
+                    maj = False
+                    error_string = ''
+
+                    for numRow in range(2, 2 + nb_lignes):
+                        isin = str(ws.Cells(numRow, 1).Value)
+                        nombre = str(ws.Cells(numRow, 2).Value)
+                        prix = str(ws.Cells(numRow, 3).Value)
+
+                        # ISIN existe dans la base?
+                        query = QtSql.QSqlQuery()
+                        query.exec("SELECT COUNT(*) FROM Obligation WHERE ISIN = '" + isin + "'")
+                        if query.next():
+                            count = int(query.value(0))
+
+                        # NON, Insertion  d'abord dans la table obligation
+                        if count == 0:
+                            resul = query.exec("INSERT INTO Obligation (ISIN) VALUES ('" + isin + "')")
+                            maj = True
+                            if not resul:
+                                error_string += "Ligne {} : Echec de l'insertion dans la table Obligation\n".format(numRow)
+
+                        # OUI et NON, Insertion dans la table contenir (portefeuille)
+                        query.exec("SELECT COUNT(*) FROM Contenir WHERE ISIN = '" + isin + "' AND noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + date + "#")
+                        if query.next():
+                            count = int(query.value(0))
+
+                        if count == 0:
+                            resul = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, prixAchat) VALUES (" + str(noPortefeuille) + ",'" + isin + "', #" + date + "#, " + nombre + ", " + prix + ")")
+                            if not resul:
+                                error_string += "Ligne {} : Echec de l'insertion dans la table Contenir\n".format(numRow)
+                            else:
+                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(prix))
+                        elif count == 1:
+                            resul = query.exec("UPDATE Contenir SET nombre = " + nombre + ", prixAchat = " + prix + " WHERE noPortefeuille = " + str(noPortefeuille) + " AND ISIN = '" + isin + "' AND DateDeMAJ = #" + date + "#")
+                            if not resul:
+                                error_string += "Ligne {} : Echec de la mise à jour dans la table Contenir\n".format(numRow)
+                            else:
+                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(prix))
+                        else:
+                            error_string += "Ligne {} : Obligation déjà existante en multiple dans la table Contenir\n".format(numRow)
+                        progress.setValue(numRow)
+
+                    progress.close()
+                    if error_string:
+                        # ERROR
+                        detailed_message(self, QMessageBox.Critical, "Importation", "Erreurs", error_string)
+                    if maj:
+                        QMessageBox.information(self, "Importation", "Importation terminée \nDe nouvelles obligations ont été ajoutées, merci de lancer le système de mise à jour.")
+                    else:
+                        QMessageBox.information(self, "Importation", "Importation terminée")
+
+            else:
+                progress.close()
+                detailed_message(self, QMessageBox.Critical, "Echec importation", "Le fichier Excel n'est pas valide", "Format requis : ISIN | Nombre | Prix d'achat")
+            wb.Close(False)
+            xls.Quit()
+
+            self.date_changed()
 
     def search_ISIN(self):
         dialog = WindowFindISIN(self)

@@ -40,7 +40,7 @@ class WindowFindISIN(QtWidgets.QDialog, Ui_DialogFindISIN):
             compteur = 0
             for i in range(len(self.listeISIN)):
                 compteur += 1
-                if re.match("^" + self.tb_ISIN.text() + ".*", self.listeISIN[i].ISIN):
+                if re.match("^" + self.tb_ISIN.text().lower() + ".*", self.listeISIN[i].ISIN.lower()):
                     self.listWidget.item(i).setHidden(False)
                 else:
                     self.listWidget.item(i).setHidden(True)
@@ -56,7 +56,7 @@ class WindowFindISIN(QtWidgets.QDialog, Ui_DialogFindISIN):
             compteur = 0
             for i in range(len(self.listeISIN)):
                 compteur += 1
-                if re.match("^" + self.tb_libelle.text() + ".*", self.listeISIN[i].Libelle):
+                if re.match("^" + self.tb_libelle.text().lower() + ".*", self.listeISIN[i].Libelle.lower()):
                     self.listWidget.item(i).setHidden(False)
                 else:
                     self.listWidget.item(i).setHidden(True)

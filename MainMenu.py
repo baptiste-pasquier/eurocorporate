@@ -23,13 +23,13 @@ class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
         settings = QSettings()
         BDD = settings.value("BDD", defaultValue='')
         if BDD == '':
-            file = QFileDialog.getOpenFileName(self)[0]
+            fileName = QFileDialog.getOpenFileName(self)[0]
         else:
-            file = QFileDialog.getOpenFileName(self, directory=QDir(BDD).path())[0]
+            fileName = QFileDialog.getOpenFileName(self, directory=QDir(BDD).path())[0]
 
-        if file != '':
+        if fileName:
             settings = QSettings()
-            settings.setValue("BDD", file)
+            settings.setValue("BDD", fileName)
             QMessageBox.warning(self, "Configuration", "Relancer l'application pour prendre en compte le changement")
 
 
@@ -57,6 +57,13 @@ if __name__ == '__main__':
     QtCore.QCoreApplication.setOrganizationName("ENSAE Junior Etudes")
     # QtCore.QCoreApplication.setOrganizationDomain("")
     QtCore.QCoreApplication.setApplicationName("IS")
+
+    locale = QtCore.QLocale.system().name()
+    translator = QtCore.QTranslator()
+    reptrad = QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath)
+    translator.load("qtbase_" + locale, reptrad)  # qtbase_fr.qm
+    app.installTranslator(translator)
+
     controller = Controller()
     controller.show_main_menu()
     sys.exit(app.exec_())
