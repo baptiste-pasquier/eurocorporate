@@ -9,12 +9,13 @@ from Assistants.FindISIN import WindowFindISIN
 from Assistants.ModifyPortefeuille import WindowModifyPortefeuille
 from Classes.client import Client
 from Classes.portefeuille import Portefeuille
+from Classes.obligation import ObligationContenir
 from Tools import regex
 from Tools.message import detailed_message
 
-qt_creator_file = "Gestionnaires/GestionnairePortefeuille.ui"
-Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
-# from Gestionnaires.GestionnairePortefeuilleUI import Ui_MainWindowPortefeuille
+# qt_creator_file = "Gestionnaires/GestionnairePortefeuille.ui"
+# Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
+from Gestionnaires.GestionnairePortefeuilleUI import Ui_MainWindowPortefeuille
 
 
 class ModelClient(QtSql.QSqlTableModel):
@@ -110,7 +111,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.tableView.setModel(self.modelContenir)
         self.tableView.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        # self.tableView.selectionModel().selectionChanged.connect(self.change_mapper_index)
         self.tableView.selectionModel().selectionChanged.connect(self.selection_changed)
         self.indexRowSelected = -1
 
@@ -168,6 +168,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.tb_dateChoisie.setEnabled(False)
         self.btn_today.setEnabled(False)
         self.btn_today.clicked.connect(lambda: self.calendarWidget.setSelectedDate(QDate.currentDate()))
+
         self.btn_search.setEnabled(False)
         self.btn_search.clicked.connect(self.search_ISIN)
         self.comboBox_ISIN.setEnabled(False)
@@ -182,7 +183,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         self.btn_add.clicked.connect(self.add_ligne)
         self.btn_modif.clicked.connect(self.modif_ligne)
-        self.btn_suppr.clicked.connect(self.suppr_ligne)
+        self.btn_suppr.clicked.connect(self.delete_ligne)
 
         self.tb_nombre.textChanged.connect(self.tb_nombre_changed)
         self.tb_nombre_etat = False
@@ -197,7 +198,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.tb_liquidite.setEnabled(False)
         self.tb_liquidite.textChanged.connect(self.tb_liquidite_changed)
         self.tb_liquidite_etat = False
-        self.btn_liquidite.clicked.connect(self.liquidite_validate)
+        self.btn_liquidite.clicked.connect(self.liquidite_change)
         self.btn_liquidite.setEnabled(False)
 
         self.color_error = "#FFCCCC"
@@ -208,6 +209,10 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_export.setEnabled(False)
         self.btn_import.clicked.connect(self.impor)
         self.btn_export.clicked.connect(self.export)
+
+        # Transfert
+        self.btn_transfert.setEnabled(False)
+        self.btn_transfert.clicked.connect(self.transfert)
 
     def client_choose(self):
         if self.comboBox_clients.currentIndex() >= 0:
@@ -267,7 +272,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.portefeuilleChoisi.get_values()
             self.label_portefeuilleChoisi.setText('Portefeuille choisi : ' + model.index(index, model.fieldIndex('noPortefeuille')).data())
 
-            datemax = self.update_calendar()
+            datemax = self.update_highlight_calendar()
             self.calendarWidget.setSelectedDate(datemax)
             self.calendarWidget.setEnabled(True)
             self.date_changed()  # On force
@@ -291,6 +296,37 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
     def portefeuille_unlock(self):
         self.disable()
 
+    def disable(self):
+        self.btn_unlockPortefeuille.setEnabled(False)
+        self.btn_unlockClient.setEnabled(True)
+        self.comboBox_portefeuilles.setEnabled(True)
+        self.action_deletePortefeuille.setEnabled(False)
+        self.action_modifyPortefeuilleName.setEnabled(False)
+
+        self.btn_newPortefeuille.setEnabled(True)
+        self.btn_choosePortefeuille.setEnabled(True)
+        self.portefeuilleChoisi = Portefeuille()
+        self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
+
+        self.calendarWidget.setSelectedDate(QDate.currentDate())
+        self.calendarWidget.setEnabled(False)
+        self.update_highlight_calendar()
+        self.date_changed()
+
+        self.tb_dateChoisie.setEnabled(False)
+        self.tb_dateChoisie.setText("")
+        self.btn_today.setEnabled(False)
+        self.tb_liquidite.setText("")
+        self.tb_liquidite.setStyleSheet("")
+        self.tb_liquidite.setEnabled(False)
+
+        self.btn_search.setEnabled(False)
+        self.comboBox_ISIN.setEnabled(False)
+        self.btn_vis.setEnabled(False)
+
+        self.btn_import.setEnabled(False)
+        self.btn_export.setEnabled(False)
+
     def date_changed(self):
         self.dateChoisie = self.calendarWidget.selectedDate()
         print('Date : ' + self.dateChoisie.toString("dd/MM/yyyy"))
@@ -302,6 +338,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.comboBox_ISIN_changed()         # On force si on était déjà à -1
 
         self.affichage_liquidite()
+        self.activation_transfert()
         ####
         # A MODIFIER
 
@@ -522,7 +559,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.update_modelContenir()
         # On a déjà indexRowSelected = -1
         self.comboBox_ISIN.setCurrentIndex(-1)
-        self.update_calendar()
+        self.update_highlight_calendar()
 
     def RajoutObligDateFutur(self, Isin, noPort, nbOrValo, prixOrValoAC):
         # On va ajouter dans les jours suivants l'Obligation pour chaque date de valorisation
@@ -533,8 +570,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             listDate.append(query.value(0).date())
         query.clear()
 
-        string_info = ""
-        string_error = ""
+        info_string = ""
+        error_string = ""
         for date in listDate:
             query = QtSql.QSqlQuery()
             query.exec("SELECT count(*) FROM Contenir WHERE noPortefeuille = " + str(noPort) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
@@ -551,10 +588,10 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                     result = query.exec("UPDATE Contenir SET Valorisation = " + nbOrValo + ", ValorisationAC = " + prixOrValoAC + " WHERE noPortefeuille = " + str(noPort) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "# AND ISIN = '" + Isin + "'")
 
                 if result:
-                    string_info += "Mise à jour à la date future : " + date.toString("dd/MM/yyyy") + "\n"
+                    info_string += "Mise à jour à la date future : " + date.toString("dd/MM/yyyy") + "\n"
                 else:
                     # error = query.lastError().text()
-                    string_error += "Échec de la mise à jour à la date future : " + date.toString("dd/MM/yyyy") + "\n"
+                    error_string += "Échec de la mise à jour à la date future : " + date.toString("dd/MM/yyyy") + "\n"
 
             else:
                 if self.tb_nombre.isEnabled:  # Si c'est pas une structure
@@ -565,16 +602,16 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                     result = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, Valorisation, ValorisationAC) VALUES (" + str(noPort) + ",'" + Isin + "',#" + date.toString("MM/dd/yyyy") + "#, " + nbOrValo + "," + prixOrValoAC + ")")
 
                 if result:
-                    string_info += "Ajout à la date future : " + date.toString("dd/MM/yyyy") + "\n"
+                    info_string += "Ajout à la date future : " + date.toString("dd/MM/yyyy") + "\n"
                 else:
                     # error = query.lastError().text()
-                    string_error += "Échec de l'insertion à la date future : " + date.toString("dd/MM/yyyy") + "\n"
+                    error_string += "Échec de l'insertion à la date future : " + date.toString("dd/MM/yyyy") + "\n"
 
-        if string_info:
-            detailed_message(self, QMessageBox.Information, "Date future", "Mise à jour et insertion aux dates futures \nISIN : " + Isin, string_info)
-        if string_error:
+        if info_string:
+            detailed_message(self, QMessageBox.Information, "Date future", "Mise à jour et insertion aux dates futures \nISIN : " + Isin, info_string)
+        if error_string:
             # ERROR
-            detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Échec de la mise à jour et insertion aux dates futures \nISIN : " + Isin, string_error)
+            detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Échec de la mise à jour et insertion aux dates futures \nISIN : " + Isin, error_string)
 
     def modif_ligne(self):
         model = self.modelContenir
@@ -627,7 +664,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.update_modelContenir()
         self.tableView.selectRow(row)
 
-    def suppr_ligne(self):
+    def delete_ligne(self):
         model = self.modelContenir
         reply = QMessageBox.warning(self, 'Suppression', "Êtes vous sûr de vouloir supprimer la ligne sélectionnée ?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
@@ -649,7 +686,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.tableView.clearSelection()
             self.selection_changed()
             self.comboBox_ISIN.setCurrentIndex(-1)
-            self.update_calendar()
+            self.update_highlight_calendar()
 
     def tb_nombre_changed(self):
         test = regex.VerifFloat(self.tb_nombre.text())
@@ -803,7 +840,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             # Si obligation non dans la table
             self.tableView.clearSelection()
 
-    def update_calendar(self):
+    def update_highlight_calendar(self):
         noPortefeuille = self.portefeuilleChoisi.noPortefeuille
 
         if noPortefeuille:
@@ -838,7 +875,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         self.tb_liquidite_changed()
 
-    def liquidite_validate(self):
+    def liquidite_change(self):
         query = QtSql.QSqlQuery()
         result1 = query.exec("DELETE FROM Liquidite WHERE noPortefeuille = {} AND DateDeMAJ = #{}#".format(self.portefeuilleChoisi.noPortefeuille, self.dateChoisie.toString("MM/dd/yyyy")))
         result2 = query.exec("INSERT INTO Liquidite (noPortefeuille, DateDeMAJ, Liquidite) VALUES ({}, #{}#, '{}')".format(self.portefeuilleChoisi.noPortefeuille, self.dateChoisie.toString("MM/dd/yyyy"), self.tb_liquidite.text()))
@@ -866,36 +903,11 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.tb_liquidite_etat = True
             self.btn_liquidite.setEnabled(False)
 
-    def disable(self):
-        self.btn_unlockPortefeuille.setEnabled(False)
-        self.btn_unlockClient.setEnabled(True)
-        self.comboBox_portefeuilles.setEnabled(True)
-        self.action_deletePortefeuille.setEnabled(False)
-        self.action_modifyPortefeuilleName.setEnabled(False)
-
-        self.btn_newPortefeuille.setEnabled(True)
-        self.btn_choosePortefeuille.setEnabled(True)
-        self.portefeuilleChoisi = Portefeuille()
-        self.label_portefeuilleChoisi.setText('Portefeuille choisi : ')
-
-        self.calendarWidget.setSelectedDate(QDate.currentDate())
-        self.calendarWidget.setEnabled(False)
-        self.update_calendar()
-        self.date_changed()
-
-        self.tb_dateChoisie.setEnabled(False)
-        self.tb_dateChoisie.setText("")
-        self.btn_today.setEnabled(False)
-        self.tb_liquidite.setText("")
-        self.tb_liquidite.setStyleSheet("")
-        self.tb_liquidite.setEnabled(False)
-
-        self.btn_search.setEnabled(False)
-        self.comboBox_ISIN.setEnabled(False)
-        self.btn_vis.setEnabled(False)
-
-        self.btn_import.setEnabled(False)
-        self.btn_export.setEnabled(False)
+    def search_ISIN(self):
+        dialog = WindowFindISIN(self)
+        if dialog.exec() == QtWidgets.QDialog.Accepted:
+            new_ISIN = dialog.result
+            self.comboBox_ISIN.setCurrentText(new_ISIN)
 
     def export(self):
         query = QtSql.QSqlQuery()
@@ -1104,8 +1116,46 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             self.date_changed()
 
-    def search_ISIN(self):
-        dialog = WindowFindISIN(self)
-        if dialog.exec() == QtWidgets.QDialog.Accepted:
-            new_ISIN = dialog.result
-            self.comboBox_ISIN.setCurrentText(new_ISIN)
+    def transfert(self):
+        # A rajouter dans l'activation du bouton
+        # If MonthCalendar1.BoldedDates.Length > 0 Then
+        # et vérification date actuelle différente de la date max
+        noPortefeuille = self.portefeuilleChoisi.noPortefeuille
+        datemax = self.calendarWidget.highlight[-1]
+
+        listeOblig = []
+        query = QtSql.QSqlQuery()
+        query.exec("SELECT ISIN, nombre, prixAchat, valorisation, valorisationAC FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + datemax.toString("dd/MM/yyyy") + "#")
+        while query.next():
+            obligation = ObligationContenir()
+            obligation.ISIN = str(query.value("ISIN"))
+            obligation.nombre = str(query.value("nombre"))
+            obligation.prixAchat = str(query.value("prixAchat"))
+            obligation.Valorisation = str(query.value("Valorisation"))
+            obligation.ValorisationAC = str(query.value("ValorisationAC"))
+            listeOblig.append(obligation)
+
+        newdate = self.dateChoisie
+        error_string = ''
+        for obligation in listeOblig:
+            result = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, prixAchat, Valorisation, ValorisationAC) VALUES (" + str(noPortefeuille) + ", '" + obligation.ISIN + "', #" + newdate.toString("MM/dd/yyyy") + "#, " + obligation.nombre + " , " + obligation.prixAchat + " , " + obligation.Valorisation + " , " + obligation.ValorisationAC + ")")
+            if not result:
+                error_string += "{} : Échec de l'insertion à la nouvelle date".format(obligation.ISIN)
+        query.clear()
+        if error_string:
+            # ERROR
+            detailed_message(self, QMessageBox.Critical, "Importation", "Erreurs", error_string)
+        QMessageBox.information(self, "Transfert", "Transfert du portefeuille terminé")
+        QMessageBox.information(self, "Transfert", "Merci de valider les liquidités (0 si le portefeuille n'a pas de liquidités)")
+
+        self.update_highlight_calendar()
+        self.date_changed()
+
+    def activation_transfert(self):
+        if self.calendarWidget.highlight == []:
+            self.btn_transfert.setEnabled(False)
+        else:
+            if self.dateChoisie <= self.calendarWidget.highlight[-1]:
+                self.btn_transfert.setEnabled(False)
+            else:
+                self.btn_transfert.setEnabled(True)
