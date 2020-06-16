@@ -12,6 +12,9 @@ class Ui_DialogFindISIN(object):
     def setupUi(self, DialogFindISIN):
         DialogFindISIN.setObjectName("DialogFindISIN")
         DialogFindISIN.resize(377, 202)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/img/img/icone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        DialogFindISIN.setWindowIcon(icon)
         self.verticalLayout = QtWidgets.QVBoxLayout(DialogFindISIN)
         self.verticalLayout.setObjectName("verticalLayout")
         self.formLayout = QtWidgets.QFormLayout()
@@ -54,3 +57,4 @@ class Ui_DialogFindISIN(object):
         self.label.setText(_translate("DialogFindISIN", "ISIN"))
         self.label_2.setText(_translate("DialogFindISIN", "Libellé"))
 
+import ressources_rc

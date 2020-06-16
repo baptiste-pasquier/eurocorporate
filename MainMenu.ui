@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>597</width>
-    <height>504</height>
+    <width>600</width>
+    <height>645</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,8 +50,8 @@
           <string>Assistant de Gestion Obligataire</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
+          <iconset resource="ressources.qrc">
+           <normaloff>:/img/img/paper-money-48.png</normaloff>:/img/img/paper-money-48.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -73,8 +73,8 @@
           <string>Assistant de Gestion : Client</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
+          <iconset resource="ressources.qrc">
+           <normaloff>:/img/img/client-management-48.png</normaloff>:/img/img/client-management-48.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -96,8 +96,8 @@
           <string>Assistant de Gestion : Portefeuille</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
+          <iconset resource="ressources.qrc">
+           <normaloff>:/img/img/wallet-48.png</normaloff>:/img/img/wallet-48.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -221,6 +221,10 @@
          <property name="text">
           <string>Configuration</string>
          </property>
+         <property name="icon">
+          <iconset resource="ressources.qrc">
+           <normaloff>:/img/img/settings-48.png</normaloff>:/img/img/settings-48.png</iconset>
+         </property>
         </widget>
        </item>
        <item row="1" column="1">
@@ -246,13 +250,15 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>597</width>
+     <width>600</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="ressources.qrc"/>
+ </resources>
  <connections/>
 </ui>

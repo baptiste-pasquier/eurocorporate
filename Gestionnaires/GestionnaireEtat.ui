@@ -13,12 +13,16 @@
   <property name="windowTitle">
    <string>Menu Visuels</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../ressources.qrc">
+    <normaloff>:/img/img/icone.png</normaloff>:/img/img/icone.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -58,8 +62,8 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -85,8 +89,8 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -117,8 +121,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -144,8 +148,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -171,8 +175,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -198,8 +202,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -242,8 +246,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -269,8 +273,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -296,8 +300,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -323,8 +327,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -347,8 +351,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -374,8 +378,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -448,8 +452,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document-48.png</normaloff>../img/document-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document-48.png</normaloff>:/img/img/document-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -526,8 +530,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -557,8 +561,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -574,8 +578,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -591,8 +595,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -627,8 +631,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -651,8 +655,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -736,8 +740,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -781,8 +785,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -805,8 +809,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -836,8 +840,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -853,8 +857,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -870,8 +874,8 @@ Ratino</string>
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../img/document_mod-48.png</normaloff>../img/document_mod-48.png</iconset>
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/img/img/document_mod-48.png</normaloff>:/img/img/document_mod-48.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -954,6 +958,8 @@ Ratino</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../ressources.qrc"/>
+ </resources>
  <connections/>
 </ui>

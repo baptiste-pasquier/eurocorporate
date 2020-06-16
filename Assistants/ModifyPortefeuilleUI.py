@@ -12,6 +12,9 @@ class Ui_DialogModifyPortefeuille(object):
     def setupUi(self, DialogModifyPortefeuille):
         DialogModifyPortefeuille.setObjectName("DialogModifyPortefeuille")
         DialogModifyPortefeuille.resize(377, 202)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/img/img/icone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        DialogModifyPortefeuille.setWindowIcon(icon)
         self.verticalLayout = QtWidgets.QVBoxLayout(DialogModifyPortefeuille)
         self.verticalLayout.setObjectName("verticalLayout")
         self.formLayout = QtWidgets.QFormLayout()
@@ -60,3 +63,4 @@ class Ui_DialogModifyPortefeuille(object):
         self.label_2.setText(_translate("DialogModifyPortefeuille", "Ancien libellé"))
         self.label_3.setText(_translate("DialogModifyPortefeuille", "Nouveau libellé"))
 
+import ressources_rc

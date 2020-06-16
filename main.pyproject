@@ -1,0 +1,3 @@
+{
+    "files": ["MainMenu.ui","Assistants/ModifyPortefeuille.ui","Gestionnaires/GestionnaireEtat.ui","Gestionnaires/GestionnairePortefeuille.ui","Assistants/AddPortefeuille.ui","Assistants/FindISIN.ui","ressources.qrc"]
+}

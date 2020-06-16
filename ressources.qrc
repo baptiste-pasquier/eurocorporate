@@ -1,2 +1,25 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/img">
+        <file>img/add-48.png</file>
+        <file>img/calendar-48.png</file>
+        <file>img/checkmark-48.png</file>
+        <file>img/delete-48.png</file>
+        <file>img/document_mod-48.png</file>
+        <file>img/document-48.png</file>
+        <file>img/edit-48.png</file>
+        <file>img/icone long.png</file>
+        <file>img/icone.png</file>
+        <file>img/microsoft-access-2019-240.png</file>
+        <file>img/microsoft-excel-2019-240.png</file>
+        <file>img/search-48.png</file>
+        <file>img/statistics-48.png</file>
+        <file>img/unlock-48.png</file>
+        <file>img/checked-48.png</file>
+        <file>img/date-to-48.png</file>
+        <file>img/icons8-add-user-male-48.png</file>
+        <file>img/client-management-48.png</file>
+        <file>img/paper-money-48.png</file>
+        <file>img/wallet-48.png</file>
+        <file>img/settings-48.png</file>
+    </qresource>
+</RCC>

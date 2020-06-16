@@ -41,8 +41,8 @@
               <string>UnLock</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>img/unlock-48.png</normaloff>img/unlock-48.png</iconset>
+              <iconset resource="../ressources.qrc">
+               <normaloff>:/img/img/unlock-48.png</normaloff>:/img/img/unlock-48.png</iconset>
              </property>
             </widget>
            </item>
@@ -104,8 +104,8 @@
               <string>UnLock</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>img/unlock-48.png</normaloff>img/unlock-48.png</iconset>
+              <iconset resource="../ressources.qrc">
+               <normaloff>:/img/img/unlock-48.png</normaloff>:/img/img/unlock-48.png</iconset>
              </property>
             </widget>
            </item>
@@ -120,6 +120,10 @@
              <property name="text">
               <string>Choisir</string>
              </property>
+             <property name="icon">
+              <iconset resource="../ressources.qrc">
+               <normaloff>:/img/img/checked-48.png</normaloff>:/img/img/checked-48.png</iconset>
+             </property>
             </widget>
            </item>
            <item row="1" column="2">
@@ -133,6 +137,10 @@
              <property name="text">
               <string>Choisir</string>
              </property>
+             <property name="icon">
+              <iconset resource="../ressources.qrc">
+               <normaloff>:/img/img/checked-48.png</normaloff>:/img/img/checked-48.png</iconset>
+             </property>
             </widget>
            </item>
           </layout>
@@ -145,8 +153,8 @@
               <string>Nouveau portefeuille</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>img/add-48.png</normaloff>img/add-48.png</iconset>
+              <iconset resource="../ressources.qrc">
+               <normaloff>:/img/img/add-48.png</normaloff>:/img/img/add-48.png</iconset>
              </property>
             </widget>
            </item>
@@ -210,8 +218,8 @@
               <string>Valider liquidité</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>img/checkmark-48.png</normaloff>img/checkmark-48.png</iconset>
+              <iconset resource="../ressources.qrc">
+               <normaloff>:/img/img/checkmark-48.png</normaloff>:/img/img/checkmark-48.png</iconset>
              </property>
             </widget>
            </item>
@@ -262,8 +270,8 @@
               <string>Aujourd'hui</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>img/calendar-48.png</normaloff>img/calendar-48.png</iconset>
+              <iconset resource="../ressources.qrc">
+               <normaloff>:/img/img/calendar-48.png</normaloff>:/img/img/calendar-48.png</iconset>
              </property>
             </widget>
            </item>
@@ -288,6 +296,10 @@
             <widget class="QPushButton" name="btn_transfert">
              <property name="text">
               <string>Transférer le portefeuille</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../ressources.qrc">
+               <normaloff>:/img/img/date-to-48.png</normaloff>:/img/img/date-to-48.png</iconset>
              </property>
             </widget>
            </item>
@@ -349,8 +361,8 @@
              <string>Importation XLS</string>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>img/microsoft-excel-2019-240.png</normaloff>img/microsoft-excel-2019-240.png</iconset>
+             <iconset resource="../ressources.qrc">
+              <normaloff>:/img/img/microsoft-excel-2019-240.png</normaloff>:/img/img/microsoft-excel-2019-240.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -366,8 +378,8 @@
              <string>Exportation XLS</string>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>img/microsoft-excel-2019-240.png</normaloff>img/microsoft-excel-2019-240.png</iconset>
+             <iconset resource="../ressources.qrc">
+              <normaloff>:/img/img/microsoft-excel-2019-240.png</normaloff>:/img/img/microsoft-excel-2019-240.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -456,8 +468,8 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>img/search-48.png</normaloff>img/search-48.png</iconset>
+                <iconset resource="../ressources.qrc">
+                 <normaloff>:/img/img/search-48.png</normaloff>:/img/img/search-48.png</iconset>
                </property>
               </widget>
              </item>
@@ -552,8 +564,8 @@
             <string>Ajouter la ligne</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>img/add-48.png</normaloff>img/add-48.png</iconset>
+            <iconset resource="../ressources.qrc">
+             <normaloff>:/img/img/add-48.png</normaloff>:/img/img/add-48.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -569,8 +581,8 @@
             <string>Modifier la ligne</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>img/edit-48.png</normaloff>img/edit-48.png</iconset>
+            <iconset resource="../ressources.qrc">
+             <normaloff>:/img/img/edit-48.png</normaloff>:/img/img/edit-48.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -586,8 +598,8 @@
             <string>Supprimer la ligne</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>img/delete-48.png</normaloff>img/delete-48.png</iconset>
+            <iconset resource="../ressources.qrc">
+             <normaloff>:/img/img/delete-48.png</normaloff>:/img/img/delete-48.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -603,8 +615,8 @@
             <string>Menu Visualisation</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>img/statistics-48.png</normaloff>img/statistics-48.png</iconset>
+            <iconset resource="../ressources.qrc">
+             <normaloff>:/img/img/statistics-48.png</normaloff>:/img/img/statistics-48.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -663,8 +675,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>img/add-48.png</normaloff>img/add-48.png</iconset>
+    <iconset resource="../ressources.qrc">
+     <normaloff>:/img/img/icons8-add-user-male-48.png</normaloff>:/img/img/icons8-add-user-male-48.png</iconset>
    </property>
    <property name="text">
     <string>Ajouter un client</string>
@@ -682,8 +694,8 @@
   </action>
   <action name="action_deletePortefeuille">
    <property name="icon">
-    <iconset>
-     <normaloff>img/delete-48.png</normaloff>img/delete-48.png</iconset>
+    <iconset resource="../ressources.qrc">
+     <normaloff>:/img/img/delete-48.png</normaloff>:/img/img/delete-48.png</iconset>
    </property>
    <property name="text">
     <string>Supprimer le portefeuille</string>
@@ -691,8 +703,8 @@
   </action>
   <action name="action_modifyPortefeuilleName">
    <property name="icon">
-    <iconset>
-     <normaloff>img/edit-48.png</normaloff>img/edit-48.png</iconset>
+    <iconset resource="../ressources.qrc">
+     <normaloff>:/img/img/edit-48.png</normaloff>:/img/img/edit-48.png</iconset>
    </property>
    <property name="text">
     <string>Modifier le nom du portefeuille</string>
@@ -706,6 +718,8 @@
    <header>Tools.calendarwidgetperso.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../ressources.qrc"/>
+ </resources>
  <connections/>
 </ui>

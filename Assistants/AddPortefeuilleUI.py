@@ -12,6 +12,9 @@ class Ui_DialogAddPortefeuille(object):
     def setupUi(self, DialogAddPortefeuille):
         DialogAddPortefeuille.setObjectName("DialogAddPortefeuille")
         DialogAddPortefeuille.resize(377, 202)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/img/img/icone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        DialogAddPortefeuille.setWindowIcon(icon)
         self.verticalLayout = QtWidgets.QVBoxLayout(DialogAddPortefeuille)
         self.verticalLayout.setObjectName("verticalLayout")
         self.formLayout = QtWidgets.QFormLayout()
@@ -52,3 +55,4 @@ class Ui_DialogAddPortefeuille(object):
         self.label.setText(_translate("DialogAddPortefeuille", "Client"))
         self.label_2.setText(_translate("DialogAddPortefeuille", "Libellé"))
 
+import ressources_rc
