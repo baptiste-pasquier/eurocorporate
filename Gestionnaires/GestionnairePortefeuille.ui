@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>909</width>
-    <height>715</height>
+    <height>717</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Gestionnaire de portefeuille</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -346,7 +350,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/microsoft-excel-2019-48.png</normaloff>img/microsoft-excel-2019-48.png</iconset>
+              <normaloff>img/microsoft-excel-2019-240.png</normaloff>img/microsoft-excel-2019-240.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -363,7 +367,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/microsoft-excel-2019-48.png</normaloff>img/microsoft-excel-2019-48.png</iconset>
+              <normaloff>img/microsoft-excel-2019-240.png</normaloff>img/microsoft-excel-2019-240.png</iconset>
             </property>
             <property name="iconSize">
              <size>

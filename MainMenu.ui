@@ -6,145 +6,247 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>646</width>
-    <height>488</height>
+    <width>597</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Menu principal</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton_Oblig">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>90</y>
-      <width>591</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Assistant de Gestion Obligataire</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_Client">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>150</y>
-      <width>591</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Assitant de Gestion : Client</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_Portefeuille">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>210</y>
-      <width>591</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Assistant de Gestion : Portefeuille</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_CreationAccess">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>270</y>
-      <width>291</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Accéder à Access (Création d'état)</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_IS_BEC">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>270</y>
-      <width>291</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Accéder à Access (IS_BeC</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_XLS">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>340</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Importation XLS </string>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../../../../Images/1200px-Microsoft_Office_Excel_(2013–2018).svg.png</normaloff>../../../../Images/1200px-Microsoft_Office_Excel_(2013–2018).svg.png</iconset>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_MAJSecteur">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>380</y>
-      <width>131</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>MAJ Secteur</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_FichierMAJ">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>400</y>
-      <width>131</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Fichier MAJ Secteur</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_config">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>380</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Configuration</string>
-    </property>
-   </widget>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>img/icone long.png</pixmap>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Assistants</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="pushButton_Oblig">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Assistant de Gestion Obligataire</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_Client">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Assistant de Gestion : Client</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_Portefeuille">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Assistant de Gestion : Portefeuille</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Access</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton_CreationAccess">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Accéder à Access (Création d'état)</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/microsoft-access-2019-240.png</normaloff>img/microsoft-access-2019-240.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_IS_BEC">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Accéder à Access (IS_BeC)</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/microsoft-access-2019-240.png</normaloff>img/microsoft-access-2019-240.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>GroupBox</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButton_XLS">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Importation XLS </string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/microsoft-excel-2019-240.png</normaloff>img/microsoft-excel-2019-240.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButton_MAJSecteur">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>MAJ Secteur</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="btn_config">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Configuration</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_FichierMAJ">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Fichier MAJ Secteur</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>646</width>
+     <width>597</width>
      <height>21</height>
     </rect>
    </property>
