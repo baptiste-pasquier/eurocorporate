@@ -186,13 +186,21 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_suppr.clicked.connect(self.delete_ligne)
 
         self.tb_nombre.textChanged.connect(self.tb_nombre_changed)
-        self.tb_nombre_etat = False
+        self.tb_nombre_test = False
+        self.tb_nombre_modif = False
+        self.tb_nombre_save = ""
         self.tb_prix.textChanged.connect(self.tb_prix_changed)
-        self.tb_prix_etat = False
+        self.tb_prix_test = False
+        self.tb_prix_modif = False
+        self.tb_prix_save = ""
         self.tb_valo.textChanged.connect(self.tb_valo_changed)
-        self.tb_valo_etat = False
+        self.tb_valo_test = False
+        self.tb_valo_modif = False
+        self.tb_valo_save = ""
         self.tb_valoAcqui.textChanged.connect(self.tb_valoAcqui_changed)
-        self.tb_valoAcqui_etat = False
+        self.tb_valoAcqui_test = False
+        self.tb_valoAcqui_modif = False
+        self.tb_valoAcqui_save = ""
 
         # Liquidité
         self.tb_liquidite.setEnabled(False)
@@ -368,7 +376,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 self.comboBox_ISIN.setCurrentIndex(-1)
                 self.comboBox_ISIN_changed()
 
-            self.btn_modif.setEnabled(True)
+            # self.btn_modif.setEnabled(True)
             self.btn_suppr.setEnabled(True)
         else:
             self.indexRowSelected = -1
@@ -696,28 +704,55 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
     def tb_nombre_changed(self):
         test = regex.VerifFloat(self.tb_nombre.text())
+        modif = self.tb_nombre_save != self.tb_nombre.text()
+
         if test:
-            self.tb_nombre.setStyleSheet("background : " + self.color_ok)
-            self.tb_nombre_etat = True
+            self.tb_nombre_test = True
         else:
+            self.tb_nombre_test = False
+        if modif:
+            self.tb_nombre_modif = True
+        else:
+            self.tb_nombre_modif = False
+
+        if not test:
             self.tb_nombre.setStyleSheet("background : " + self.color_error)
-            self.tb_nombre_etat = False
+        else:
+            if modif:
+                self.tb_nombre.setStyleSheet("background : " + self.color_ok)
+            else:
+                self.tb_nombre.setStyleSheet("")
         self.verif()
 
     def tb_prix_changed(self):
         test = regex.VerifFloat(self.tb_prix.text())
+        modif = self.tb_prix_save != self.tb_prix.text()
+
         if test:
-            self.tb_prix.setStyleSheet("background : " + self.color_ok)
-            self.tb_prix_etat = True
+            self.tb_prix_test = True
         else:
+            self.tb_prix_test = False
+        if modif:
+            self.tb_prix_modif = True
+        else:
+            self.tb_prix_modif = False
+
+        if not test:
             self.tb_prix.setStyleSheet("background : " + self.color_error)
-            self.tb_prix_etat = False
+        else:
+            if modif:
+                self.tb_prix.setStyleSheet("background : " + self.color_ok)
+            else:
+                self.tb_prix.setStyleSheet("")
         self.verif()
 
     def verif(self):
-        if self.tb_nombre_etat and self.tb_prix_etat:
+        if self.tb_nombre_test and self.tb_prix_test:
             if self.indexRowSelected > -1:
-                self.btn_modif.setEnabled(True)
+                if self.tb_nombre_modif or self.tb_prix_modif:
+                    self.btn_modif.setEnabled(True)
+                else:
+                    self.btn_modif.setEnabled(False)
             else:
                 self.btn_add.setEnabled(True)
         else:
@@ -726,28 +761,55 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
     def tb_valo_changed(self):
         test = regex.VerifFloat(self.tb_valo.text())
+        modif = self.tb_valo_save != self.tb_valo.text()
+
         if test:
-            self.tb_valo.setStyleSheet("background : " + self.color_ok)
-            self.tb_valo_etat = True
+            self.tb_valo_test = True
         else:
+            self.tb_valo_test = False
+        if modif:
+            self.tb_valo_modif = True
+        else:
+            self.tb_valo_modif = False
+
+        if not test:
             self.tb_valo.setStyleSheet("background : " + self.color_error)
-            self.tb_valo_etat = False
+        else:
+            if modif:
+                self.tb_valo.setStyleSheet("background : " + self.color_ok)
+            else:
+                self.tb_valo.setStyleSheet("")
         self.verif_valo()
 
     def tb_valoAcqui_changed(self):
         test = regex.VerifFloat(self.tb_valoAcqui.text())
+        modif = self.tb_valoAcqui_save != self.tb_valoAcqui.text()
+
         if test:
-            self.tb_valoAcqui.setStyleSheet("background : " + self.color_ok)
-            self.tb_valoAcqui_etat = True
+            self.tb_valoAcqui_test = True
         else:
+            self.tb_valoAcqui_test = False
+        if modif:
+            self.tb_valoAcqui_modif = True
+        else:
+            self.tb_valoAcqui_modif = False
+
+        if not test:
             self.tb_valoAcqui.setStyleSheet("background : " + self.color_error)
-            self.tb_valoAcqui_etat = False
+        else:
+            if modif:
+                self.tb_valoAcqui.setStyleSheet("background : " + self.color_ok)
+            else:
+                self.tb_valoAcqui.setStyleSheet("")
         self.verif_valo()
 
     def verif_valo(self):
-        if self.tb_valo_etat and self.tb_valoAcqui_etat:
+        if self.tb_valo_test and self.tb_valoAcqui_test:
             if self.indexRowSelected > -1:
-                self.btn_modif.setEnabled(True)
+                if self.tb_valo_modif or self.tb_valoAcqui_modif:
+                    self.btn_modif.setEnabled(True)
+                else:
+                    self.btn_modif.setEnabled(False)
             else:
                 self.btn_add.setEnabled(True)
         else:
@@ -836,12 +898,24 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         if in_table:
             # Si obligation dans la table
             index = self.indexRowSelected
-            if struct:
+            if not struct:
+                self.tb_nombre.setText(str(model.record(index).value("nombre")))
+                self.tb_prix.setText(str(model.record(index).value("prixAchat")))                
+                # Sauvegarde
+                self.tb_nombre_save = self.tb_nombre.text()
+                self.tb_prix_save = self.tb_prix.text()
+                # Pour afficher en blanc
+                self.tb_nombre_changed()
+                self.tb_prix_changed()
+            else:
                 self.tb_valo.setText(str(model.record(index).value("Valorisation")))
                 self.tb_valoAcqui.setText(str(model.record(index).value("ValorisationAC")))
-            else:
-                self.tb_nombre.setText(str(model.record(index).value("nombre")))
-                self.tb_prix.setText(str(model.record(index).value("prixAchat")))
+                # Sauvegarde
+                self.tb_valo_save = self.tb_valo.text()
+                self.tb_valoAcqui_save = self.tb_valoAcqui.text()
+                # Pour afficher en blanc
+                self.tb_valo_changed()
+                self.tb_valoAcqui_changed()
         elif isin_bool:
             # Si obligation non dans la table
             self.tableView.clearSelection()
@@ -1046,20 +1120,20 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             if str(ws.Cells(1, 1).Value).lower() == 'isin' and str(ws.Cells(1, 2).Value).lower() == 'nombre' and str(ws.Cells(1, 3).Value).lower() == "prix d'achat":
                 progress.setLabelText('Vérification du format des données')
 
-                # On vérifie les ISIN, le nombre et le prix d'achat
+                # On vérifie les ISIN, le nombre et le valo d'achat
                 error_string = ""
                 for numRow in range(2, 2 + nb_lignes):
                     isin = str(ws.Cells(numRow, 1).Value)
                     nombre = ws.Cells(numRow, 2).Value
-                    prix = ws.Cells(numRow, 3).Value
+                    valo = ws.Cells(numRow, 3).Value
                     progress.setValue(numRow)
 
                     if not regex.VerifISIN(isin):
                         error_string += "Ligne {} : ISIN invalide \n".format(numRow)
                     if not isinstance(nombre, float):
                         error_string += "Ligne {} : Nombre invalide \n".format(numRow)
-                    if not isinstance(prix, float):
-                        error_string += "Ligne {} : Prix d'achat invalide \n".format(numRow)
+                    if not isinstance(valo, float):
+                        error_string += "Ligne {} : valo d'achat invalide \n".format(numRow)
 
                 if error_string:
                     # ERROR
@@ -1075,7 +1149,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                     for numRow in range(2, 2 + nb_lignes):
                         isin = str(ws.Cells(numRow, 1).Value)
                         nombre = str(ws.Cells(numRow, 2).Value)
-                        prix = str(ws.Cells(numRow, 3).Value)
+                        valo = str(ws.Cells(numRow, 3).Value)
 
                         # ISIN existe dans la base?
                         query = QtSql.QSqlQuery()
@@ -1096,17 +1170,17 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                             count = int(query.value(0))
 
                         if count == 0:
-                            result = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, prixAchat) VALUES (" + str(noPortefeuille) + ",'" + isin + "', #" + date + "#, " + nombre + ", " + prix + ")")
+                            result = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, valoAchat) VALUES (" + str(noPortefeuille) + ",'" + isin + "', #" + date + "#, " + nombre + ", " + valo + ")")
                             if not result:
                                 error_string += "Ligne {} : Échec de l'insertion dans la table Contenir\n".format(numRow)
                             else:
-                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(prix))
+                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(valo))
                         elif count == 1:
-                            result = query.exec("UPDATE Contenir SET nombre = " + nombre + ", prixAchat = " + prix + " WHERE noPortefeuille = " + str(noPortefeuille) + " AND ISIN = '" + isin + "' AND DateDeMAJ = #" + date + "#")
+                            result = query.exec("UPDATE Contenir SET nombre = " + nombre + ", valoAchat = " + valo + " WHERE noPortefeuille = " + str(noPortefeuille) + " AND ISIN = '" + isin + "' AND DateDeMAJ = #" + date + "#")
                             if not result:
                                 error_string += "Ligne {} : Échec de la mise à jour dans la table Contenir\n".format(numRow)
                             else:
-                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(prix))
+                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(valo))
                         else:
                             error_string += "Ligne {} : Obligation déjà existante en multiple dans la table Contenir\n".format(numRow)
                         progress.setValue(numRow)
