@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>img/icone.png</normaloff>img/icone.png</iconset>
+    <normaloff>:/ressources/img/icone.png</normaloff>:/ressources/img/icone.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -25,7 +25,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>img/icone long.png</pixmap>
+       <pixmap>:/ressources/img/icone long.png</pixmap>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -51,7 +51,7 @@
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
-           <normaloff>:/img/img/paper-money-48.png</normaloff>:/img/img/paper-money-48.png</iconset>
+           <normaloff>:/ressources/img/paper-money-48.png</normaloff>:/ressources/img/paper-money-48.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -74,7 +74,7 @@
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
-           <normaloff>:/img/img/client-management-48.png</normaloff>:/img/img/client-management-48.png</iconset>
+           <normaloff>:/ressources/img/client-management-48.png</normaloff>:/ressources/img/client-management-48.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -97,7 +97,7 @@
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
-           <normaloff>:/img/img/wallet-48.png</normaloff>:/img/img/wallet-48.png</iconset>
+           <normaloff>:/ressources/img/wallet-48.png</normaloff>:/ressources/img/wallet-48.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -129,7 +129,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>img/microsoft-access-2019-240.png</normaloff>img/microsoft-access-2019-240.png</iconset>
+           <normaloff>:/ressources/img/microsoft-access-2019-240.png</normaloff>:/ressources/img/microsoft-access-2019-240.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -152,7 +152,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>img/microsoft-access-2019-240.png</normaloff>img/microsoft-access-2019-240.png</iconset>
+           <normaloff>:/ressources/img/microsoft-access-2019-240.png</normaloff>:/ressources/img/microsoft-access-2019-240.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -184,7 +184,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>img/microsoft-excel-2019-240.png</normaloff>img/microsoft-excel-2019-240.png</iconset>
+           <normaloff>:/ressources/img/microsoft-excel-2019-240.png</normaloff>:/ressources/img/microsoft-excel-2019-240.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -223,7 +223,7 @@
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
-           <normaloff>:/img/img/settings-48.png</normaloff>:/img/img/settings-48.png</iconset>
+           <normaloff>:/ressources/img/settings-48.png</normaloff>:/ressources/img/settings-48.png</iconset>
          </property>
         </widget>
        </item>

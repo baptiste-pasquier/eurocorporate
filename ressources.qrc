@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/img">
+    <qresource prefix="/ressources">
         <file>img/add-48.png</file>
         <file>img/calendar-48.png</file>
         <file>img/checkmark-48.png</file>

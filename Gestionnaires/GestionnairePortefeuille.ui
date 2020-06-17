@@ -42,7 +42,7 @@
              </property>
              <property name="icon">
               <iconset resource="../ressources.qrc">
-               <normaloff>:/img/img/unlock-48.png</normaloff>:/img/img/unlock-48.png</iconset>
+               <normaloff>:/ressources/img/unlock-48.png</normaloff>:/ressources/img/unlock-48.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -117,7 +117,7 @@
              </property>
              <property name="icon">
               <iconset resource="../ressources.qrc">
-               <normaloff>:/img/img/unlock-48.png</normaloff>:/img/img/unlock-48.png</iconset>
+               <normaloff>:/ressources/img/unlock-48.png</normaloff>:/ressources/img/unlock-48.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -140,7 +140,7 @@
              </property>
              <property name="icon">
               <iconset resource="../ressources.qrc">
-               <normaloff>:/img/img/checked-48.png</normaloff>:/img/img/checked-48.png</iconset>
+               <normaloff>:/ressources/img/checked-48.png</normaloff>:/ressources/img/checked-48.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -163,7 +163,7 @@
              </property>
              <property name="icon">
               <iconset resource="../ressources.qrc">
-               <normaloff>:/img/img/checked-48.png</normaloff>:/img/img/checked-48.png</iconset>
+               <normaloff>:/ressources/img/checked-48.png</normaloff>:/ressources/img/checked-48.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -184,7 +184,7 @@
              </property>
              <property name="icon">
               <iconset resource="../ressources.qrc">
-               <normaloff>:/img/img/add-48.png</normaloff>:/img/img/add-48.png</iconset>
+               <normaloff>:/ressources/img/add-48.png</normaloff>:/ressources/img/add-48.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -259,7 +259,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../ressources.qrc">
-                 <normaloff>:/img/img/checkmark-48.png</normaloff>:/img/img/checkmark-48.png</iconset>
+                 <normaloff>:/ressources/img/checkmark-48.png</normaloff>:/ressources/img/checkmark-48.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -297,7 +297,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../ressources.qrc">
-                 <normaloff>:/img/img/calendar-48.png</normaloff>:/img/img/calendar-48.png</iconset>
+                 <normaloff>:/ressources/img/calendar-48.png</normaloff>:/ressources/img/calendar-48.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -340,7 +340,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../ressources.qrc">
-                 <normaloff>:/img/img/date-to-48.png</normaloff>:/img/img/date-to-48.png</iconset>
+                 <normaloff>:/ressources/img/date-to-48.png</normaloff>:/ressources/img/date-to-48.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -411,7 +411,7 @@
             </property>
             <property name="icon">
              <iconset resource="../ressources.qrc">
-              <normaloff>:/img/img/microsoft-excel-2019-240.png</normaloff>:/img/img/microsoft-excel-2019-240.png</iconset>
+              <normaloff>:/ressources/img/microsoft-excel-2019-240.png</normaloff>:/ressources/img/microsoft-excel-2019-240.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -428,7 +428,7 @@
             </property>
             <property name="icon">
              <iconset resource="../ressources.qrc">
-              <normaloff>:/img/img/microsoft-excel-2019-240.png</normaloff>:/img/img/microsoft-excel-2019-240.png</iconset>
+              <normaloff>:/ressources/img/microsoft-excel-2019-240.png</normaloff>:/ressources/img/microsoft-excel-2019-240.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -518,7 +518,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../ressources.qrc">
-                 <normaloff>:/img/img/search-48.png</normaloff>:/img/img/search-48.png</iconset>
+                 <normaloff>:/ressources/img/search-48.png</normaloff>:/ressources/img/search-48.png</iconset>
                </property>
               </widget>
              </item>
@@ -626,7 +626,7 @@
            </property>
            <property name="icon">
             <iconset resource="../ressources.qrc">
-             <normaloff>:/img/img/add-48.png</normaloff>:/img/img/add-48.png</iconset>
+             <normaloff>:/ressources/img/add-48.png</normaloff>:/ressources/img/add-48.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -643,7 +643,7 @@
            </property>
            <property name="icon">
             <iconset resource="../ressources.qrc">
-             <normaloff>:/img/img/edit-48.png</normaloff>:/img/img/edit-48.png</iconset>
+             <normaloff>:/ressources/img/edit-48.png</normaloff>:/ressources/img/edit-48.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -660,7 +660,7 @@
            </property>
            <property name="icon">
             <iconset resource="../ressources.qrc">
-             <normaloff>:/img/img/delete-48.png</normaloff>:/img/img/delete-48.png</iconset>
+             <normaloff>:/ressources/img/delete-48.png</normaloff>:/ressources/img/delete-48.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -677,7 +677,7 @@
            </property>
            <property name="icon">
             <iconset resource="../ressources.qrc">
-             <normaloff>:/img/img/statistics-48.png</normaloff>:/img/img/statistics-48.png</iconset>
+             <normaloff>:/ressources/img/statistics-48.png</normaloff>:/ressources/img/statistics-48.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -737,7 +737,7 @@
    </property>
    <property name="icon">
     <iconset resource="../ressources.qrc">
-     <normaloff>:/img/img/icons8-add-user-male-48.png</normaloff>:/img/img/icons8-add-user-male-48.png</iconset>
+     <normaloff>:/ressources/img/icons8-add-user-male-48.png</normaloff>:/ressources/img/icons8-add-user-male-48.png</iconset>
    </property>
    <property name="text">
     <string>Ajouter un client</string>
@@ -756,7 +756,7 @@
   <action name="action_deletePortefeuille">
    <property name="icon">
     <iconset resource="../ressources.qrc">
-     <normaloff>:/img/img/delete-48.png</normaloff>:/img/img/delete-48.png</iconset>
+     <normaloff>:/ressources/img/delete-48.png</normaloff>:/ressources/img/delete-48.png</iconset>
    </property>
    <property name="text">
     <string>Supprimer le portefeuille</string>
@@ -765,7 +765,7 @@
   <action name="action_modifyPortefeuilleName">
    <property name="icon">
     <iconset resource="../ressources.qrc">
-     <normaloff>:/img/img/edit-48.png</normaloff>:/img/img/edit-48.png</iconset>
+     <normaloff>:/ressources/img/edit-48.png</normaloff>:/ressources/img/edit-48.png</iconset>
    </property>
    <property name="text">
     <string>Modifier le nom du portefeuille</string>
