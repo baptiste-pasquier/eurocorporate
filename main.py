@@ -1,14 +1,16 @@
 import sys
 
-from PyQt5 import QtCore, QtWidgets, uic
-from PyQt5.QtCore import QDir, QSettings
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import QDir, QSettings, QCoreApplication
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from Gestionnaires.GestionnairePortefeuille import MainWindowPortefeuille
 from Tools.database import createconnection
 
-qt_creator_file = "MainMenu.ui"
-Ui_MainWindowMenu, QtBaseClass = uic.loadUiType(qt_creator_file)
+from MainMenuUI import Ui_MainWindowMenu
+
+# fbs
+# from fbs_runtime.application_context.PyQt5 import ApplicationContext
 
 
 class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
@@ -54,17 +56,25 @@ class Controller:
 
 
 if __name__ == '__main__':
+    # fbs
+    # appctxt = ApplicationContext()     
+    # python
     app = QtWidgets.QApplication(sys.argv)
+
     QtCore.QCoreApplication.setOrganizationName("ENSAE Junior Etudes")
-    # QtCore.QCoreApplication.setOrganizationDomain("")
-    QtCore.QCoreApplication.setApplicationName("IS")
+    QtCore.QCoreApplication.setApplicationName("Eurocorporate IS")
 
     locale = QtCore.QLocale.system().name()
     translator = QtCore.QTranslator()
     reptrad = QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath)
     translator.load("qtbase_" + locale, reptrad)  # qtbase_fr.qm
-    app.installTranslator(translator)
+    QCoreApplication.installTranslator(translator)
 
     controller = Controller()
     controller.show_main_menu()
+
+    # python
     sys.exit(app.exec_())
+    # fbs
+    # exit_code = appctxt.app.exec_()      # 2. Invoke appctxt.app.exec_()
+    # sys.exit(exit_code)
