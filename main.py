@@ -57,7 +57,7 @@ class Controller:
 
 if __name__ == '__main__':
     # fbs
-    # appctxt = ApplicationContext()     
+    # appctxt = ApplicationContext()
     # python
     app = QtWidgets.QApplication(sys.argv)
 

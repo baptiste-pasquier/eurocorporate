@@ -1,6 +1,6 @@
 import win32com.client as win32
-from PyQt5 import QtCore, QtSql, QtWidgets, uic
-from PyQt5.QtCore import QDate, Qt
+from PyQt5 import QtCore, QtSql, QtWidgets
+from PyQt5.QtCore import QDate, Qt, QTimer
 from PyQt5.QtWidgets import (QDialogButtonBox, QFileDialog, QMessageBox,
                              QProgressDialog)
 
@@ -198,6 +198,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.tb_liquidite.setEnabled(False)
         self.tb_liquidite.textChanged.connect(self.tb_liquidite_changed)
         self.tb_liquidite_etat = False
+        self.tb_liquidite_save = ""
         self.btn_liquidite.clicked.connect(self.liquidite_change)
         self.btn_liquidite.setEnabled(False)
 
@@ -213,6 +214,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         # Transfert
         self.btn_transfert.setEnabled(False)
         self.btn_transfert.clicked.connect(self.transfert)
+
+        # Visualisation
+        self.btn_vis.clicked.connect(self.visualisation)
 
     def client_choose(self):
         if self.comboBox_clients.currentIndex() >= 0:
@@ -235,11 +239,12 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             if self.modelPortefeuille.columnCount() > 0:
                 self.btn_choosePortefeuille.setEnabled(True)
                 self.comboBox_portefeuilles.setEnabled(True)
+                self.comboBox_portefeuilles.setCurrentIndex(-1)
             else:
-                self.btn_choosePortefeuille.setEnabled(False)
-                self.comboBox_portefeuilles.setEnabled(False)
+                # self.btn_choosePortefeuille.setEnabled(False)
+                # self.comboBox_portefeuilles.setEnabled(False)
                 QMessageBox.warning(self, '', "Aucun portefeuille créé pour le client choisi.")
-
+            QTimer.singleShot(300, lambda: self.repaint())
         else:
             QMessageBox.warning(self, '', 'Veuillez choisir un client.')
 
@@ -251,7 +256,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_newPortefeuille.setEnabled(False)
         self.comboBox_portefeuilles.setEnabled(False)
         self.comboBox_portefeuilles.setCurrentIndex(-1)
-
+        QTimer.singleShot(300, lambda: self.repaint())
         self.clientChoisi = Client()
 
     def portefeuille_choose(self):
@@ -289,7 +294,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             self.btn_import.setEnabled(True)
             self.btn_export.setEnabled(True)
-
+            QTimer.singleShot(300, lambda: self.repaint())
         else:
             QMessageBox.warning(self, '', 'Veuillez choisir un portefeuille.')
 
@@ -326,6 +331,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         self.btn_import.setEnabled(False)
         self.btn_export.setEnabled(False)
+        QTimer.singleShot(300, lambda: self.repaint())
 
     def date_changed(self):
         self.dateChoisie = self.calendarWidget.selectedDate()
@@ -872,7 +878,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             if query.next():
                 self.tb_liquidite.setText(str(query.value(0)))
             query.clear()
-
+        self.tb_liquidite_save = self.tb_liquidite.text()
         self.tb_liquidite_changed()
 
     def liquidite_change(self):
@@ -886,6 +892,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             error = query.lastError().text()
             # ERROR
             detailed_message(self, QMessageBox.Critical, "Erreur de la base Access", "Échec de la modification des liquidités", error)
+        self.affichage_liquidite()
 
     def tb_liquidite_changed(self):
         try:
@@ -895,12 +902,17 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             test = False
 
         if test:
-            self.tb_liquidite.setStyleSheet("background : " + self.color_ok)
-            self.tb_liquidite_etat = False
-            self.btn_liquidite.setEnabled(True)
+            if self.tb_liquidite.text() != self.tb_liquidite_save:
+                self.tb_liquidite.setStyleSheet("background : " + self.color_ok)
+                self.tb_liquidite_etat = True
+                self.btn_liquidite.setEnabled(True)
+            else:
+                self.tb_liquidite.setStyleSheet("")
+                self.tb_liquidite_etat = True
+                self.btn_liquidite.setEnabled(False)
         else:
             self.tb_liquidite.setStyleSheet("background : " + self.color_error)
-            self.tb_liquidite_etat = True
+            self.tb_liquidite_etat = False
             self.btn_liquidite.setEnabled(False)
 
     def search_ISIN(self):
@@ -1125,7 +1137,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         listeOblig = []
         query = QtSql.QSqlQuery()
-        query.exec("SELECT ISIN, nombre, prixAchat, valorisation, valorisationAC FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + datemax.toString("dd/MM/yyyy") + "#")
+        query.exec("SELECT ISIN, nombre, prixAchat, valorisation, valorisationAC FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + datemax.toString("MM/dd/yyyy") + "#")
         while query.next():
             obligation = ObligationContenir()
             obligation.ISIN = str(query.value("ISIN"))
@@ -1159,3 +1171,30 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 self.btn_transfert.setEnabled(False)
             else:
                 self.btn_transfert.setEnabled(True)
+
+    def visualisation(self):
+        ## A FAIRE:
+        # Activer le bouton seulement si au moins une ligne dans le portefeuille
+        # Attention aux liquidités !!!!!!!!!!
+
+        if self.tb_liquidite_etat and not self.btn_liquidite.isEnabled():
+            # On vérifie que toutes les lignes sont mise à jour à la date choisi, si oui, on lance le menu visuel, si NON, on établi un fichier excel répertoriant les obligations non mise à jour avec leur date de derniere maj.
+            # On fait la liaison entre les obligations mise à jour et le contenu du portefeuille
+            noPortefeuille = self.portefeuilleChoisi.noPortefeuille
+            date = self.dateChoisie
+            countContenir = self.modelContenir.rowCount()
+
+            query = QtSql.QSqlQuery()
+            query.exec("SELECT Count(*) FROM Obligation WHERE Obligation.ISIN In (SELECT ISIN FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AND Obligation.DateDeMAJ =#" + date.toString("MM/dd/yyyy") + "#")
+            if query.next():
+                countObligation = query.value(0)
+            if countContenir == countObligation:
+                # show menu
+                1
+            else:
+                QMessageBox.warning(self, "Visualisation", str(countContenir - countObligation) + " lignes ne sont pas à jour. Pour empêcher les erreurs de valorisation, merci de vérifier les lignes qui vont apparaitre dans l'outil Excel. Pour un traitement facilité : utiliser le gestionnaire obligataire et mettre l'obligation à jour à la date voulu.")
+                # self.export_lignesNoMaj()
+        else:
+            QMessageBox.critical(self, "Visualisation", 'Veuillez remplir et valider le champ "Liquidité"')
+
+    # def export_lignesNoMaj(self):
