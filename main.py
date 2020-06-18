@@ -49,7 +49,7 @@ class Controller:
         self.main_menu.show()
 
     def show_portefeuille(self):
-        self.portefeuille_window = MainWindowPortefeuille()
+        self.portefeuille_window = MainWindowPortefeuille(self.main_menu)
         # self.main_menu.close()
 
         self.portefeuille_window.show()

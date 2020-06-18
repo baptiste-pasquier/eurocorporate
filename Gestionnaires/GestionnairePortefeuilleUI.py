@@ -14,6 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindowPortefeuille(object):
     def setupUi(self, MainWindowPortefeuille):
         MainWindowPortefeuille.setObjectName("MainWindowPortefeuille")
+        MainWindowPortefeuille.setWindowModality(QtCore.Qt.WindowModal)
         MainWindowPortefeuille.resize(909, 719)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/icone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)

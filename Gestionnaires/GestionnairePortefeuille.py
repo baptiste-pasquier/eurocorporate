@@ -12,6 +12,7 @@ from Classes.portefeuille import Portefeuille
 from Classes.obligation import ObligationContenir
 from Tools import regex
 from Tools.message import detailed_message
+from Gestionnaires.GestionnaireEtat import MainWindowEtat
 
 # qt_creator_file = "Gestionnaires/GestionnairePortefeuille.ui"
 # Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
@@ -98,11 +99,10 @@ class ModelISIN(QtSql.QSqlQueryModel):
 
 
 class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
-    def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
+    def __init__(self, *args, **kwargs):
+        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         Ui_MainWindowPortefeuille.__init__(self)
         self.setupUi(self)
-        self.setWindowModality(Qt.ApplicationModal)
 
         # crée le modèle et sa liaison avec la base SQL ouverte
         self.modelContenir = ModelContenir()
@@ -1011,7 +1011,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             query.exec("SELECT ISIN, Libelle, Emetteur, Maturite, Coupon, Nominal, Cours, Rating, dateDeMAJ, MAJ, nombre, PrixAchat, Rendement, Duration, Sensibilite, Convexite, VieMoyenne, nomRegion, nomType, nomSection, nomSousSecteur, SpreadASW, SpreadBund, ClasseDuration, RatingSP, Valorisation, ValorisationAC, [Valeur d'acquisition], [Valo par le prix], Remboursement, [+ ou - value], [+ ou - value %] FROM  Valorisation WHERE [noPortefeuille] = " + str(self.portefeuilleChoisi.noPortefeuille) + " AND DateDeMAJ = #" + self.dateChoisie.toString("MM/dd/yyyy") + "#")
             progress.setLabelText("Transfert vers Excel")
 
-            xls = win32.Dispatch('Excel.Application')
+            xls = win32.gencache.EnsureDispatch('Excel.Application')
 
             # Paramètres
             xls.WindowState = win32.constants.xlMaximized  # format plein écran
@@ -1083,6 +1083,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             query.clear()
 
             if not break_bool:
+                if nb_lignes != self.modelContenir.rowCount():
+                    QMessageBox.warning(self, "Attention", "Le nombre de lignes dans le fichier Excel est différent")
                 QMessageBox.information(self, "Exportation", "Exportation terminée")
                 xls.Worksheets(1).Columns("A:AG").EntireColumn.AutoFit()
                 xls.Visible = True
@@ -1104,7 +1106,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             progress.show()
 
             # On charge le fichier sélectionné
-            xls = win32.Dispatch('Excel.Application')
+            xls = win32.gencache.EnsureDispatch('Excel.Application')
             wb = xls.Workbooks.Open(fileName)
 
             # On prend la feuille de données
@@ -1262,13 +1264,80 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             query.exec("SELECT Count(*) FROM Obligation WHERE Obligation.ISIN In (SELECT ISIN FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AND Obligation.DateDeMAJ =#" + date.toString("MM/dd/yyyy") + "#")
             if query.next():
                 countObligation = query.value(0)
-            if countContenir == countObligation:
-                # show menu
-                1
+            if countContenir != countObligation:
+                #### A FAIRE
+                self.etat_window = MainWindowEtat(self)
+                self.etat_window.show()
             else:
-                QMessageBox.warning(self, "Visualisation", str(countContenir - countObligation) + " lignes ne sont pas à jour. Pour empêcher les erreurs de valorisation, merci de vérifier les lignes qui vont apparaitre dans l'outil Excel. Pour un traitement facilité : utiliser le gestionnaire obligataire et mettre l'obligation à jour à la date voulu.")
-                # self.export_lignesNoMaj()
+                QMessageBox.warning(self, "Visualisation", str(countContenir - countObligation) + " lignes ne sont pas à jour.\nPour empêcher les erreurs de valorisation, merci de vérifier les lignes qui vont apparaitre dans l'outil Excel.\nPour un traitement facilité : utiliser le gestionnaire obligataire et mettre l'obligation à jour à la date voulu.")
+                self.export_lignesNoMaj()
         else:
             QMessageBox.critical(self, "Visualisation", 'Veuillez remplir et valider le champ "Liquidité"')
 
-    # def export_lignesNoMaj(self):
+    def export_lignesNoMaj(self):
+        noPortefeuille = self.portefeuilleChoisi.noPortefeuille
+        date = self.dateChoisie
+
+        query = QtSql.QSqlQuery()
+
+        query.exec("SELECT COUNT(*) FROM (SELECT ISIN FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AS A LEFT JOIN (SELECT ISIN FROM Obligation WHERE DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AS B ON A.ISIN = B.ISIN WHERE B.ISIN IS NULL ")
+        nb_lignes = 0
+        if query.next():
+            nb_lignes = int(query.value(0))
+
+        progress = QProgressDialog("Chargement des données", "Annuler", 2, nb_lignes + 3, self)
+        progress.setWindowTitle("Lignes problématiques")
+        progress.setWindowModality(Qt.WindowModal)
+        progress.show()
+
+        query.exec("SELECT A.ISIN FROM (SELECT ISIN FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AS A LEFT JOIN (SELECT ISIN FROM Obligation WHERE DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AS B ON A.ISIN = B.ISIN WHERE B.ISIN IS NULL ORDER BY A.ISIN ASC")
+        progress.setLabelText("Transfert vers Excel")
+
+        xls = win32.gencache.EnsureDispatch('Excel.Application')
+
+        # Paramètres
+        xls.WindowState = win32.constants.xlMaximized  # format plein écran
+        xls.ShowWindowsInTaskbar = True  # visible dans la barre de tâches
+        xls.DisplayFormulaBar = True  # affichage de la barre de formule
+        xls.Caption = "Lignes problématiques"
+        wb = xls.Workbooks.Add()  # ajout d'un classeur Excel
+        xls.Worksheets(1).Name = "Portefeuille"
+        xls.Worksheets(1).Rows("1").Font.Bold = True
+
+        # Entête de colonne
+        xls.Worksheets(1).Range("A1").Value = "ISIN"
+
+        nb_col = 1
+        ligne = 2
+
+        break_bool = False
+        while query.next():
+            QtCore.QCoreApplication.processEvents()
+            progress.setValue(ligne)
+            for i in range(1, nb_col + 1):
+                value = query.value(str(xls.Worksheets(1).Cells(1, i).Value))
+                if isinstance(value, QtCore.QDateTime) or isinstance(value, QtCore.QDate):
+                    result = value.toString("MM/dd/yyyy")
+                elif isinstance(value, float):
+                    result = float(value)
+                elif isinstance(value, int):
+                    result = int(value)
+                else:
+                    result = str(value)
+                xls.Worksheets(1).Cells(ligne, i).Value = result
+            if progress.wasCanceled():
+                break_bool = True
+                break
+            ligne += 1
+
+        progress.setValue(nb_lignes + 3)
+        query.clear()
+
+        if not break_bool:
+            QMessageBox.information(self, "Lignes problématiques", "Transfert terminé")
+            xls.Worksheets(1).Columns("A:C").EntireColumn.AutoFit()
+            xls.Visible = True
+        else:
+            QMessageBox.warning(self, "Lignes problématiques", "Transfert annulé")
+            wb.Close(False)
+            xls.Quit()

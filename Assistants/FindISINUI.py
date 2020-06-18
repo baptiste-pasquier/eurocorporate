@@ -56,7 +56,7 @@ class Ui_DialogFindISIN(object):
 
     def retranslateUi(self, DialogFindISIN):
         _translate = QtCore.QCoreApplication.translate
-        DialogFindISIN.setWindowTitle(_translate("DialogFindISIN", "Recherche"))
+        DialogFindISIN.setWindowTitle(_translate("DialogFindISIN", "Recherche ISIN"))
         self.label.setText(_translate("DialogFindISIN", "ISIN"))
         self.label_2.setText(_translate("DialogFindISIN", "Libellé"))
 import ressources_rc

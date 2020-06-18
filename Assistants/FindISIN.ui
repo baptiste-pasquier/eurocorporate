@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Recherche</string>
+   <string>Recherche ISIN</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../ressources.qrc">
