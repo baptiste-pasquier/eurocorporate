@@ -264,7 +264,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.btn_newPortefeuille.setEnabled(False)
         self.comboBox_portefeuilles.setEnabled(False)
         self.comboBox_portefeuilles.setCurrentIndex(-1)
-        QTimer.singleShot(300, lambda: self.repaint())
+        QTimer.singleShot(350, lambda: self.repaint())
         self.clientChoisi = Client()
 
     def portefeuille_choose(self):
@@ -1249,7 +1249,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 self.btn_transfert.setEnabled(True)
 
     def visualisation(self):
-        ## A FAIRE:
+        ### A FAIRE:
         # Activer le bouton seulement si au moins une ligne dans le portefeuille
         # Attention aux liquidités !!!!!!!!!!
 
@@ -1264,9 +1264,10 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             query.exec("SELECT Count(*) FROM Obligation WHERE Obligation.ISIN In (SELECT ISIN FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AND Obligation.DateDeMAJ =#" + date.toString("MM/dd/yyyy") + "#")
             if query.next():
                 countObligation = query.value(0)
-            if countContenir != countObligation:
-                #### A FAIRE
+            if countContenir == countObligation:
+                ### A FAIRE
                 self.etat_window = MainWindowEtat(self)
+                self.etat_window.init(self.clientChoisi, self.portefeuilleChoisi, self.dateChoisie)
                 self.etat_window.show()
             else:
                 QMessageBox.warning(self, "Visualisation", str(countContenir - countObligation) + " lignes ne sont pas à jour.\nPour empêcher les erreurs de valorisation, merci de vérifier les lignes qui vont apparaitre dans l'outil Excel.\nPour un traitement facilité : utiliser le gestionnaire obligataire et mettre l'obligation à jour à la date voulu.")
