@@ -20,9 +20,10 @@ class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
         self.setupUi(self)
 
         self.btn_config.clicked.connect(self.config)
+        self.btn_config_2.clicked.connect(self.config2)
 
     def config(self):
-        QMessageBox.information(self, "Configuration", "Sélectionner la base de données")
+        QMessageBox.information(self, "Configuration", "Sélectionner la base de données ISC_BeC (contenant la requête et les états)")
         settings = QSettings()
         BDD = settings.value("BDD", defaultValue='')
         if BDD == '':
@@ -33,6 +34,20 @@ class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
         if fileName:
             settings = QSettings()
             settings.setValue("BDD", fileName)
+            QMessageBox.warning(self, "Configuration", "Relancer l'application pour prendre en compte le changement")
+
+    def config2(self):
+        QMessageBox.information(self, "Configuration", "Sélectionner la base de données IS_BeC")
+        settings = QSettings()
+        BDD_IS_BEC = settings.value("BDD_IS_BEC", defaultValue='')
+        if BDD_IS_BEC == '':
+            fileName = QFileDialog.getOpenFileName(self)[0]
+        else:
+            fileName = QFileDialog.getOpenFileName(self, directory=QDir(BDD_IS_BEC).path())[0]
+
+        if fileName:
+            settings = QSettings()
+            settings.setValue("BDD_IS_BEC", fileName)
             QMessageBox.warning(self, "Configuration", "Relancer l'application pour prendre en compte le changement")
 
 

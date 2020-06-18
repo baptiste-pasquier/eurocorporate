@@ -6,7 +6,6 @@ from Tools.message import detailed_message
 
 def createconnection():
     settings = QSettings()
-
     fileBDD = settings.value("BDD", defaultValue='')
 
     if fileBDD == '':

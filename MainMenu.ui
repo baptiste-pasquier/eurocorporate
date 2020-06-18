@@ -6,26 +6,38 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>645</height>
+    <width>700</width>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>700</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>700</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Menu principal</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="ressources.qrc">
     <normaloff>:/ressources/img/icone.png</normaloff>:/ressources/img/icone.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>:/ressources/img/icone long.png</pixmap>
+       <pixmap resource="ressources.qrc">:/ressources/img/icone long.png</pixmap>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -62,6 +74,22 @@
         </widget>
        </item>
        <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_Client">
          <property name="minimumSize">
           <size>
@@ -83,6 +111,22 @@
           </size>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_Portefeuille">
@@ -111,35 +155,34 @@
      </widget>
     </item>
     <item>
+     <spacer name="verticalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>10</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
      <widget class="QGroupBox" name="groupBox">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>127</height>
+       </size>
+      </property>
       <property name="title">
        <string>Access</string>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="pushButton_CreationAccess">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>50</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Accéder à Access (Création d'état)</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>:/ressources/img/microsoft-access-2019-240.png</normaloff>:/ressources/img/microsoft-access-2019-240.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="1">
         <widget class="QPushButton" name="pushButton_IS_BEC">
          <property name="minimumSize">
           <size>
@@ -151,7 +194,7 @@
           <string>Accéder à Access (IS_BeC)</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="ressources.qrc">
            <normaloff>:/ressources/img/microsoft-access-2019-240.png</normaloff>:/ressources/img/microsoft-access-2019-240.png</iconset>
          </property>
          <property name="iconSize">
@@ -162,51 +205,26 @@
          </property>
         </widget>
        </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox_3">
-      <property name="title">
-       <string>GroupBox</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton_XLS">
+        <widget class="QPushButton" name="pushButton_CreationAccess">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>50</height>
           </size>
          </property>
          <property name="text">
-          <string>Importation XLS </string>
+          <string>Accéder à Access (Création d'état)</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>:/ressources/img/microsoft-excel-2019-240.png</normaloff>:/ressources/img/microsoft-excel-2019-240.png</iconset>
+          <iconset resource="ressources.qrc">
+           <normaloff>:/ressources/img/microsoft-access-2019-240.png</normaloff>:/ressources/img/microsoft-access-2019-240.png</iconset>
          </property>
          <property name="iconSize">
           <size>
-           <width>16</width>
-           <height>16</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton_MAJSecteur">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>MAJ Secteur</string>
          </property>
         </widget>
        </item>
@@ -219,7 +237,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Configuration</string>
+          <string>Configuration (ISC_BeC)</string>
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
@@ -228,7 +246,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_FichierMAJ">
+        <widget class="QPushButton" name="btn_config_2">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -236,7 +254,11 @@
           </size>
          </property>
          <property name="text">
-          <string>Fichier MAJ Secteur</string>
+          <string>Configuration (IS_BeC)</string>
+         </property>
+         <property name="icon">
+          <iconset resource="ressources.qrc">
+           <normaloff>:/ressources/img/settings-48.png</normaloff>:/ressources/img/settings-48.png</iconset>
          </property>
         </widget>
        </item>
@@ -245,17 +267,11 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>600</width>
-     <height>21</height>
-    </rect>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
   <include location="ressources.qrc"/>
