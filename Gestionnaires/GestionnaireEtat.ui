@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>769</width>
-    <height>621</height>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -159,9 +159,6 @@
              <property name="spacing">
               <number>6</number>
              </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
              <property name="bottomMargin">
               <number>9</number>
              </property>
@@ -181,7 +178,7 @@
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="btn_echeplus">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -201,7 +198,7 @@
                 </widget>
                </item>
                <item row="0" column="2">
-                <widget class="QPushButton" name="pushButton_27">
+                <widget class="QPushButton" name="btn_echeplusPDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -234,7 +231,7 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="btn_echeancier">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -254,7 +251,7 @@
                 </widget>
                </item>
                <item row="1" column="2">
-                <widget class="QPushButton" name="pushButton_30">
+                <widget class="QPushButton" name="btn_echeancierPDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -289,7 +286,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QPushButton" name="pushButton_3">
+                <widget class="QPushButton" name="btn_exigence">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -309,7 +306,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="2" column="2">
-                <widget class="QPushButton" name="pushButton_26">
+                <widget class="QPushButton" name="btn_exigencePDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -342,7 +339,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QPushButton" name="pushButton_4">
+                <widget class="QPushButton" name="btn_emetteur">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -362,7 +359,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="3" column="2">
-                <widget class="QPushButton" name="pushButton_28">
+                <widget class="QPushButton" name="btn_emetteurPDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -395,7 +392,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="4" column="1">
-                <widget class="QPushButton" name="pushButton_5">
+                <widget class="QPushButton" name="btn_histoType">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -415,7 +412,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="4" column="2">
-                <widget class="QPushButton" name="pushButton_29">
+                <widget class="QPushButton" name="btn_histoTypePDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -448,7 +445,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="5" column="1">
-                <widget class="QPushButton" name="pushButton_6">
+                <widget class="QPushButton" name="btn_gType">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -468,7 +465,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="5" column="2">
-                <widget class="QPushButton" name="pushButton_31">
+                <widget class="QPushButton" name="btn_gTypePDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -511,9 +508,6 @@ Ratino</string>
              <string/>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="topMargin">
-              <number>0</number>
-             </property>
              <item>
               <layout class="QGridLayout" name="gridLayout_7">
                <item row="0" column="0">
@@ -530,7 +524,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QPushButton" name="pushButton_32">
+                <widget class="QPushButton" name="btn_gRating">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -550,7 +544,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="0" column="2">
-                <widget class="QPushButton" name="pushButton_33">
+                <widget class="QPushButton" name="btn_gRatingPDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -583,7 +577,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QPushButton" name="pushButton_34">
+                <widget class="QPushButton" name="btn_gSecteur">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -603,7 +597,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="1" column="2">
-                <widget class="QPushButton" name="pushButton_35">
+                <widget class="QPushButton" name="btn_gSecteurPDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -637,7 +631,7 @@ Secteur Gouvernement (page 5)</string>
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QPushButton" name="pushButton_36">
+                <widget class="QPushButton" name="btn_gGovnt">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -657,7 +651,7 @@ Secteur Gouvernement (page 5)</string>
                 </widget>
                </item>
                <item row="2" column="2">
-                <widget class="QPushButton" name="pushButton_37">
+                <widget class="QPushButton" name="btn_gGovntPDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -691,7 +685,7 @@ Secteur Corporate (page 6)</string>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QPushButton" name="pushButton_38">
+                <widget class="QPushButton" name="btn_gCorp">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -711,7 +705,7 @@ Secteur Corporate (page 6)</string>
                 </widget>
                </item>
                <item row="3" column="2">
-                <widget class="QPushButton" name="pushButton_39">
+                <widget class="QPushButton" name="btn_gCorpPDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -745,7 +739,7 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="4" column="1">
-                <widget class="QPushButton" name="pushButton_40">
+                <widget class="QPushButton" name="btn_gFin">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -765,7 +759,7 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="4" column="2">
-                <widget class="QPushButton" name="pushButton_41">
+                <widget class="QPushButton" name="btn_gFinPDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -798,7 +792,7 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="5" column="1">
-                <widget class="QPushButton" name="pushButton_42">
+                <widget class="QPushButton" name="btn_synthese">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -818,7 +812,7 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="5" column="2">
-                <widget class="QPushButton" name="pushButton_43">
+                <widget class="QPushButton" name="btn_synthesePDF">
                  <property name="whatsThis">
                   <string>Générer</string>
                  </property>
@@ -959,9 +953,6 @@ Secteur Financier (page 7)</string>
              <string/>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <property name="topMargin">
-              <number>0</number>
-             </property>
              <item>
               <layout class="QGridLayout" name="gridLayout_3">
                <item row="8" column="0">
@@ -1300,9 +1291,6 @@ Ratino</string>
              <string/>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <property name="topMargin">
-              <number>0</number>
-             </property>
              <item>
               <layout class="QGridLayout" name="gridLayout_4">
                <item row="6" column="2">
@@ -1756,41 +1744,41 @@ Secteur Corporate (page 6)</string>
   <tabstop>lineEdit_11</tabstop>
   <tabstop>lineEdit_12</tabstop>
   <tabstop>checkBox</tabstop>
-  <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_27</tabstop>
+  <tabstop>btn_echeplus</tabstop>
+  <tabstop>btn_echeplusPDF</tabstop>
   <tabstop>checkBox_2</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>pushButton_30</tabstop>
+  <tabstop>btn_echeancier</tabstop>
+  <tabstop>btn_echeancierPDF</tabstop>
   <tabstop>checkBox_3</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton_26</tabstop>
+  <tabstop>btn_exigence</tabstop>
+  <tabstop>btn_exigencePDF</tabstop>
   <tabstop>checkBox_4</tabstop>
-  <tabstop>pushButton_4</tabstop>
-  <tabstop>pushButton_28</tabstop>
+  <tabstop>btn_emetteur</tabstop>
+  <tabstop>btn_emetteurPDF</tabstop>
   <tabstop>checkBox_5</tabstop>
-  <tabstop>pushButton_5</tabstop>
-  <tabstop>pushButton_29</tabstop>
+  <tabstop>btn_histoType</tabstop>
+  <tabstop>btn_histoTypePDF</tabstop>
   <tabstop>checkBox_6</tabstop>
-  <tabstop>pushButton_6</tabstop>
-  <tabstop>pushButton_31</tabstop>
+  <tabstop>btn_gType</tabstop>
+  <tabstop>btn_gTypePDF</tabstop>
   <tabstop>checkBox_7</tabstop>
-  <tabstop>pushButton_32</tabstop>
-  <tabstop>pushButton_33</tabstop>
+  <tabstop>btn_gRating</tabstop>
+  <tabstop>btn_gRatingPDF</tabstop>
   <tabstop>checkBox_8</tabstop>
-  <tabstop>pushButton_34</tabstop>
-  <tabstop>pushButton_35</tabstop>
+  <tabstop>btn_gSecteur</tabstop>
+  <tabstop>btn_gSecteurPDF</tabstop>
   <tabstop>checkBox_9</tabstop>
-  <tabstop>pushButton_36</tabstop>
-  <tabstop>pushButton_37</tabstop>
+  <tabstop>btn_gGovnt</tabstop>
+  <tabstop>btn_gGovntPDF</tabstop>
   <tabstop>checkBox_10</tabstop>
-  <tabstop>pushButton_38</tabstop>
-  <tabstop>pushButton_39</tabstop>
+  <tabstop>btn_gCorp</tabstop>
+  <tabstop>btn_gCorpPDF</tabstop>
   <tabstop>checkBox_11</tabstop>
-  <tabstop>pushButton_40</tabstop>
-  <tabstop>pushButton_41</tabstop>
+  <tabstop>btn_gFin</tabstop>
+  <tabstop>btn_gFinPDF</tabstop>
   <tabstop>checkBox_12</tabstop>
-  <tabstop>pushButton_42</tabstop>
-  <tabstop>pushButton_43</tabstop>
+  <tabstop>btn_synthese</tabstop>
+  <tabstop>btn_synthesePDF</tabstop>
   <tabstop>pushButton_13</tabstop>
  </tabstops>
  <resources>
