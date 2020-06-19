@@ -165,7 +165,7 @@
              <item>
               <layout class="QGridLayout" name="gridLayout_2">
                <item row="0" column="0">
-                <widget class="QCheckBox" name="checkBox">
+                <widget class="QCheckBox" name="cb_echeplus">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -218,7 +218,7 @@
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QCheckBox" name="checkBox_2">
+                <widget class="QCheckBox" name="cb_echeancier">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -271,7 +271,7 @@
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QCheckBox" name="checkBox_3">
+                <widget class="QCheckBox" name="cb_exigence">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -326,7 +326,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="3" column="0">
-                <widget class="QCheckBox" name="checkBox_4">
+                <widget class="QCheckBox" name="cb_emetteur">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -379,7 +379,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="4" column="0">
-                <widget class="QCheckBox" name="checkBox_5">
+                <widget class="QCheckBox" name="cb_histoType">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -432,7 +432,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="5" column="0">
-                <widget class="QCheckBox" name="checkBox_6">
+                <widget class="QCheckBox" name="cb_gType">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -511,7 +511,7 @@ Ratino</string>
              <item>
               <layout class="QGridLayout" name="gridLayout_7">
                <item row="0" column="0">
-                <widget class="QCheckBox" name="checkBox_7">
+                <widget class="QCheckBox" name="cb_gRating">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -564,7 +564,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QCheckBox" name="checkBox_8">
+                <widget class="QCheckBox" name="cb_gSecteur">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -617,7 +617,7 @@ Ratino</string>
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QCheckBox" name="checkBox_9">
+                <widget class="QCheckBox" name="cb_gGovnt">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -671,7 +671,7 @@ Secteur Gouvernement (page 5)</string>
                 </widget>
                </item>
                <item row="3" column="0">
-                <widget class="QCheckBox" name="checkBox_10">
+                <widget class="QCheckBox" name="cb_gCorp">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -725,7 +725,7 @@ Secteur Corporate (page 6)</string>
                 </widget>
                </item>
                <item row="4" column="0">
-                <widget class="QCheckBox" name="checkBox_11">
+                <widget class="QCheckBox" name="cb_gFin">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -779,7 +779,7 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="5" column="0">
-                <widget class="QCheckBox" name="checkBox_12">
+                <widget class="QCheckBox" name="cb_synthese">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -889,7 +889,7 @@ Secteur Financier (page 7)</string>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QPushButton" name="pushButton_13">
+             <widget class="QPushButton" name="btn_PDF">
               <property name="whatsThis">
                <string>Générer</string>
               </property>
@@ -1743,43 +1743,43 @@ Secteur Corporate (page 6)</string>
   <tabstop>lineEdit_10</tabstop>
   <tabstop>lineEdit_11</tabstop>
   <tabstop>lineEdit_12</tabstop>
-  <tabstop>checkBox</tabstop>
+  <tabstop>cb_echeplus</tabstop>
   <tabstop>btn_echeplus</tabstop>
   <tabstop>btn_echeplusPDF</tabstop>
-  <tabstop>checkBox_2</tabstop>
+  <tabstop>cb_echeancier</tabstop>
   <tabstop>btn_echeancier</tabstop>
   <tabstop>btn_echeancierPDF</tabstop>
-  <tabstop>checkBox_3</tabstop>
+  <tabstop>cb_exigence</tabstop>
   <tabstop>btn_exigence</tabstop>
   <tabstop>btn_exigencePDF</tabstop>
-  <tabstop>checkBox_4</tabstop>
+  <tabstop>cb_emetteur</tabstop>
   <tabstop>btn_emetteur</tabstop>
   <tabstop>btn_emetteurPDF</tabstop>
-  <tabstop>checkBox_5</tabstop>
+  <tabstop>cb_histoType</tabstop>
   <tabstop>btn_histoType</tabstop>
   <tabstop>btn_histoTypePDF</tabstop>
-  <tabstop>checkBox_6</tabstop>
+  <tabstop>cb_gType</tabstop>
   <tabstop>btn_gType</tabstop>
   <tabstop>btn_gTypePDF</tabstop>
-  <tabstop>checkBox_7</tabstop>
+  <tabstop>cb_gRating</tabstop>
   <tabstop>btn_gRating</tabstop>
   <tabstop>btn_gRatingPDF</tabstop>
-  <tabstop>checkBox_8</tabstop>
+  <tabstop>cb_gSecteur</tabstop>
   <tabstop>btn_gSecteur</tabstop>
   <tabstop>btn_gSecteurPDF</tabstop>
-  <tabstop>checkBox_9</tabstop>
+  <tabstop>cb_gGovnt</tabstop>
   <tabstop>btn_gGovnt</tabstop>
   <tabstop>btn_gGovntPDF</tabstop>
-  <tabstop>checkBox_10</tabstop>
+  <tabstop>cb_gCorp</tabstop>
   <tabstop>btn_gCorp</tabstop>
   <tabstop>btn_gCorpPDF</tabstop>
-  <tabstop>checkBox_11</tabstop>
+  <tabstop>cb_gFin</tabstop>
   <tabstop>btn_gFin</tabstop>
   <tabstop>btn_gFinPDF</tabstop>
-  <tabstop>checkBox_12</tabstop>
+  <tabstop>cb_synthese</tabstop>
   <tabstop>btn_synthese</tabstop>
   <tabstop>btn_synthesePDF</tabstop>
-  <tabstop>pushButton_13</tabstop>
+  <tabstop>btn_PDF</tabstop>
  </tabstops>
  <resources>
   <include location="../ressources.qrc"/>

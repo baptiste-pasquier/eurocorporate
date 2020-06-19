@@ -1,9 +1,8 @@
 import win32com.client as win32
-from PyQt5 import QtCore, QtWidgets, QtSql
-from PyQt5.QtCore import QDir, QSettings, QCoreApplication, pyqtSlot, QStandardPaths, QTemporaryFile, QTemporaryDir
-from PyQt5.QtWidgets import QFileDialog, QMessageBox
-from Classes.client import Client
-from Classes.portefeuille import Portefeuille
+from PyQt5 import QtWidgets, QtSql
+from PyQt5.QtCore import QDir, QSettings, QCoreApplication, pyqtSlot, QStandardPaths, QTemporaryFile, QTemporaryDir, Qt
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QProgressDialog
+from PyPDF2 import PdfFileMerger
 
 from Gestionnaires.GestionnaireEtatUI import Ui_MainWindowEtat
 from Tools.message import detailed_message
@@ -62,7 +61,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
                 acc.Quit()
         except pythoncom.com_error as error:
-            detailed_message(None, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
+            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
 
     def Graphique(self, nomEtat, nomGraphique, sourceSQL, action, fileName=''):
         try:
@@ -91,23 +90,6 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         except pythoncom.com_error as error:
             detailed_message(None, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
 
-
-
-
-        
-
-    # def GraphiqueOuvrir
-
-    # def GraphiquePDF
-
-    # def 
-
-    # @pyqtSlot()
-    # def on_pushButton_clicked(self):
-    #     self.imprimerEtat("ExigenceCapital", "[noPortefeuille] = " + self.strNoPort + "  AND DateDeMAJ = #" + self.strDate + "#", self.legendePort)
-
-    # def on_btn_pgHistoType:
-    #     self.Gra
 
     @pyqtSlot()
     def on_btn_echeplus_clicked(self):
@@ -141,9 +123,57 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     def on_btn_emetteurPDF_clicked(self):
         self.Etat("Libelle", "PDF")
 
+    @pyqtSlot()
+    def on_btn_PDF_clicked(self):
+        resultFileName = QFileDialog.getSaveFileName(self, "Save File", QDir(QStandardPaths.writableLocation(QStandardPaths.DocumentsLocation)).filePath('exportation.pdf'),
+                                                     "PDF (*.pdf)")[0]
+        if resultFileName:
+            list_cb_checked = [self.cb_echeplus.isChecked(), self.cb_echeancier.isChecked(), self.cb_exigence.isChecked(), self.cb_emetteur.isChecked(), 
+                               self.cb_histoType.isChecked(), self.cb_gType.isChecked(), self.cb_gRating.isChecked(), self.cb_gSecteur.isChecked(),
+                               self.cb_gGovnt.isChecked(), self.cb_gCorp.isChecked(), self.cb_gFin.isChecked(), self.cb_synthese.isChecked()]
+            nb_checked = sum(list_cb_checked)
+            nb_pdfs = nb_checked
+            if nb_checked == 0:
+                nb_pdfs = len(list_cb_checked)
 
+            progress = QProgressDialog("Exportation PDF", "Annuler", 0, nb_pdfs, self)
+            progress.setWindowTitle("Générations des états")
+            progress.setWindowModality(Qt.WindowModal)
+            progress.show()
 
+            tempdir = QTemporaryDir()
 
+            def file(i):
+                return tempdir.filePath("{}.pdf".format(i)).replace("/", "\\")
+            i = 0
+            if self.cb_echeplus.isChecked() or nb_checked == 0:
+                self.Etat("EchéancierValue", "PDF", fileName=file(i))
+                i += 1
+                progress.setValue(i)
+            if self.cb_echeancier.isChecked() or nb_checked == 0:
+                self.Etat("Echéancier", "PDF", fileName=file(i))
+                i += 1
+                progress.setValue(i)
+            if self.cb_exigence.isChecked() or nb_checked == 0:
+                self.Etat("ExigenceCapital", "PDF", fileName=file(i))
+                i += 1
+                progress.setValue(i)
+            if self.cb_emetteur.isChecked() or nb_checked == 0:
+                self.Etat("Libelle", "PDF", fileName=file(i))
+                i += 1
+                progress.setValue(i)
+
+            pdfs = [file(j) for j in range(0, i)]
+            merger = PdfFileMerger()
+            for pdf in pdfs:
+                merger.append(pdf)
+            try:
+                merger.write(resultFileName)
+            except Exception as e:
+                detailed_message(self, QMessageBox.Critical, "Exportation PDF", "Echec de l'écriture du fichier PDF", str(e))
+            merger.close()
+
+            QMessageBox.information(self, "Exportation PDF", "Exportation terminée")
 
 
 
