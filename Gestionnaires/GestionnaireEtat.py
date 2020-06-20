@@ -1,12 +1,13 @@
 import win32com.client as win32
-from PyQt5 import QtWidgets, QtSql
-from PyQt5.QtCore import QDir, QSettings, QCoreApplication, pyqtSlot, QStandardPaths, QTemporaryFile, QTemporaryDir, Qt
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import QDir, QSettings, pyqtSlot, QStandardPaths, QTemporaryDir, Qt
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QProgressDialog
 from PyPDF2 import PdfFileMerger
 
 from Gestionnaires.GestionnaireEtatUI import Ui_MainWindowEtat
 from Tools.message import detailed_message
 import pythoncom
+
 
 class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     def __init__(self, *args, **kwargs):
@@ -25,7 +26,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
         self.strNoPort = str(portefeuilleChoisi.noPortefeuille)
         self.strDate = dateChoisie.toString("MM/dd/yyyy")
-        self.legendePort = "Legende " + portefeuilleChoisi.nomPortefeuille.strip()
+        self.legendePort = portefeuilleChoisi.nomPortefeuille.strip()
 
         settings = QSettings()
         self.fileBDD = settings.value("BDD")
@@ -41,7 +42,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             whereCondition = "[noPortefeuille] = " + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "#"
 
             # Ouverture de la base de données
-            acc = win32.Dispatch('Access.Application')
+            acc = win32.gencache.EnsureDispatch('Access.Application')
             acc.OpenCurrentDatabase(self.fileBDD, True)
 
             acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewReport, None, whereCondition)
@@ -89,7 +90,6 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 acc.Quit()
         except pythoncom.com_error as error:
             detailed_message(None, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
-
 
     @pyqtSlot()
     def on_btn_echeplus_clicked(self):
@@ -176,13 +176,11 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             QMessageBox.information(self, "Exportation PDF", "Exportation terminée")
 
 
-
 # def on_btn_emetteurPDF_clicked(self):
 #         # self.Etat("Libelle", "PDF")
 #         tempdir = QTemporaryDir()
 #         print(tempdir.path())
-#         # print(tempdir.isValid())        
+#         # print(tempdir.isValid())
 #         # print(tempdir.filePath("1.pdf"))
 #         self.Etat("Libelle", "PDF", fileName=tempdir.filePath("1.pdf").replace("/", "\\"))
 #         print('bonjour')
-        
