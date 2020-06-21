@@ -1,7 +1,8 @@
 import sys
+import os
 
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QDir, QSettings, QCoreApplication
+from PyQt5.QtCore import QDir, QSettings, QCoreApplication, pyqtSlot
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from Gestionnaires.GestionnairePortefeuille import MainWindowPortefeuille
@@ -18,6 +19,14 @@ class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindowMenu.__init__(self)
         self.setupUi(self)
+
+        settings = QSettings()
+        BDD = settings.value("BDD", defaultValue='')
+        BDD_IS_BEC = settings.value("BDD_IS_BEC", defaultValue='')
+        self.btn_config.setStatusTip(BDD)
+        self.btn_config_2.setStatusTip(BDD_IS_BEC)
+        self.pushButton_CreationAccess.setStatusTip(BDD)
+        self.pushButton_IS_BEC.setStatusTip(BDD_IS_BEC)
 
         self.btn_config.clicked.connect(self.config)
         self.btn_config_2.clicked.connect(self.config2)
@@ -48,7 +57,25 @@ class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
         if fileName:
             settings = QSettings()
             settings.setValue("BDD_IS_BEC", fileName)
-            QMessageBox.warning(self, "Configuration", "Relancer l'application pour prendre en compte le changement")
+            QMessageBox.warning(self, "Configuration", "Changement réussi")
+
+    @pyqtSlot()
+    def on_pushButton_IS_BEC_clicked(self):
+        settings = QSettings()
+        BDD_IS_BEC = settings.value("BDD_IS_BEC", defaultValue='')
+        if BDD_IS_BEC:
+            os.startfile(BDD_IS_BEC)
+        else:
+            QMessageBox.critical(self, "Base Access inconnue", "Veuillez configurer la base Access et relancer l'application")
+
+    @pyqtSlot()
+    def on_pushButton_CreationAccess_clicked(self):
+        settings = QSettings()
+        BDD = settings.value("BDD", defaultValue='')
+        if BDD:
+            os.startfile(BDD)
+        else:
+            QMessageBox.critical(self, "Base Access inconnue", "Veuillez configurer la base Access et relancer l'application")
 
 
 class Controller:
