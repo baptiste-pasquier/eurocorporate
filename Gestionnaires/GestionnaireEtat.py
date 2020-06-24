@@ -1,7 +1,7 @@
 import win32com.client as win32
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import QDir, QSettings, pyqtSlot, QStandardPaths, QTemporaryDir, Qt
-from PyQt5.QtWidgets import QFileDialog, QMessageBox, QProgressDialog, QMessageBox
+from PyQt5.QtCore import QDir, QSettings, pyqtSlot, QStandardPaths, QTemporaryDir, QTimer
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from PyPDF2 import PdfFileMerger, PdfFileReader
 
 from Gestionnaires.GestionnaireEtatUI import Ui_MainWindowEtat
@@ -33,7 +33,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         self.fileBDD = settings.value("BDD")
         self.file_avertissement = settings.value("AVERTISSEMENT", defaultValue='')
         while self.file_avertissement == '':
-            self.config_avertissement()
+            self.on_btn_config_av_clicked()
 
         # Bouton exigcap
         # query = QtSql.QSqlQuery()
@@ -41,14 +41,25 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         # query.exec("UPDATE Obligation SET ExigenceCap = 0 WHERE noSousSecteur=39 OR noSousSecteur=40 OR noSousSecteur=41 OR noSousSecteur=42 OR noSousSecteur=43 OR noSousSecteur=44 OR noSousSecteur=45 OR noSousSecteur=46 OR noSousSecteur=47 OR noSousSecteur=48 OR noSousSecteur=49 OR noSousSecteur=50")
         # query.clear()
 
-        self.titre = {'nomEtat': "Titre"}
-        self.sommaire = {'nomEtat': "Sommaire"}
-        self.echeplus = {'type': 'etat', 'nomEtat': "EchéancierValue", 'ordre': 0, 'titreSommaire': "Plus ou moins values par échéance"}
-        self.echeancier = {'type': 'etat', 'nomEtat': "Echéancier", 'ordre': 1, 'titreSommaire': "Remboursements par échéance"}
-        self.exigence = {'type': 'etat', 'nomEtat': "ExigenceCapital", 'ordre': 2, 'titreSommaire': 'Répartition par rating et selon les exigences en fonds propres "Solvabilité 2"'}
-        self.emetteur = {'type': 'etat', 'nomEtat': "Libelle", 'ordre': 3, 'titreSommaire': 'Classement par émetteurs'}
+        self.titre_save = {'nomEtat': "Titre"}
+        self.sommaire_save = {'nomEtat': "Sommaire"}
+        self.echeplus_save = {'type': 'etat', 'nomEtat': "EchéancierValue", 'ordre': 0, 'titreSommaire': "Plus ou moins values par échéance"}
+        self.echeancier_save = {'type': 'etat', 'nomEtat': "Echéancier", 'ordre': 1, 'titreSommaire': "Remboursements par échéance"}
+        self.exigence_save = {'type': 'etat', 'nomEtat': "ExigenceCapital", 'ordre': 2, 'titreSommaire': 'Répartition par rating et selon les exigences en fonds propres "Solvabilité 2"'}
+        self.emetteur_save = {'type': 'etat', 'nomEtat': "Libelle", 'ordre': 3, 'titreSommaire': 'Classement par émetteurs'}
 
-    def config_avertissement(self):
+        self.titre = self.titre_save.copy()
+        self.sommaire = self.sommaire_save.copy()
+        self.echeplus = self.echeplus_save.copy()
+        self.echeancier = self.echeancier_save.copy()
+        self.exigence = self.exigence_save.copy()
+        self.emetteur = self.emetteur_save.copy()
+
+        self.on_btn_resetPerso_clicked()
+        self.on_btn_resetOrdre_clicked()
+
+    @pyqtSlot()
+    def on_btn_config_av_clicked(self):
         QMessageBox.information(self, "Configuration", "Sélectionner le fichier PDF Avertissement")
         settings = QSettings()
         AVERTISSEMENT = settings.value("AVERTISSEMENT", defaultValue='')
@@ -61,6 +72,105 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             settings = QSettings()
             settings.setValue("AVERTISSEMENT", fileName)
             self.file_avertissement = fileName
+
+    @pyqtSlot()
+    def on_btn_modifPerso_clicked(self):
+        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
+                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
+
+        for elem in liste:
+            elem[0].setEnabled(True)
+
+        self.btn_modifPerso.setEnabled(False)
+        self.btn_perso.setEnabled(True)
+        self.btn_resetPerso.setEnabled(True)
+        self.tabWidget.setTabEnabled(0, False)
+        self.tabWidget.setTabEnabled(2, False)
+        QTimer.singleShot(350, lambda: self.repaint())
+
+    @pyqtSlot()
+    def on_btn_perso_clicked(self):
+        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
+                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
+
+        for elem in liste:
+            elem[1]['nomEtat'] = elem[0].text()
+            elem[0].setEnabled(False)
+
+        self.btn_modifPerso.setEnabled(True)
+        self.btn_perso.setEnabled(False)
+        self.btn_resetPerso.setEnabled(True)
+        self.tabWidget.setTabEnabled(0, True)
+        self.tabWidget.setTabEnabled(2, True)
+        QTimer.singleShot(350, lambda: self.repaint())
+
+    @pyqtSlot()
+    def on_btn_resetPerso_clicked(self):
+        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
+                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
+
+        for elem in liste:
+            elem[1] = elem[2].copy()
+            elem[0].setText(elem[1]['nomEtat'])
+            elem[0].setEnabled(False)
+
+        self.btn_modifPerso.setEnabled(True)
+        self.btn_perso.setEnabled(False)
+        self.btn_resetPerso.setEnabled(True)
+        self.tabWidget.setTabEnabled(0, True)
+        self.tabWidget.setTabEnabled(2, True)
+        QTimer.singleShot(350, lambda: self.repaint())
+
+    @pyqtSlot()
+    def on_btn_modifOrdre_clicked(self):
+        liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
+
+        for elem in liste:
+            elem[0].setEnabled(True)
+
+        self.btn_modifOrdre.setEnabled(False)
+        self.btn_ordre.setEnabled(True)
+        self.btn_resetOrdre.setEnabled(True)
+        self.tabWidget.setTabEnabled(0, False)
+        self.tabWidget.setTabEnabled(1, False)
+        QTimer.singleShot(350, lambda: self.repaint())
+
+    @pyqtSlot()
+    def on_btn_ordre_clicked(self):
+        liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
+
+        for elem in liste:
+            elem[1]['ordre'] = int(elem[0].text())
+            elem[0].setEnabled(False)
+
+        self.btn_modifOrdre.setEnabled(True)
+        self.btn_ordre.setEnabled(False)
+        self.btn_resetOrdre.setEnabled(True)
+        self.tabWidget.setTabEnabled(0, True)
+        self.tabWidget.setTabEnabled(1, True)
+        QTimer.singleShot(350, lambda: self.repaint())
+
+    @pyqtSlot()
+    def on_btn_resetOrdre_clicked(self):
+        liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
+
+        for elem in liste:
+            elem[1] = elem[2].copy()
+            elem[0].setText(str(elem[1]['ordre']))
+            elem[0].setEnabled(False)
+
+        self.btn_modifOrdre.setEnabled(True)
+        self.btn_ordre.setEnabled(False)
+        self.btn_resetOrdre.setEnabled(True)
+        self.tabWidget.setTabEnabled(0, True)
+        self.tabWidget.setTabEnabled(1, True)
+        QTimer.singleShot(350, lambda: self.repaint())
 
     def acc_titre(self, nomEtat, action, fileName=""):
         try:
@@ -318,7 +428,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 imax = 0
                 for i in range(len(liste_generation)):
                     etat = liste_generation[i]
-                    acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ."*200
+                    acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
                     acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
                     imax = i
                 for i in range(imax + 1, 6):

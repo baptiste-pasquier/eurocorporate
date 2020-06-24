@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>909</width>
-    <height>719</height>
+    <width>1143</width>
+    <height>849</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,7 +49,7 @@
              </property>
              <property name="iconSize">
               <size>
-               <width>24</width>
+               <width>30</width>
                <height>20</height>
               </size>
              </property>
@@ -124,7 +124,7 @@
              </property>
              <property name="iconSize">
               <size>
-               <width>24</width>
+               <width>30</width>
                <height>20</height>
               </size>
              </property>
@@ -147,7 +147,7 @@
              </property>
              <property name="iconSize">
               <size>
-               <width>24</width>
+               <width>30</width>
                <height>20</height>
               </size>
              </property>
@@ -170,7 +170,7 @@
              </property>
              <property name="iconSize">
               <size>
-               <width>24</width>
+               <width>30</width>
                <height>20</height>
               </size>
              </property>
@@ -191,7 +191,7 @@
              </property>
              <property name="iconSize">
               <size>
-               <width>24</width>
+               <width>30</width>
                <height>20</height>
               </size>
              </property>
@@ -266,7 +266,7 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>24</width>
+                 <width>30</width>
                  <height>20</height>
                 </size>
                </property>
@@ -304,7 +304,7 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>24</width>
+                 <width>30</width>
                  <height>20</height>
                 </size>
                </property>
@@ -347,7 +347,7 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>24</width>
+                 <width>30</width>
                  <height>20</height>
                 </size>
                </property>
@@ -633,7 +633,7 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>20</width>
+             <width>30</width>
              <height>20</height>
             </size>
            </property>
@@ -650,7 +650,7 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>20</width>
+             <width>30</width>
              <height>20</height>
             </size>
            </property>
@@ -667,7 +667,7 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>20</width>
+             <width>30</width>
              <height>20</height>
             </size>
            </property>
@@ -702,8 +702,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>909</width>
-     <height>21</height>
+     <width>1143</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -900,7 +900,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             index = self.indexRowSelected
             if not struct:
                 self.tb_nombre.setText(str(model.record(index).value("nombre")))
-                self.tb_prix.setText(str(model.record(index).value("prixAchat")))                
+                self.tb_prix.setText(str(model.record(index).value("prixAchat")))
                 # Sauvegarde
                 self.tb_nombre_save = self.tb_nombre.text()
                 self.tb_prix_save = self.tb_prix.text()

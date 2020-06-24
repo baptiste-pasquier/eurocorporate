@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1129</width>
-    <height>867</height>
+    <width>851</width>
+    <height>797</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1149,7 +1149,11 @@ Secteur Financier (page 7)</string>
              <item>
               <layout class="QGridLayout" name="gridLayout_3">
                <item row="4" column="1">
-                <widget class="QLineEdit" name="lineEdit_2"/>
+                <widget class="QLineEdit" name="tb_echeancier">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
                <item row="7" column="0">
                 <widget class="QLabel" name="label_8">
@@ -1165,7 +1169,11 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="8" column="1">
-                <widget class="QLineEdit" name="lineEdit_6"/>
+                <widget class="QLineEdit" name="tb_gType">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
                <item row="6" column="0">
                 <widget class="QLabel" name="label_7">
@@ -1181,7 +1189,10 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_26">
+                <widget class="QLineEdit" name="tb_titre">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1191,7 +1202,11 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="5" column="1">
-                <widget class="QLineEdit" name="lineEdit_3"/>
+                <widget class="QLineEdit" name="tb_exigence">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
                <item row="5" column="0">
                 <widget class="QLabel" name="label_6">
@@ -1222,10 +1237,17 @@ Ratino</string>
                 </widget>
                </item>
                <item row="7" column="1">
-                <widget class="QLineEdit" name="lineEdit_5"/>
+                <widget class="QLineEdit" name="tb_histoType">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEdit_25">
+                <widget class="QLineEdit" name="tb_sommaire">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1235,7 +1257,11 @@ Ratino</string>
                 </widget>
                </item>
                <item row="6" column="1">
-                <widget class="QLineEdit" name="lineEdit_4"/>
+                <widget class="QLineEdit" name="tb_emetteur">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
                <item row="8" column="0">
                 <widget class="QLabel" name="label_9">
@@ -1264,7 +1290,10 @@ Ratino</string>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QLineEdit" name="lineEdit">
+                <widget class="QLineEdit" name="tb_echeplus">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1330,22 +1359,6 @@ Ratino</string>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
               <layout class="QGridLayout" name="gridLayout_4">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_10">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Graphique Rating (page 3)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_7"/>
-               </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_11">
                  <property name="minimumSize">
@@ -1359,8 +1372,53 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEdit_8"/>
+               <item row="5" column="1">
+                <widget class="QLineEdit" name="tb_synthese">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="tb_gFin">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="tb_gRating">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="tb_gCorp">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_10">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Graphique Rating (page 3)</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="tb_gGovnt">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
                <item row="2" column="0">
                 <widget class="QLabel" name="label_12">
@@ -1376,9 +1434,6 @@ Secteur Gouvernement (page 5)</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="lineEdit_9"/>
-               </item>
                <item row="3" column="0">
                 <widget class="QLabel" name="label_14">
                  <property name="minimumSize">
@@ -1392,9 +1447,6 @@ Secteur Gouvernement (page 5)</string>
 Secteur Corporate (page 6)</string>
                  </property>
                 </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="lineEdit_10"/>
                </item>
                <item row="4" column="0">
                 <widget class="QLabel" name="label_15">
@@ -1410,9 +1462,6 @@ Secteur Financier (page 7)</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="1">
-                <widget class="QLineEdit" name="lineEdit_11"/>
-               </item>
                <item row="5" column="0">
                 <widget class="QLabel" name="label_16">
                  <property name="minimumSize">
@@ -1426,8 +1475,12 @@ Secteur Financier (page 7)</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
-                <widget class="QLineEdit" name="lineEdit_12"/>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="tb_gSecteur">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -1444,13 +1497,13 @@ Secteur Financier (page 7)</string>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>111</height>
+            <height>40</height>
            </size>
           </property>
          </spacer>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
            <spacer name="horizontalSpacer_6">
             <property name="orientation">
@@ -1465,15 +1518,68 @@ Secteur Financier (page 7)</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>Valider</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../ressources.qrc">
-              <normaloff>:/ressources/img/checkmark-48.png</normaloff>:/ressources/img/checkmark-48.png</iconset>
-            </property>
-           </widget>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="2" column="0">
+             <widget class="QPushButton" name="btn_resetPerso">
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Par défaut</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/ressources/img/delete-48.png</normaloff>:/ressources/img/delete-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="btn_perso">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Valider</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/ressources/img/checkmark-48.png</normaloff>:/ressources/img/checkmark-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="btn_modifPerso">
+              <property name="text">
+               <string>Modifier</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/ressources/img/edit-48.png</normaloff>:/ressources/img/edit-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <spacer name="horizontalSpacer_7">
@@ -1498,7 +1604,7 @@ Secteur Financier (page 7)</string>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>113</height>
+            <height>40</height>
            </size>
           </property>
          </spacer>
@@ -1560,7 +1666,10 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_13">
+                <widget class="QLineEdit" name="nb_echeplus">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1589,7 +1698,10 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEdit_14">
+                <widget class="QLineEdit" name="nb_echeancier">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1614,7 +1726,10 @@ Ratino</string>
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QLineEdit" name="lineEdit_15">
+                <widget class="QLineEdit" name="nb_exigence">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1637,7 +1752,10 @@ Ratino</string>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QLineEdit" name="lineEdit_16">
+                <widget class="QLineEdit" name="nb_emetteur">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1660,7 +1778,10 @@ Ratino</string>
                 </widget>
                </item>
                <item row="4" column="1">
-                <widget class="QLineEdit" name="lineEdit_17">
+                <widget class="QLineEdit" name="nb_histoType">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1683,7 +1804,10 @@ Ratino</string>
                 </widget>
                </item>
                <item row="5" column="1">
-                <widget class="QLineEdit" name="lineEdit_18">
+                <widget class="QLineEdit" name="nb_gType">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1732,7 +1856,10 @@ Ratino</string>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_19">
+                <widget class="QLineEdit" name="nb_gRating">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1755,7 +1882,10 @@ Ratino</string>
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEdit_20">
+                <widget class="QLineEdit" name="nb_gSecteur">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1779,7 +1909,10 @@ Secteur Gouvernement (page 5)</string>
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QLineEdit" name="lineEdit_21">
+                <widget class="QLineEdit" name="nb_gGovnt">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1803,7 +1936,10 @@ Secteur Corporate (page 6)</string>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QLineEdit" name="lineEdit_22">
+                <widget class="QLineEdit" name="nb_gCorp">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1827,7 +1963,10 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="4" column="1">
-                <widget class="QLineEdit" name="lineEdit_23">
+                <widget class="QLineEdit" name="nb_gFin">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1850,7 +1989,10 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="5" column="1">
-                <widget class="QLineEdit" name="lineEdit_24">
+                <widget class="QLineEdit" name="nb_synthese">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>50</width>
@@ -1893,7 +2035,7 @@ Secteur Financier (page 7)</string>
          </spacer>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <spacer name="horizontalSpacer_8">
             <property name="orientation">
@@ -1908,15 +2050,68 @@ Secteur Financier (page 7)</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="text">
-             <string>Valider</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../ressources.qrc">
-              <normaloff>:/ressources/img/checkmark-48.png</normaloff>:/ressources/img/checkmark-48.png</iconset>
-            </property>
-           </widget>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <item row="2" column="0">
+             <widget class="QPushButton" name="btn_resetOrdre">
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Par défaut</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/ressources/img/delete-48.png</normaloff>:/ressources/img/delete-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="btn_ordre">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Valider</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/ressources/img/checkmark-48.png</normaloff>:/ressources/img/checkmark-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="btn_modifOrdre">
+              <property name="text">
+               <string>Modifier</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../ressources.qrc">
+                <normaloff>:/ressources/img/edit-48.png</normaloff>:/ressources/img/edit-48.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <spacer name="horizontalSpacer_9">
