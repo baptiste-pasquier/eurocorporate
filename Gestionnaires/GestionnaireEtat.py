@@ -34,6 +34,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         self.file_avertissement = settings.value("AVERTISSEMENT", defaultValue='')
         while self.file_avertissement == '':
             self.on_btn_config_av_clicked()
+        self.btn_config_av.setStatusTip(self.file_avertissement)
 
         # Bouton exigcap
         # query = QtSql.QSqlQuery()
@@ -47,6 +48,9 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         self.echeancier_save = {'type': 'etat', 'nomEtat': "Echéancier", 'ordre': 1, 'titreSommaire': "Remboursements par échéance"}
         self.exigence_save = {'type': 'etat', 'nomEtat': "ExigenceCapital", 'ordre': 2, 'titreSommaire': 'Répartition par rating et selon les exigences en fonds propres "Solvabilité 2"'}
         self.emetteur_save = {'type': 'etat', 'nomEtat': "Libelle", 'ordre': 3, 'titreSommaire': 'Classement par émetteurs'}
+        self.gCorp_save = {'type': 'graphiqueDetail', 'nomEtat': "GraphCamLegend", 'nomEtat2': "Select_Secteur", 'nomGraphique': "Graphique", 'sourceSQL': "SELECT [nomSousSecteur], Sum([Remboursement]) AS Remb FROM Valorisation WHERE [noPortefeuille] = " + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "# AND [noSecteur]=2 GROUP BY [nomSousSecteur]",
+                           'sourceSQL2': "SELECT Valorisation.noSecteur, Valorisation.nomSection, Valorisation.nomSousSecteur, Sum(Valorisation.[Remboursement]) AS [Total remboursement] FROM Valorisation WHERE [noPortefeuille]=" + self.strNoPort + "  AND DateDeMAJ= #" + self.strDate + "# AND [noSecteur]=2 GROUP BY Valorisation.noSecteur, Valorisation.nomSection, Valorisation.nomSousSecteur",
+                           'titre1': "DETAIL DE LA REPARTITION DES VALEURS DU SECTEUR CORPORATE", 'titre2': "Calculs réalisés avec les valeurs de remboursement", 'ordre': 10, 'titreSommaire': "Graphiques"}
 
         self.titre = self.titre_save.copy()
         self.sommaire = self.sommaire_save.copy()
@@ -54,6 +58,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         self.echeancier = self.echeancier_save.copy()
         self.exigence = self.exigence_save.copy()
         self.emetteur = self.emetteur_save.copy()
+        self.gCorp = self.gCorp_save.copy()
 
         self.on_btn_resetPerso_clicked()
         self.on_btn_resetOrdre_clicked()
@@ -77,7 +82,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     def on_btn_modifPerso_clicked(self):
         liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
                  [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save],
+                 [self.tb_gCorp, self.gCorp, self.gCorp_save]]
 
         for elem in liste:
             elem[0].setEnabled(True)
@@ -93,7 +99,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     def on_btn_perso_clicked(self):
         liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
                  [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save],
+                 [self.tb_gCorp, self.gCorp, self.gCorp_save]]
 
         for elem in liste:
             elem[1]['nomEtat'] = elem[0].text()
@@ -110,7 +117,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     def on_btn_resetPerso_clicked(self):
         liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
                  [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save],
+                 [self.tb_gCorp, self.gCorp, self.gCorp_save]]
 
         for elem in liste:
             elem[1] = elem[2].copy()
@@ -127,7 +135,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     @pyqtSlot()
     def on_btn_modifOrdre_clicked(self):
         liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save],
+                 [self.nb_gCorp, self.gCorp, self.gCorp_save]]
 
         for elem in liste:
             elem[0].setEnabled(True)
@@ -142,7 +151,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     @pyqtSlot()
     def on_btn_ordre_clicked(self):
         liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save],
+                 [self.nb_gCorp, self.gCorp, self.gCorp_save]]
 
         for elem in liste:
             elem[1]['ordre'] = int(elem[0].text())
@@ -158,7 +168,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     @pyqtSlot()
     def on_btn_resetOrdre_clicked(self):
         liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save],
+                 [self.nb_gCorp, self.gCorp, self.gCorp_save]]
 
         for elem in liste:
             elem[1] = elem[2].copy()
@@ -209,7 +220,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
             acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
             acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour le " + self.date.toString("dd/MM/yyyy")
-            acc.Reports.Item(nomEtat).Controls.Item("txt_nbpages").ControlSource = '=[Page] + {}'.format(nb_pages)
+            acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = '=[Page] + {}'.format(nb_pages)
 
             if action == "Ouvrir":
                 # acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewPreview, None, whereCondition)
@@ -225,32 +236,36 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         except pythoncom.com_error as error:
             detailed_message(self, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
 
-    # def Graphique(self, nomEtat, nomGraphique, sourceSQL, action, fileName=''):
-    #     try:
-    #         # Ouverture de la base de données
-    #         acc = win32.gencache.EnsureDispatch('Access.Application')
-    #         acc.OpenCurrentDatabase(self.fileBDD, True)
+    def acc_graphiqueDetail(self, nomEtat, nomEtat2, nomGraphique, sourceSQL, sourceSQL2, titre1, titre2, action, fileName="", nb_pages=0):
+        try:
+            # Ouverture de la base de données
+            acc = win32.gencache.EnsureDispatch('Access.Application')
+            acc.OpenCurrentDatabase(self.fileBDD, True)
 
-    #         acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewReport)
+            # On ouvre l'état type pour éditer les sources du graphique
+            acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewReport)
+            acc.Reports.Item(nomEtat).Controls.Item(nomGraphique).RowSource = sourceSQL
+            acc.Reports.Item(nomEtat).Controls.Item(nomEtat2).Report.RecordSource = sourceSQL2  # On édite la légende
+            acc.Reports.Item(nomEtat).Controls.Item("titre1").Caption = titre1
+            acc.Reports.Item(nomEtat).Controls.Item("titre2").Caption = titre2
 
-    #         acc.Reports.Item(nomEtat).Controls.Item(nomGraphique).RowSource = sourceSQL
-    #         acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
-    #         acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour le " + self.date.toString("dd/MM/yyyy")
-    #         # champs dlm
+            acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
+            acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour ihi le " + self.date.toString("dd/MM/yyyy")
+            acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = str(nb_pages + 1)
 
-    #         if action == "Ouvrir":
-    #             # acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewPreview, None, whereCondition)
-    #             acc.DoCmd.Maximize()
-    #             acc.Visible = True
+            if action == "Ouvrir":
+                # acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewPreview, None, whereCondition)
+                acc.DoCmd.Maximize()
+                acc.Visible = True
 
-    #         if action == "PDF":
-    #             if fileName:
-    #                 acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF, fileName)
-    #             else:
-    #                 acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
-    #             acc.Quit()
-    #     except pythoncom.com_error as error:
-    #         detailed_message(None, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
+            if action == "PDF":
+                if fileName:
+                    acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF, fileName)
+                else:
+                    acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
+                acc.Quit()
+        except pythoncom.com_error as error:
+            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
 
     @pyqtSlot()
     def on_btn_titre_clicked(self):
@@ -292,58 +307,16 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     def on_btn_emetteurPDF_clicked(self):
         self.acc_etat(self.emetteur['nomEtat'], "PDF")
 
-    # @pyqtSlot()
-    # def on_btn_PDF_clicked(self):
-    #     resultFileName = QFileDialog.getSaveFileName(self, "Save File", QDir(QStandardPaths.writableLocation(QStandardPaths.DocumentsLocation)).filePath('exportation.pdf'),
-    #                                                  "PDF (*.pdf)")[0]
-    #     if resultFileName:
-    #         list_cb_checked = [self.cb_echeplus.isChecked(), self.cb_echeancier.isChecked(), self.cb_exigence.isChecked(), self.cb_emetteur.isChecked(), 
-    #                            self.cb_histoType.isChecked(), self.cb_gType.isChecked(), self.cb_gRating.isChecked(), self.cb_gSecteur.isChecked(),
-    #                            self.cb_gGovnt.isChecked(), self.cb_gCorp.isChecked(), self.cb_gFin.isChecked(), self.cb_synthese.isChecked()]
-    #         nb_checked = sum(list_cb_checked)
-    #         nb_pdfs = nb_checked
-    #         if nb_checked == 0:
-    #             nb_pdfs = len(list_cb_checked)
+    # Graphiques
+    @pyqtSlot()
+    def on_btn_gCorp_clicked(self):
+        action = "Ouvrir"
+        self.acc_graphiqueDetail(self, self.gCorp['nomEtat'], self.gCorp['nomEtat2'], self.gCorp['nomGraphique'], self.gCorp['sourceSQL'], self.gCorp['sourceSQL2'], self.gCorp['titre1'], self.gCorp['titre2'], action)
 
-    #         progress = QProgressDialog("Exportation PDF", "Annuler", 0, nb_pdfs, self)
-    #         progress.setWindowTitle("Générations des états")
-    #         progress.setWindowModality(Qt.WindowModal)
-    #         progress.show()
-
-    #         tempdir = QTemporaryDir()
-    #         def file(self, i):
-    #             return tempdir.filePath("{}.pdf".format(i)).replace("/", "\\")
-
-            
-    #         i = 0
-    #         if self.cb_echeplus.isChecked() or nb_checked == 0:
-    #             self.acc_etat("EchéancierValue", "PDF", fileName=file(i))
-    #             i += 1
-    #             progress.setValue(i)
-    #         if self.cb_echeancier.isChecked() or nb_checked == 0:
-    #             self.acc_etat("Echéancier", "PDF", fileName=file(i))
-    #             i += 1
-    #             progress.setValue(i)
-    #         if self.cb_exigence.isChecked() or nb_checked == 0:
-    #             self.acc_etat("ExigenceCapital", "PDF", fileName=file(i))
-    #             i += 1
-    #             progress.setValue(i)
-    #         if self.cb_emetteur.isChecked() or nb_checked == 0:
-    #             self.acc_etat("Libelle", "PDF", fileName=file(i))
-    #             i += 1
-    #             progress.setValue(i)
-
-    #         pdfs = [file(j) for j in range(0, i)]
-    #         merger = PdfFileMerger()
-    #         for pdf in pdfs:
-    #             merger.append(pdf)
-    #         try:
-    #             merger.write(resultFileName)
-    #         except Exception as e:
-    #             detailed_message(self, QMessageBox.Critical, "Exportation PDF", "Echec de l'écriture du fichier PDF", str(e))
-    #         merger.close()
-
-    #         QMessageBox.information(self, "Exportation PDF", "Exportation terminée")
+    @pyqtSlot()
+    def on_btn_gCorpPDF_clicked(self):
+        action = "PDF"
+        self.acc_graphiqueDetail(self, self.gCorp['nomEtat'], self.gCorp['nomEtat2'], self.gCorp['nomGraphique'], self.gCorp['sourceSQL'], self.gCorp['sourceSQL2'], self.gCorp['titre1'], self.gCorp['titre2'], action)
 
     @pyqtSlot()
     def on_btn_PDF_clicked(self):
@@ -387,6 +360,9 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             if self.cb_emetteur.isChecked() or nb_checked == 0:
                 etat = self.emetteur
                 liste[etat['ordre']] = etat
+            if self.cb_gCorp.isChecked() or nb_checked == 0:
+                etat = self.gCorp
+                liste[etat['ordre']] = etat
 
             liste_generation = [item for index, item in enumerate(liste) if item]
 
@@ -412,8 +388,11 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
             for i in range(len(liste_generation)):
                 etat = liste_generation[i]
+                print(etat['nomEtat'])
                 if etat['type'] == 'etat':
                     self.acc_etat(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
+                if etat['type'] == 'graphiqueDetail':
+                    self.acc_graphiqueDetail(self.gCorp['nomEtat'], self.gCorp['nomEtat2'], self.gCorp['nomGraphique'], self.gCorp['sourceSQL'], self.gCorp['sourceSQL2'], self.gCorp['titre1'], self.gCorp['titre2'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
                 liste_generation[i]['first_page'] = nb_pages_total + 1
                 reader = PdfFileReader(file(i))
                 nb_pages = reader.getNumPages()
@@ -426,10 +405,17 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 acc.OpenCurrentDatabase(self.fileBDD, True)
                 acc.DoCmd.OpenReport(self.sommaire['nomEtat'], win32.constants.acViewReport)
                 imax = 0
+                bool_graph = False
                 for i in range(len(liste_generation)):
                     etat = liste_generation[i]
-                    acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
-                    acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
+                    if etat['type'] == 'graphiqueDetail':
+                        if not bool_graph:
+                            acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
+                            acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
+                            bool_graph = True
+                    else:
+                        acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
+                        acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
                     imax = i
                 for i in range(imax + 1, 6):
                     acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = ""

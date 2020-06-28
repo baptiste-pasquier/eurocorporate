@@ -545,7 +545,7 @@ class Ui_MainWindowEtat(object):
         self.btn_resetPerso = QtWidgets.QPushButton(self.tab_2)
         self.btn_resetPerso.setMinimumSize(QtCore.QSize(120, 0))
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/ressources/img/delete-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":/ressources/img/reset-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_resetPerso.setIcon(icon4)
         self.btn_resetPerso.setIconSize(QtCore.QSize(30, 30))
         self.btn_resetPerso.setObjectName("btn_resetPerso")

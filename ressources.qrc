@@ -22,5 +22,6 @@
         <file>img/paper-money-48.png</file>
         <file>img/wallet-48.png</file>
         <file>img/settings-48.png</file>
+        <file>img/reset-48.png</file>
     </qresource>
 </RCC>
