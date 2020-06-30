@@ -5,7 +5,9 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QDir, QSettings, QCoreApplication, pyqtSlot
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
+from Assistants.AssistantClient import MainWindowClient
 from Gestionnaires.GestionnairePortefeuille import MainWindowPortefeuille
+from Gestionnaires.GestionnaireObligataire import MainWindowObligation
 from Tools.database import createconnection
 
 from MainMenuUI import Ui_MainWindowMenu
@@ -86,14 +88,24 @@ class Controller:
 
     def show_main_menu(self):
         self.main_menu = MainWindowMenu()
+        
+        self.main_menu.pushButton_Oblig.clicked.connect(self.show_obligation)
+        self.main_menu.pushButton_Client.clicked.connect(self.show_client)
         self.main_menu.pushButton_Portefeuille.clicked.connect(self.show_portefeuille)
 
         self.main_menu.show()
 
+    def show_obligation(self):
+        self.obligation_window = MainWindowObligation(self.main_menu)
+        self.obligation_window.show()
+
+    def show_client(self):
+        self.client_window = MainWindowClient(self.main_menu)
+        self.client_window.show()
+
     def show_portefeuille(self):
         self.portefeuille_window = MainWindowPortefeuille(self.main_menu)
         # self.main_menu.close()
-
         self.portefeuille_window.show()
 
 
