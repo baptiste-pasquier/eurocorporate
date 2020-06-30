@@ -25,8 +25,8 @@ class ModelObligation(QtSql.QSqlTableModel):
 
 
 class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
-    def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
+    def __init__(self, *args, **kwargs):
+        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         Ui_MainWindowObligation.__init__(self)
         self.setupUi(self)
 

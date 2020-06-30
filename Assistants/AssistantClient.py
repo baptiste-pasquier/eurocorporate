@@ -26,8 +26,8 @@ class ModelClient(QtSql.QSqlTableModel):
 
 
 class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
-    def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
+    def __init__(self, *args, **kwargs):
+        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         Ui_MainWindowClient.__init__(self)
         self.setupUi(self)
 
