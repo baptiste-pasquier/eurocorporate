@@ -88,7 +88,7 @@ class Controller:
 
     def show_main_menu(self):
         self.main_menu = MainWindowMenu()
-        
+
         self.main_menu.pushButton_Oblig.clicked.connect(self.show_obligation)
         self.main_menu.pushButton_Client.clicked.connect(self.show_client)
         self.main_menu.pushButton_Portefeuille.clicked.connect(self.show_portefeuille)
