@@ -68,15 +68,15 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         self.modelClient = ModelClient()
         #self.clientChoisi = Client()
 
-        self.fontComboBox_ModClient.setModel(self.modelClient)
-        self.fontComboBox_ModClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
-        self.fontComboBox_ModClient.setCurrentIndex(-1)
+        self.comboBox_modClient.setModel(self.modelClient)
+        self.comboBox_modClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
+        self.comboBox_modClient.setCurrentIndex(-1)
 
         self.pushButton_ModValider.clicked.connect(self.mod_client)
 
-        self.fontComboBox_SupprClient.setModel(self.modelClient)
-        self.fontComboBox_SupprClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
-        self.fontComboBox_SupprClient.setCurrentIndex(-1)
+        self.comboBox_supprClient.setModel(self.modelClient)
+        self.comboBox_supprClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
+        self.comboBox_supprClient.setCurrentIndex(-1)
         self.pushButton_SupprValider.clicked.connect(self.suppr_client)
     def new_client(self):
 
@@ -126,7 +126,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
     def mod_client(self):
         model = self.modelClient
         #le client et ses mod. sont récupérés dans les ligne éditables
-        client_choisi = "'" + self.fontComboBox_ModClient.currentText() + "'"
+        client_choisi = "'" + self.comboBox_ModClient.currentText() + "'"
 
         nom_entreprise = self.lineEdit_ModEntreprise.text()
         nom_contact = self.lineEdit_ModContactName.text()
@@ -184,7 +184,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
     def suppr_client(self):
         model = self.modelClient
-        client_choisi = "'" + self.fontComboBox_SupprClient.currentText() + "'"
+        client_choisi = "'" + self.comboBox_supprClient.currentText() + "'"
 
         query = QtSql.QSqlQuery()
         result = query.exec("DELETE FROM Client WHERE nomEntreprise = " + client_choisi )
