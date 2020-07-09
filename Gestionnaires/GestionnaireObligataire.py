@@ -28,7 +28,7 @@ class ModelObligation(QtSql.QSqlTableModel): #TODO à refaire
             if role == Qt.DisplayRole and index.column() == ISIN_column:
                 ISIN = super().data(index, 0)
                 libelle = super().data(self.index(index.row(), libelle_column), 0)
-                value = '{'+'{:0>2d}}} {}'.format(ISIN, libelle)
+                value = '{} {}'.format(ISIN, libelle)
                 return value
             return super().data(index, role)
 
@@ -66,7 +66,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
     def rempli_ligne(self):
         date = self.calendarWidget.selectedDate()
         datestr = date.toString()
-        model = self.modelObligation()
+        model = self.modelObligation
         obli_choisi = "'" + self.comboBox_ListeOblig.currentText() + "'"
         query = QtSql.QSqlQuery()
         query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " + datestr)
@@ -119,7 +119,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.lineEdit_Indexation.setText(str(indexation))
     #TODO une première fonction qui se lance au signal de la combo box -> rempli les line edit
     #TODO une deuxieme fonction qui se lance au signal du bouton valider -> change la base access
-    
+
     def mod_oblig(self):
         date = self.calendarWidget.selectedDate()
 
