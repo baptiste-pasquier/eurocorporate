@@ -54,6 +54,12 @@
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QLabel" name="label_ListeOblig">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string>Liste des obligations</string>
          </property>
@@ -64,8 +70,27 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushBtton_NvlOblig">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string>Nouvelle obligation</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_SrchCode">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Recherche par code  </string>
          </property>
         </widget>
        </item>
@@ -73,7 +98,14 @@
         <widget class="QLineEdit" name="lineEdit_SrchCode"/>
        </item>
        <item>
-        <widget class="QTextEdit" name="textEdit_SrchOblig"/>
+        <widget class="QTextEdit" name="textEdit_SrchOblig">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -83,6 +115,13 @@
             <widget class="QLabel" name="label_ISN">
              <property name="text">
               <string>ISIN</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_Libelle">
+             <property name="text">
+              <string>Libelle</string>
              </property>
             </widget>
            </item>
@@ -171,6 +210,9 @@
             <widget class="QLineEdit" name="lineEdit_ISIN"/>
            </item>
            <item>
+            <widget class="QLineEdit" name="lineEdit_Libelle"/>
+           </item>
+           <item>
             <widget class="QComboBox" name="comboBox_Ticker"/>
            </item>
            <item>
@@ -212,25 +254,32 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QCalendarWidget" name="calendarWidget"/>
+        <widget class="QCalendarWidget" name="calendarWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QTextEdit" name="textEdit_SrchTicker"/>
+        <widget class="QLabel" name="label_SrchTicker">
+         <property name="text">
+          <string>Recherche par Ticker</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLineEdit" name="lineEdit_SrchTicker"/>
        </item>
        <item>
+        <widget class="QTextEdit" name="textEdit_SrchTicker"/>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <widget class="QLabel" name="label_Libelle">
-             <property name="text">
-              <string>Libelle</string>
-             </property>
-            </widget>
-           </item>
            <item>
             <widget class="QLabel" name="label_Rendement">
              <property name="text">
@@ -326,9 +375,6 @@
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Libelle"/>
-           </item>
            <item>
             <widget class="QLineEdit" name="lineEdit_Rendement"/>
            </item>

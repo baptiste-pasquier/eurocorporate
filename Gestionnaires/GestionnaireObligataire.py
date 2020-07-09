@@ -29,7 +29,7 @@ def createconnection():
         print(db.lastError().text())
         return False
 
-class ModelObligation(QtSql.QSqlTableModel): #TODO à refaire
+class ModelObligation(QtSql.QSqlTableModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setTable('Obligation')
@@ -38,15 +38,15 @@ class ModelObligation(QtSql.QSqlTableModel): #TODO à refaire
 
     def data(self, index, role=Qt.DisplayRole):
 
-        # Affichage obligation
-        ISIN_column = self.fieldIndex('ISIN')
-        libelle_column = self.fieldIndex('libelle')
-        if role == Qt.DisplayRole and index.column() == ISIN_column:
-            ISIN = super().data(index, 0)
-            libelle = super().data(self.index(index.row(), libelle_column), 0)
-            value = '{} {}'.format(ISIN, libelle)
-            return value
-        return super().data(index, role)
+            # Affichage obligation
+            ISIN_column = self.fieldIndex('ISIN')
+            libelle_column = self.fieldIndex('libelle')
+            if role == Qt.DisplayRole and index.column() == ISIN_column:
+                ISIN = super().data(index, 0)
+                libelle = super().data(self.index(index.row(), libelle_column), 0)
+                value = '{'+'{:0>2d}}} {}'.format(ISIN, libelle)
+                return value
+            return super().data(index, role)
 
 class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
     def __init__(self):
