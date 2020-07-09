@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import sys
 import json
 from PyQt5 import QtCore, QtGui, QtWidgets, uic, QtSql
@@ -15,6 +16,17 @@ import GestionnaireObligataireUI
 from GestionnaireObligataireUI import Ui_MainWindowObligation
 
 
+=======
+from PyQt5 import QtWidgets, QtSql
+from PyQt5.QtCore import Qt
+
+from Gestionnaires.GestionnaireObligataireUI import Ui_MainWindowObligation
+
+
+<<<<<<<< HEAD:Gestionnaires/GestionnaireObligataire.py
+class ModelObligation(QtSql.QSqlTableModel):
+========
+>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
 def createconnection():
     db = QtSql.QSqlDatabase.addDatabase('QODBC')
     db.setHostName("localhost")
@@ -29,7 +41,12 @@ def createconnection():
         print(db.lastError().text())
         return False
 
+<<<<<<< HEAD
 class ModelObligation(QtSql.QSqlTableModel):
+=======
+class ModelObligation(QtSql.QSqlTableModel): #TODO à refaire
+>>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce:GestionnaireObligataire.py
+>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setTable('Obligation')
@@ -38,6 +55,7 @@ class ModelObligation(QtSql.QSqlTableModel):
 
     def data(self, index, role=Qt.DisplayRole):
 
+<<<<<<< HEAD
             # Affichage obligation
             ISIN_column = self.fieldIndex('ISIN')
             libelle_column = self.fieldIndex('libelle')
@@ -55,6 +73,35 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.setupUi(self)
 
         self.db = createconnection()
+=======
+<<<<<<<< HEAD:Gestionnaires/GestionnaireObligataire.py
+        # Affichage noClient
+========
+        # Affichage obligation
+>>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce:GestionnaireObligataire.py
+        ISIN_column = self.fieldIndex('ISIN')
+        libelle_column = self.fieldIndex('libelle')
+        if role == Qt.DisplayRole and index.column() == ISIN_column:
+            ISIN = super().data(index, 0)
+            libelle = super().data(self.index(index.row(), libelle_column), 0)
+<<<<<<<< HEAD:Gestionnaires/GestionnaireObligataire.py
+            value = '{' + '{:0>2d}}} {}'.format(ISIN, libelle)
+            return value
+        return super().data(index, role)
+
+========
+            value = '{} {}'.format(ISIN, libelle)
+            return value
+        return super().data(index, role)
+>>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce:GestionnaireObligataire.py
+
+class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
+    def __init__(self, *args, **kwargs):
+        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
+        Ui_MainWindowObligation.__init__(self)
+        self.setupUi(self)
+
+>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
         self.modelObligation = ModelObligation()
         self.modelObligation.select()
 
@@ -64,7 +111,10 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.comboBox_ListeOblig.activated.connect(self.rempli_ligne)
         self.pushButton_Valider.clicked.connect(self.mod_oblig)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
     def rempli_ligne(self):
         date = self.calendarWidget.selectedDate()
         datestr = date.toString()
@@ -72,7 +122,11 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         obli_choisi = "'" + self.comboBox_ListeOblig.currentText() + "'"
         query = QtSql.QSqlQuery()
         query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " + datestr)
+<<<<<<< HEAD
         #TODO : rajouter classe duration/interets courus
+=======
+        # TODO : rajouter classe duration/interets courus
+>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
         if query:
             isin = query.value(0)
             ticker = query.value(1)
@@ -113,6 +167,13 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.lineEdit_Rendement.setText(str(rendement))
         #TODO rajouter duration
         self.lineEdit_SpreadBund.setText(str(spreadbund))
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:Gestionnaires/GestionnaireObligataire.py
+# TODO une première fonction qui se lance au signal de la combo box -> rempli les line edit
+# TODO une deuxieme fonction qui se lance au signal du bouton valider -> change la base access
+========
+>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
         #TODO rajouter interets courus
         self.lineEdit_Sensibilite.setText(str(sensibilite))
         self.lineEdit_Convexite.setText(str(convexite))
@@ -167,4 +228,9 @@ app = QtWidgets.QApplication(sys.argv)
 window = MainWindowObligation()
 window.show()
 app.exec_()
+<<<<<<< HEAD
 window.show
+=======
+window.show
+>>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce:GestionnaireObligataire.py
+>>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce

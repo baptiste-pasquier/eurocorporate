@@ -1,7 +1,7 @@
 import win32com.client as win32
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import QDir, QSettings, pyqtSlot, QStandardPaths, QTemporaryDir, QTimer
-from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import QDir, QSettings, pyqtSlot, QStandardPaths, QTemporaryDir, QTimer, Qt
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QProgressDialog
 from PyPDF2 import PdfFileMerger, PdfFileReader
 
 from Gestionnaires.GestionnaireEtatUI import Ui_MainWindowEtat
@@ -250,7 +250,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             acc.Reports.Item(nomEtat).Controls.Item("titre2").Caption = titre2
 
             acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
-            acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour ihi le " + self.date.toString("dd/MM/yyyy")
+            acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour le " + self.date.toString("dd/MM/yyyy")
             acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = str(nb_pages + 1)
 
             if action == "Ouvrir":
@@ -318,6 +318,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         action = "PDF"
         self.acc_graphiqueDetail(self, self.gCorp['nomEtat'], self.gCorp['nomEtat2'], self.gCorp['nomGraphique'], self.gCorp['sourceSQL'], self.gCorp['sourceSQL2'], self.gCorp['titre1'], self.gCorp['titre2'], action)
 
+    # Document complet
     @pyqtSlot()
     def on_btn_PDF_clicked(self):
         resultFileName = QFileDialog.getSaveFileName(self, "Save File", QDir(QStandardPaths.writableLocation(QStandardPaths.DocumentsLocation)).filePath('exportation.pdf'),
@@ -331,10 +332,11 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             if nb_checked == 0:
                 nb_pdfs = len(list_cb_checked)
 
-            # progress = QProgressDialog("Exportation PDF", "Annuler", 0, nb_pdfs, self)
-            # progress.setWindowTitle("Générations des états")
-            # progress.setWindowModality(Qt.WindowModal)
-            # progress.show()
+            progress = QProgressDialog("Exportation PDF", "Annuler", 0, nb_pdfs + 1, self)
+            progress.setWindowTitle("Génération des états")
+            progress.setWindowModality(Qt.WindowModal)
+            progress.show()
+            progress.setValue(0)
 
             tempdir = QTemporaryDir()
             # print(tempdir.path())
@@ -371,24 +373,41 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             # avertissement
 
             nb_pages_total = 0
-
-            if self.cb_titre.isChecked() or nb_checked == 0:
+            break_bool = False
+            if (self.cb_titre.isChecked() or nb_checked == 0) and not break_bool:
+                progress.setLabelText("Page de titre")
+                QtCore.QCoreApplication.processEvents()
                 etat = self.titre
                 self.acc_titre(self.titre['nomEtat'], "PDF", file_titre)
                 nb_pages_total += 1
+                progress.setValue(progress.value() + 1)
+                QtCore.QCoreApplication.processEvents()
+                if progress.wasCanceled():
+                    break_bool = True
 
             if self.cb_sommaire.isChecked() or nb_checked == 0:
                 # Création plus tard
                 nb_pages_total += 1
 
-            if self.cb_avertissement.isChecked() or nb_checked == 0:
+            if (self.cb_avertissement.isChecked() or nb_checked == 0) and not break_bool:
+                progress.setLabelText("Page d'avertissement")
+                QtCore.QCoreApplication.processEvents()
                 reader = PdfFileReader(self.file_avertissement)
                 nb_pages = reader.getNumPages()
                 nb_pages_total += nb_pages
+                progress.setValue(progress.value() + 1)
+                QtCore.QCoreApplication.processEvents()
+                if progress.wasCanceled():
+                    break_bool = True
 
             for i in range(len(liste_generation)):
                 etat = liste_generation[i]
                 print(etat['nomEtat'])
+                progress.setLabelText(etat['nomEtat'])
+                QtCore.QCoreApplication.processEvents()
+                if progress.wasCanceled():
+                    break_bool = True
+                    break
                 if etat['type'] == 'etat':
                     self.acc_etat(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
                 if etat['type'] == 'graphiqueDetail':
@@ -397,9 +416,16 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 reader = PdfFileReader(file(i))
                 nb_pages = reader.getNumPages()
                 nb_pages_total += nb_pages
+                progress.setValue(progress.value() + 1)
+                QtCore.QCoreApplication.processEvents()
+                if progress.wasCanceled():
+                    break_bool = True
+                    break
 
             # CREATION DU SOMMAIRE
-            if self.cb_sommaire.isChecked() or nb_checked == 0:
+            if (self.cb_sommaire.isChecked() or nb_checked == 0) and not break_bool:
+                progress.setLabelText("Page de sommaire")
+                QtCore.QCoreApplication.processEvents()
                 # Ouverture de la base de données
                 acc = win32.gencache.EnsureDispatch('Access.Application')
                 acc.OpenCurrentDatabase(self.fileBDD, True)
@@ -422,26 +448,39 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = ""
                 acc.DoCmd.OutputTo(win32.constants.acOutputReport, self.sommaire['nomEtat'], win32.constants.acFormatPDF, file_sommaire)
                 acc.Quit()
+                progress.setValue(progress.value() + 1)
+                QtCore.QCoreApplication.processEvents()
+                if progress.wasCanceled():
+                    break_bool = True
 
             # FUSION
-            pdfs = []
-            if self.cb_titre.isChecked() or nb_checked == 0:
-                pdfs += [file_titre]
-            if self.cb_sommaire.isChecked() or nb_checked == 0:
-                pdfs += [file_sommaire]
-            if self.cb_avertissement.isChecked() or nb_checked == 0:
-                pdfs += [self.file_avertissement]
+            if not break_bool:
+                progress.setLabelText("Fusion")
+                QtCore.QCoreApplication.processEvents()
+                pdfs = []
+                if self.cb_titre.isChecked() or nb_checked == 0:
+                    pdfs += [file_titre]
+                if self.cb_sommaire.isChecked() or nb_checked == 0:
+                    pdfs += [file_sommaire]
+                if self.cb_avertissement.isChecked() or nb_checked == 0:
+                    pdfs += [self.file_avertissement]
 
-            pdfs += [file(i) for i in range(len(liste_generation))]
-            merger = PdfFileMerger()
-            for pdf in pdfs:
-                merger.append(pdf)
-            try:
-                merger.write(resultFileName)
-            except Exception as e:
-                detailed_message(self, QMessageBox.Critical, "Exportation PDF", "Echec de l'écriture du fichier PDF", str(e))
-            merger.close()
-            tempdir.remove()
+                pdfs += [file(i) for i in range(len(liste_generation))]
+                merger = PdfFileMerger()
+                for pdf in pdfs:
+                    merger.append(pdf)
+                try:
+                    merger.write(resultFileName)
+                except Exception as e:
+                    detailed_message(self, QMessageBox.Critical, "Exportation PDF", "Echec de l'écriture du fichier PDF", str(e))
+                merger.close()
+                tempdir.remove()
+                progress.setValue(progress.value() + 1)
+                QtCore.QCoreApplication.processEvents()
 
-            QMessageBox.information(self, "Exportation PDF", "Exportation terminée")
-            os.startfile(resultFileName)
+                QMessageBox.information(self, "Exportation PDF", "Exportation terminée")
+                os.startfile(resultFileName)
+            else:
+                progress.setValue(nb_pdfs + 1)
+                tempdir.remove()
+                QMessageBox.critical(self, "Exportation PDF", "Exportation annulée")

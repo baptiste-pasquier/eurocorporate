@@ -1,33 +1,9 @@
-import sys
-import json
-from PyQt5 import QtCore, QtGui, QtWidgets, uic, QtSql
+from PyQt5 import QtWidgets, QtSql
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QInputDialog, QMessageBox
-from PyQt5 import QtCore, QtSql, QtWidgets, uic
-from PyQt5.QtCore import QDate, Qt
-from PyQt5.QtWidgets import (QDialogButtonBox, QFileDialog, QMessageBox,
-                             QProgressDialog)
-                             ###
+from PyQt5.QtWidgets import QMessageBox
 
-# qt_creator_file = "portefeuille.ui"
-# Ui_MainWindow, QtBaseClass = uic.loadUiType(qt_creator_file)
-import AssistantClientUI
-from AssistantClientUI import Ui_MainWindowClient
+from Assistants.AssistantClientUI import Ui_MainWindowClient
 
-
-def createconnection():
-    db = QtSql.QSqlDatabase.addDatabase('QODBC')
-    db.setHostName("localhost")
-    db.setDatabaseName('DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};FIL={MS Access};DBQ=C:\\Users\\Aquaquaq\\OneDrive\\Bureau\\Cours\\pro\\ROCKLEE\\IS_beC.mdb')
-
-
-    if db.open():
-        print('connect to SQL Server successfully')
-        return db
-    else:
-        print('connection failed')
-        print(db.lastError().text())
-        return False
 
 class ModelClient(QtSql.QSqlTableModel):
     def __init__(self, *args, **kwargs):
@@ -36,28 +12,24 @@ class ModelClient(QtSql.QSqlTableModel):
         self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
         self.select()
 
-
     def data(self, index, role=Qt.DisplayRole):
 
-            # Affichage noClient
-            noClient_column = self.fieldIndex('noClient')
-            nomEntreprise_column = self.fieldIndex('nomEntreprise')
-            if role == Qt.DisplayRole and index.column() == noClient_column:
-                noClient = super().data(index, 0)
-                nomEntreprise = super().data(self.index(index.row(), nomEntreprise_column), 0)
-                value = '{'+'{:0>2d}}} {}'.format(noClient, nomEntreprise)
-                return value
-            return super().data(index, role)
-
+        # Affichage noClient
+        noClient_column = self.fieldIndex('noClient')
+        nomEntreprise_column = self.fieldIndex('nomEntreprise')
+        if role == Qt.DisplayRole and index.column() == noClient_column:
+            noClient = super().data(index, 0)
+            nomEntreprise = super().data(self.index(index.row(), nomEntreprise_column), 0)
+            value = '{' + '{:0>2d}}} {}'.format(noClient, nomEntreprise)
+            return value
+        return super().data(index, role)
 
 
 class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
-    def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
+    def __init__(self, *args, **kwargs):
+        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         Ui_MainWindowClient.__init__(self)
         self.setupUi(self)
-
-        self.db = createconnection()
 
         self.modelClient = ModelClient()
         self.modelClient.select()
@@ -66,23 +38,24 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
 # Liste des clients
         self.modelClient = ModelClient()
-        #self.clientChoisi = Client()
+        # self.clientChoisi = Client()
 
-        self.comboBox_modClient.setModel(self.modelClient)
-        self.comboBox_modClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
-        self.comboBox_modClient.setCurrentIndex(-1)
+        self.fontComboBox_ModClient.setModel(self.modelClient)
+        self.fontComboBox_ModClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
+        self.fontComboBox_ModClient.setCurrentIndex(-1)
 
         self.pushButton_ModValider.clicked.connect(self.mod_client)
 
-        self.comboBox_supprClient.setModel(self.modelClient)
-        self.comboBox_supprClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
-        self.comboBox_supprClient.setCurrentIndex(-1)
+        self.fontComboBox_SupprClient.setModel(self.modelClient)
+        self.fontComboBox_SupprClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
+        self.fontComboBox_SupprClient.setCurrentIndex(-1)
         self.pushButton_SupprValider.clicked.connect(self.suppr_client)
+
     def new_client(self):
 
         nom_entreprise = self.lineEdit_Entreprise.text()
-        nom_contact =self.lineEdit_ContactName.text()
-        prenom_contact =self.lineEdit_ContactForename.text()
+        nom_contact = self.lineEdit_ContactName.text()
+        prenom_contact = self.lineEdit_ContactForename.text()
         mail_contact = self.lineEdit_Mail.text()
 
         if nom_entreprise != '':
@@ -98,10 +71,10 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
             defaults = {
                 'noClient': max_no_client + 1,
-                'nomEntreprise' : nom_entreprise,
-                'nomContact' : nom_contact,
-                'prenomContact' : prenom_contact,
-                'mailContact' : mail_contact
+                'nomEntreprise': nom_entreprise,
+                'nomContact': nom_contact,
+                'prenomContact': prenom_contact,
+                'mailContact': mail_contact
                 }
 
             for field, value in defaults.items():
@@ -125,8 +98,8 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
     def mod_client(self):
         model = self.modelClient
-        #le client et ses mod. sont récupérés dans les ligne éditables
-        client_choisi = "'" + self.comboBox_ModClient.currentText() + "'"
+        # le client et ses mod. sont récupérés dans les ligne éditables
+        client_choisi = "'" + self.fontComboBox_ModClient.currentText() + "'"
 
         nom_entreprise = self.lineEdit_ModEntreprise.text()
         nom_contact = self.lineEdit_ModContactName.text()
@@ -162,14 +135,13 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             print("erreur")
             QMessageBox.critical(self, "erreur 1", error)
         query.clear()
-        modEntreprise = str(nom_entreprise *(nom_entreprise != '') + old_nom_entreprise * (nom_entreprise == '' ) )
-        modNom = str (nom_contact *(nom_contact != '') + old_nom_contact * (nom_contact == '') )
-        modPrenom = str(prenom_contact *(prenom_contact != '') + old_prenom_contact * (prenom_contact == '') )
-        modMail = str (mail_contact *(mail_contact != '') + old_mail_contact * (mail_contact == '') )
-
+        modEntreprise = str(nom_entreprise * (nom_entreprise != '') + old_nom_entreprise * (nom_entreprise == ''))
+        modNom = str(nom_contact * (nom_contact != '') + old_nom_contact * (nom_contact == ''))
+        modPrenom = str(prenom_contact * (prenom_contact != '') + old_prenom_contact * (prenom_contact == ''))
+        modMail = str(mail_contact * (mail_contact != '') + old_mail_contact * (mail_contact == ''))
 
         query2 = QtSql.QSqlQuery()
-        result = query2.exec("UPDATE Client SET nomEntreprise = '" + modEntreprise +"', nomContact = '" + modNom +"', prenomContact = '"+ modPrenom +"', mailContact = '"+ modMail +"' WHERE noClient = " + str(no_client) )
+        result = query2.exec("UPDATE Client SET nomEntreprise = '" + modEntreprise + "', nomContact = '" + modNom + "', prenomContact = '" + modPrenom + "', mailContact = '" + modMail + "' WHERE noClient = " + str(no_client))
 
         if result:
             QMessageBox.information(self, "Client Modifié", "Modification Reussie")
@@ -184,20 +156,12 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
     def suppr_client(self):
         model = self.modelClient
-        client_choisi = "'" + self.comboBox_supprClient.currentText() + "'"
+        client_choisi = "'" + self.fontComboBox_SupprClient.currentText() + "'"
 
         query = QtSql.QSqlQuery()
-        result = query.exec("DELETE FROM Client WHERE nomEntreprise = " + client_choisi )
+        result = query.exec("DELETE FROM Client WHERE nomEntreprise = " + client_choisi)
         if result:
             QMessageBox.information(self, "Client Supprimé", "Modification Reussie")
         else:
             error = model.lastError().text()
             QMessageBox.critical(self, "Database returned an error", error)
-
-app = QtWidgets.QApplication(sys.argv)
-window = MainWindowClient()
-window.show()
-app.exec_()
-window.show
-###
-#la création de client marche !!!
