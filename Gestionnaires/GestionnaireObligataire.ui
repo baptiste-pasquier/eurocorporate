@@ -54,15 +54,12 @@
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QLabel" name="label_ListeOblig">
-<<<<<<< HEAD
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-=======
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
          <property name="text">
           <string>Liste des obligations</string>
          </property>
@@ -73,22 +70,18 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushBtton_NvlOblig">
-<<<<<<< HEAD
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-=======
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
          <property name="text">
           <string>Nouvelle obligation</string>
          </property>
         </widget>
        </item>
        <item>
-<<<<<<< HEAD
         <widget class="QLabel" name="label_SrchCode">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
@@ -113,12 +106,6 @@
           </sizepolicy>
          </property>
         </widget>
-=======
-        <widget class="QLineEdit" name="lineEdit_SrchCode"/>
-       </item>
-       <item>
-        <widget class="QTextEdit" name="textEdit_SrchOblig"/>
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -132,7 +119,6 @@
             </widget>
            </item>
            <item>
-<<<<<<< HEAD
             <widget class="QLabel" name="label_Libelle">
              <property name="text">
               <string>Libelle</string>
@@ -140,8 +126,6 @@
             </widget>
            </item>
            <item>
-=======
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
             <widget class="QLabel" name="label_Ticker">
              <property name="text">
               <string>Ticker</string>
@@ -226,12 +210,9 @@
             <widget class="QLineEdit" name="lineEdit_ISIN"/>
            </item>
            <item>
-<<<<<<< HEAD
             <widget class="QLineEdit" name="lineEdit_Libelle"/>
            </item>
            <item>
-=======
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
             <widget class="QComboBox" name="comboBox_Ticker"/>
            </item>
            <item>
@@ -273,7 +254,6 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-<<<<<<< HEAD
         <widget class="QCalendarWidget" name="calendarWidget">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -289,37 +269,18 @@
           <string>Recherche par Ticker</string>
          </property>
         </widget>
-=======
-        <widget class="QCalendarWidget" name="calendarWidget"/>
-       </item>
-       <item>
-        <widget class="QTextEdit" name="textEdit_SrchTicker"/>
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
        </item>
        <item>
         <widget class="QLineEdit" name="lineEdit_SrchTicker"/>
        </item>
        <item>
-<<<<<<< HEAD
         <widget class="QTextEdit" name="textEdit_SrchTicker"/>
        </item>
        <item>
-=======
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-<<<<<<< HEAD
-=======
-            <widget class="QLabel" name="label_Libelle">
-             <property name="text">
-              <string>Libelle</string>
-             </property>
-            </widget>
-           </item>
-           <item>
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
             <widget class="QLabel" name="label_Rendement">
              <property name="text">
               <string>Rendement</string>
@@ -415,12 +376,6 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-<<<<<<< HEAD
-=======
-            <widget class="QLineEdit" name="lineEdit_Libelle"/>
-           </item>
-           <item>
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
             <widget class="QLineEdit" name="lineEdit_Rendement"/>
            </item>
            <item>
@@ -470,12 +425,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
-<<<<<<< HEAD
- <resources/>
-=======
  <resources>
   <include location="../ressources.qrc"/>
  </resources>
->>>>>>> 52fc14adb2c1de3da3a34b0fa002c71ea026afce
  <connections/>
 </ui>
