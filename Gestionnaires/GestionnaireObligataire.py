@@ -13,8 +13,66 @@ from PyQt5.QtCore import Qt
 
 from Gestionnaires.GestionnaireObligataireUI import Ui_MainWindowObligation
 
+class ModelRating(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('Rating')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage rating
+            Rating_column = self.fieldIndex('Rating')
+            if role == Qt.DisplayRole and index.column() == Rating_column:
+                Rating = super().data(index, 0)
+                value = '{}'.format(Rating)
+                return value
+            return super().data(index, role)
 
-class ModelObligation(QtSql.QSqlTableModel): #TODO à refaire
+class ModelRatingMoody(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('Rating')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage rating
+            Rating_column = self.fieldIndex('RatingMoody')
+            if role == Qt.DisplayRole and index.column() == Rating_column:
+                Rating = super().data(index, 0)
+                value = '{}'.format(Rating)
+                return value
+            return super().data(index, role)
+
+class ModelRatingSP(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('Rating')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage rating
+            Rating_column = self.fieldIndex('RatingSP')
+            if role == Qt.DisplayRole and index.column() == Rating_column:
+                Rating = super().data(index, 0)
+                value = '{}'.format(Rating)
+                return value
+            return super().data(index, role)
+
+class ModelRatingFitch(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('Rating')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage rating
+            Rating_column = self.fieldIndex('RatingFitch')
+            if role == Qt.DisplayRole and index.column() == Rating_column:
+                Rating = super().data(index, 0)
+                value = '{}'.format(Rating)
+                return value
+            return super().data(index, role)
+class ModelObligation(QtSql.QSqlTableModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setTable('Obligation')
@@ -33,27 +91,11 @@ class ModelObligation(QtSql.QSqlTableModel): #TODO à refaire
             return super().data(index, role)
 
 class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
-    def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
-        Ui_MainWindowObligation.__init__(self)
-        self.setupUi(self)
-
-        # Affichage obligation
-        ISIN_column = self.fieldIndex('ISIN')
-        libelle_column = self.fieldIndex('libelle')
-        if role == Qt.DisplayRole and index.column() == ISIN_column:
-            ISIN = super().data(index, 0)
-            libelle = super().data(self.index(index.row(), libelle_column), 0)
-            value = '{} {}'.format(ISIN, libelle)
-            return value
-        return super().data(index, role)
-
-class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         Ui_MainWindowObligation.__init__(self)
         self.setupUi(self)
-
+#Combo box des obligations
         self.modelObligation = ModelObligation()
         self.modelObligation.select()
 
@@ -62,6 +104,38 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.comboBox_ListeOblig.setCurrentIndex(-1)
         self.comboBox_ListeOblig.activated.connect(self.rempli_ligne)
         self.pushButton_Valider.clicked.connect(self.mod_oblig)
+
+#ComboBox des Ratings
+        self.modelRating = ModelRating()
+        self.modelRating.select()
+
+        self.comboBox_Rating.setModel(self.modelRating)
+        self.comboBox_Rating.setModelColumn(self.modelRating.fieldIndex('rating'))
+        self.comboBox_REating.setCurrentIndex(-1)
+
+#Combo box des RatingSP
+        self.modelRatingSP = ModelRatingSP()
+        self.modelRatingSP.select()
+
+        self.comboBox_RatingSP.setModel(self.modelRatingSP)
+        self.comboBox_RatingSP.setModelColumn(self.modelRatingSP.fieldIndex('ratingSP'))
+        self.comboBox_RatingSP.setCurrentIndex(-1)
+
+#Combo box des RatingMoody
+        self.modelRatingMoody = ModelRatingMoody()
+        self.modelRatingMoody.select()
+
+        self.comboBox_RatingMoody.setModel(self.modelRatingMoody)
+        self.comboBox_RatingMoody.setModelColumn(self.modelRating.fieldIndex('ratingMOODY'))
+        self.comboBox_RatingMoody.setCurrentIndex(-1)
+
+#Combo box des RatingFitch
+        self.modelRatingFitch = ModelRatingFitch()
+        self.modelRatingFitch.select()
+
+        self.comboBox_RatingFitch.setModel(self.modelRatingFitch)
+        self.comboBox_RatingFitch.setModelColumn(self.modelRating.fieldIndex('ratingFITCH'))
+        self.comboBox_RatingFitch.setCurrentIndex(-1)
 
     def rempli_ligne(self):
         date = self.calendarWidget.selectedDate()
