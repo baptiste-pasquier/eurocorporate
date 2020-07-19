@@ -72,6 +72,82 @@ class ModelRatingFitch(QtSql.QSqlTableModel):
                 value = '{}'.format(Rating)
                 return value
             return super().data(index, role)
+
+class ModelTicker(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('Emetteur')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage Ticker
+            Ticker_column = self.fieldIndex('ticker')
+            if role == Qt.DisplayRole and index.column() == Ticker_column:
+                Ticker = super().data(index, 0)
+                value = '{}'.format(Ticker)
+                return value
+            return super().data(index, role)
+
+class ModelRegion(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('Region')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage rating
+            Region_column = self.fieldIndex('nomRegion')
+            if role == Qt.DisplayRole and index.column() == Region_column:
+                Region = super().data(index, 0)
+                value = '{}'.format(Region)
+                return value
+            return super().data(index, role)
+
+class ModelType(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('TypeOblig')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage rating
+            Type_column = self.fieldIndex('nomType')
+            if role == Qt.DisplayRole and index.column() == Type_column:
+                Type = super().data(index, 0)
+                value = '{}'.format(Type)
+                return value
+            return super().data(index, role)
+
+class ModelDuration(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('ClasseDuration')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage rating
+            Duration_column = self.fieldIndex('nomClasseDur')
+            if role == Qt.DisplayRole and index.column() == Duration_column:
+                Duration = super().data(index, 0)
+                value = '{}'.format(Duration)
+                return value
+            return super().data(index, role)
+
+class ModelSSecteur(QtSql.QSqlTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setTable('SousSecteur')
+        self.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.select()
+    def data(self, index, role=Qt.DisplayRole):
+            # Affichage rating
+            SSecteur_column = self.fieldIndex('nomSousSecteur')
+            if role == Qt.DisplayRole and index.column() == SSecteur_column:
+                SSecteur = super().data(index, 0)
+                value = '{}'.format(SSecteur)
+                return value
+            return super().data(index, role)
+
 class ModelObligation(QtSql.QSqlTableModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -86,7 +162,7 @@ class ModelObligation(QtSql.QSqlTableModel):
             if role == Qt.DisplayRole and index.column() == ISIN_column:
                 ISIN = super().data(index, 0)
                 libelle = super().data(self.index(index.row(), libelle_column), 0)
-                value = '{} {}'.format(ISIN, libelle)
+                value = '{} {}'.format(ISIN,libelle)
                 return value
             return super().data(index, role)
 
@@ -98,6 +174,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 #Combo box des obligations
         self.modelObligation = ModelObligation()
         self.modelObligation.select()
+
+        date1 = self.calendarWidget.selectedDate()
 
         self.comboBox_ListeOblig.setModel(self.modelObligation)
         self.comboBox_ListeOblig.setModelColumn(self.modelObligation.fieldIndex('libelle'))
@@ -111,7 +189,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
         self.comboBox_Rating.setModel(self.modelRating)
         self.comboBox_Rating.setModelColumn(self.modelRating.fieldIndex('rating'))
-        self.comboBox_REating.setCurrentIndex(-1)
+        self.comboBox_Rating.setCurrentIndex(-1)
 
 #Combo box des RatingSP
         self.modelRatingSP = ModelRatingSP()
@@ -136,6 +214,46 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.comboBox_RatingFitch.setModel(self.modelRatingFitch)
         self.comboBox_RatingFitch.setModelColumn(self.modelRating.fieldIndex('ratingFITCH'))
         self.comboBox_RatingFitch.setCurrentIndex(-1)
+
+#Combo box des Régions
+        self.modelRegion = ModelRegion()
+        self.modelRegion.select()
+
+        self.comboBox_Region.setModel(self.modelRegion)
+        self.comboBox_Region.setModelColumn(self.modelRegion.fieldIndex('nomRegion'))
+        self.comboBox_Region.setCurrentIndex(-1)
+
+#Combo box des Tickers
+        self.modelTicker = ModelTicker()
+        self.modelTicker.select()
+
+        self.comboBox_Ticker.setModel(self.modelTicker)
+        self.comboBox_Ticker.setModelColumn(self.modelTicker.fieldIndex('ticker'))
+        self.comboBox_Region.setCurrentIndex(-1)
+
+#Combo box des types
+        self.modelType = ModelType()
+        self.modelType.select()
+
+        self.comboBox_Type.setModel(self.modelType)
+        self.comboBox_Type.setModelColumn(self.modelType.fieldIndex('nomtype'))
+        self.comboBox_Type.setCurrentIndex(-1)
+
+#Combo box des classe duration
+        self.modelDuration = ModelDuration()
+        self.modelDuration.select()
+
+        self.comboBox_ClasseDuration.setModel(self.modelDuration)
+        self.comboBox_ClasseDuration.setModelColumn(self.modelDuration.fieldIndex('nomClasseDur'))
+        self.comboBox_ClasseDuration.setCurrentIndex(-1)
+
+#Combo box des SousSecteur
+        self.modelSSecteur = ModelSSecteur()
+        self.modelSSecteur.select()
+
+        self.comboBox_SsSecteur.setModel(self.modelSSecteur)
+        self.comboBox_SsSecteur.setModelColumn(self.modelSSecteur.fieldIndex('nomSousSecteur'))
+        self.comboBox_SsSecteur.setCurrentIndex(-1)
 
     def rempli_ligne(self):
         date = self.calendarWidget.selectedDate()
@@ -183,6 +301,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.lineEdit_DevisePrst.setText(str(deviseconversion))
         self.lineEdit_Libelle.setText(str(libelle2))
         self.lineEdit_Rendement.setText(str(rendement))
+        self.lineEdit_Duration.setText(str(duration))
         #TODO rajouter duration
         self.lineEdit_SpreadBund.setText(str(spreadbund))
 
@@ -191,8 +310,6 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.lineEdit_Convexite.setText(str(convexite))
         self.lineEdit_AvgLife.setText(str(avglife))
         self.lineEdit_Indexation.setText(str(indexation))
-    #TODO une première fonction qui se lance au signal de la combo box -> rempli les line edit
-    #TODO une deuxieme fonction qui se lance au signal du bouton valider -> change la base access
 
     def mod_oblig(self):
         date = self.calendarWidget.selectedDate()
@@ -225,20 +342,15 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             self.lineEdit_DevisePassee.clear()
             self.lineEdit_DevisePrst.clear()
             self.lineEdit_Libelle.clear()
-            self.lineEdit_Rendement.setText(str(rendement))
+            self.lineEdit_Rendement.clear()
             #TODO rajouter duration
-            self.lineEdit_SpreadBund.setText(str(spreadbund))
+            self.lineEdit_SpreadBund.clear()
             #TODO rajouter interets courus
-            self.lineEdit_Sensibilite.setText(str(sensibilite))
-            self.lineEdit_Convexite.setText(str(convexite))
-            self.lineEdit_AvgLife.setText(str(avglife))
-            self.lineEdit_Indexation.setText(str(indexation))
+            self.lineEdit_Sensibilite.clear())
+            self.lineEdit_Convexite.clear())
+            self.lineEdit_AvgLife.clear()
+            self.lineEdit_Indexation.clear()
         else:
             error = model.lastError().text()
             print("erreur")
             QMessageBox.critical(self, "erreur 1", error)
-app = QtWidgets.QApplication(sys.argv)
-window = MainWindowObligation()
-window.show()
-app.exec_()
-window.show

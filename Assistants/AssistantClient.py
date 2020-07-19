@@ -40,15 +40,16 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         self.modelClient = ModelClient()
         # self.clientChoisi = Client()
 
-        self.fontComboBox_ModClient.setModel(self.modelClient)
-        self.fontComboBox_ModClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
-        self.fontComboBox_ModClient.setCurrentIndex(-1)
+        self.comboBox_ModClient.setModel(self.modelClient)
+        self.comboBox_ModClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
+        self.comboBox_ModClient.setCurrentIndex(-1)
+        self.comboBox_ModClient.activated.connect(self.rempli_mod)
 
         self.pushButton_ModValider.clicked.connect(self.mod_client)
 
-        self.fontComboBox_SupprClient.setModel(self.modelClient)
-        self.fontComboBox_SupprClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
-        self.fontComboBox_SupprClient.setCurrentIndex(-1)
+        self.comboBox_SupprClient.setModel(self.modelClient)
+        self.comboBox_SupprClient.setModelColumn(self.modelClient.fieldIndex('nomEntreprise'))
+        self.comboBox_SupprClient.setCurrentIndex(-1)
         self.pushButton_SupprValider.clicked.connect(self.suppr_client)
 
     def new_client(self):
@@ -96,10 +97,35 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             error = model.lastError().text()
             QMessageBox.critical(self, "Oubli du nom de l'entreprise'", error)
 
+    def rempli_mod(self):
+        model = self.modelClient
+        # le client et ses mod. sont récupérés dans les ligne éditables
+        client_choisi = "'" + self.comboBox_ModClient.currentText() + "'"
+        query = QtSql.QSqlQuery()
+        query.exec("SELECT noClient, nomEntreprise, nomContact,prenomContact, mailContact FROM Client WHERE nomEntreprise =" + client_choisi)
+
+        if query.next():
+
+            nomentreprise2 = str(query.value(1))
+            nomcontact2 =str(query.value(2))
+            prenomcontact2 = str(query.value(3))
+            mailcontact2 = str(query.value(4))
+
+        else:
+            error = model.lastError().text()
+            print("erreur")
+            QMessageBox.critical(self, "erreur 1", error)
+        query.clear()
+
+        self.lineEdit_ModEntreprise.setText(nomentreprise2)
+        self.lineEdit_ModContactName.setText(nomcontact2)
+        self.lineEdit_ModContactForename.setText(prenomcontact2)
+        self.lineEdit_ModMail.setText(mailcontact2)
+
     def mod_client(self):
         model = self.modelClient
         # le client et ses mod. sont récupérés dans les ligne éditables
-        client_choisi = "'" + self.fontComboBox_ModClient.currentText() + "'"
+        client_choisi = "'" + self.comboBox_ModClient.currentText() + "'"
 
         nom_entreprise = self.lineEdit_ModEntreprise.text()
         nom_contact = self.lineEdit_ModContactName.text()
@@ -112,7 +138,9 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         old_mail_contact = ""
         query = QtSql.QSqlQuery()
         query.exec("SELECT noClient, nomEntreprise, nomContact,prenomContact, mailContact FROM Client WHERE nomEntreprise =" + client_choisi)
+
         if query.next():
+
             no_client = int(query.value(0))
             if type(query.value(1)) == str:
                 old_nom_entreprise = query.value(1)
@@ -134,11 +162,14 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             error = model.lastError().text()
             print("erreur")
             QMessageBox.critical(self, "erreur 1", error)
+
         query.clear()
+
         modEntreprise = str(nom_entreprise * (nom_entreprise != '') + old_nom_entreprise * (nom_entreprise == ''))
         modNom = str(nom_contact * (nom_contact != '') + old_nom_contact * (nom_contact == ''))
         modPrenom = str(prenom_contact * (prenom_contact != '') + old_prenom_contact * (prenom_contact == ''))
         modMail = str(mail_contact * (mail_contact != '') + old_mail_contact * (mail_contact == ''))
+
 
         query2 = QtSql.QSqlQuery()
         result = query2.exec("UPDATE Client SET nomEntreprise = '" + modEntreprise + "', nomContact = '" + modNom + "', prenomContact = '" + modPrenom + "', mailContact = '" + modMail + "' WHERE noClient = " + str(no_client))
@@ -155,11 +186,13 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             QMessageBox.critical(self, "Database returned an error", error)
 
     def suppr_client(self):
+
         model = self.modelClient
-        client_choisi = "'" + self.fontComboBox_SupprClient.currentText() + "'"
+        client_choisi = "'" + self.comboBox_SupprClient.currentText() + "'"
 
         query = QtSql.QSqlQuery()
         result = query.exec("DELETE FROM Client WHERE nomEntreprise = " + client_choisi)
+
         if result:
             QMessageBox.information(self, "Client Supprimé", "Modification Reussie")
         else:
