@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>851</width>
-    <height>797</height>
+    <width>725</width>
+    <height>732</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -164,8 +164,8 @@
              </property>
              <item>
               <layout class="QGridLayout" name="gridLayout_2">
-               <item row="3" column="0">
-                <widget class="QCheckBox" name="cb_echeplus">
+               <item row="8" column="0">
+                <widget class="QCheckBox" name="cb_exigence">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -173,12 +173,106 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>Plus ou moins value par échéance</string>
+                  <string>Exigence en Capital 
+Solvabilité2 + Classement par 
+Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="2">
-                <widget class="QPushButton" name="btn_emetteurPDF">
+               <item row="0" column="2">
+                <widget class="QPushButton" name="btn_titrePDF">
+                 <property name="toolTip">
+                  <string>Générer un fichier PDF</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <widget class="QPushButton" name="btn_synthesePDF">
+                 <property name="toolTip">
+                  <string>Générer un fichier PDF</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QPushButton" name="btn_avertissementPDF">
+                 <property name="toolTip">
+                  <string>Ouvrir le fichier PDF</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QPushButton" name="btn_synthese">
+                 <property name="toolTip">
+                  <string>Prévisualiser dans Access</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="2">
+                <widget class="QPushButton" name="btn_exigencePDF">
                  <property name="toolTip">
                   <string>Générer un fichier PDF</string>
                  </property>
@@ -201,7 +295,7 @@
                 </widget>
                </item>
                <item row="7" column="1">
-                <widget class="QPushButton" name="btn_histoType">
+                <widget class="QPushButton" name="btn_echeancier">
                  <property name="toolTip">
                   <string>Prévisualiser dans Access</string>
                  </property>
@@ -223,7 +317,7 @@
                  </property>
                 </widget>
                </item>
-               <item row="3" column="2">
+               <item row="6" column="2">
                 <widget class="QPushButton" name="btn_echeplusPDF">
                  <property name="toolTip">
                   <string>Générer un fichier PDF</string>
@@ -246,20 +340,30 @@
                  </property>
                 </widget>
                </item>
-               <item row="8" column="0">
-                <widget class="QCheckBox" name="cb_gType">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
+               <item row="8" column="1">
+                <widget class="QPushButton" name="btn_exigence">
+                 <property name="toolTip">
+                  <string>Prévisualiser dans Access</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
                  </property>
                  <property name="text">
-                  <string>Graphique Type (page 2)</string>
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="2">
+               <item row="7" column="2">
                 <widget class="QPushButton" name="btn_echeancierPDF">
                  <property name="toolTip">
                   <string>Générer un fichier PDF</string>
@@ -282,8 +386,70 @@
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
-                <widget class="QPushButton" name="btn_exigence">
+               <item row="6" column="0">
+                <widget class="QCheckBox" name="cb_echeplus">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Plus ou moins value par échéance</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="cb_avertissement">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Avertissement</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QCheckBox" name="cb_synthese">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Synthèse</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QPushButton" name="btn_echeplus">
+                 <property name="toolTip">
+                  <string>Prévisualiser dans Access</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="btn_titre">
                  <property name="toolTip">
                   <string>Prévisualiser dans Access</string>
                  </property>
@@ -318,112 +484,7 @@
                  </property>
                 </widget>
                </item>
-               <item row="8" column="1">
-                <widget class="QPushButton" name="btn_gType">
-                 <property name="toolTip">
-                  <string>Prévisualiser dans Access</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="2">
-                <widget class="QPushButton" name="btn_histoTypePDF">
-                 <property name="toolTip">
-                  <string>Générer un fichier PDF</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <widget class="QPushButton" name="btn_emetteur">
-                 <property name="toolTip">
-                  <string>Prévisualiser dans Access</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0">
-                <widget class="QCheckBox" name="cb_histoType">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Histogramme par Type (page 1)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QPushButton" name="btn_echeplus">
-                 <property name="toolTip">
-                  <string>Prévisualiser dans Access</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
+               <item row="2" column="0">
                 <widget class="QCheckBox" name="cb_sommaire">
                  <property name="minimumSize">
                   <size>
@@ -436,53 +497,7 @@
                  </property>
                 </widget>
                </item>
-               <item row="4" column="1">
-                <widget class="QPushButton" name="btn_echeancier">
-                 <property name="toolTip">
-                  <string>Prévisualiser dans Access</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="2">
-                <widget class="QPushButton" name="btn_exigencePDF">
-                 <property name="toolTip">
-                  <string>Générer un fichier PDF</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
+               <item row="7" column="0">
                 <widget class="QCheckBox" name="cb_echeancier">
                  <property name="minimumSize">
                   <size>
@@ -495,8 +510,8 @@
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0">
-                <widget class="QCheckBox" name="cb_emetteur">
+               <item row="4" column="0">
+                <widget class="QCheckBox" name="cb_synthese_2">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -504,63 +519,12 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>Classement par Emetteur</string>
+                  <string>Etat ESG</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QCheckBox" name="cb_exigence">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Exigence en Capital 
-Solvabilité2 + Classement par 
-Ratino</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="2">
-                <widget class="QPushButton" name="btn_gTypePDF">
-                 <property name="toolTip">
-                  <string>Générer un fichier PDF</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QCheckBox" name="cb_avertissement">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Avertissement</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QPushButton" name="btn_titre">
+               <item row="4" column="1">
+                <widget class="QPushButton" name="btn_ESG">
                  <property name="toolTip">
                   <string>Prévisualiser dans Access</string>
                  </property>
@@ -582,33 +546,10 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2">
-                <widget class="QPushButton" name="btn_titrePDF">
+               <item row="4" column="2">
+                <widget class="QPushButton" name="btn_ESGPDF">
                  <property name="toolTip">
                   <string>Générer un fichier PDF</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QPushButton" name="btn_avertissementPDF">
-                 <property name="toolTip">
-                  <string>Ouvrir le fichier PDF</string>
                  </property>
                  <property name="whatsThis">
                   <string/>
@@ -654,43 +595,7 @@ Ratino</string>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
               <layout class="QGridLayout" name="gridLayout_7">
-               <item row="0" column="0">
-                <widget class="QCheckBox" name="cb_gRating">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Graphique Rating (page 3)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QPushButton" name="btn_gRating">
-                 <property name="toolTip">
-                  <string>Prévisualiser dans Access</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2">
+               <item row="2" column="2">
                 <widget class="QPushButton" name="btn_gRatingPDF">
                  <property name="toolTip">
                   <string>Générer un fichier PDF</string>
@@ -713,20 +618,7 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="cb_gSecteur">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Graphique Secteur (page 4)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
+               <item row="3" column="1">
                 <widget class="QPushButton" name="btn_gSecteur">
                  <property name="toolTip">
                   <string>Prévisualiser dans Access</string>
@@ -749,30 +641,7 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2">
-                <widget class="QPushButton" name="btn_gSecteurPDF">
-                 <property name="toolTip">
-                  <string>Générer un fichier PDF</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
+               <item row="7" column="0">
                 <widget class="QCheckBox" name="cb_gGovnt">
                  <property name="minimumSize">
                   <size>
@@ -782,58 +651,12 @@ Ratino</string>
                  </property>
                  <property name="text">
                   <string>Graphique Détaillé
-Secteur Gouvernement (page 5)</string>
+Secteur Gouvernement</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
-                <widget class="QPushButton" name="btn_gGovnt">
-                 <property name="toolTip">
-                  <string>Prévisualiser dans Access</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QPushButton" name="btn_gGovntPDF">
-                 <property name="toolTip">
-                  <string>Générer un fichier PDF</string>
-                 </property>
-                 <property name="whatsThis">
-                  <string/>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../ressources.qrc">
-                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QCheckBox" name="cb_gCorp">
+               <item row="6" column="0">
+                <widget class="QCheckBox" name="cb_gFin">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -842,11 +665,11 @@ Secteur Gouvernement (page 5)</string>
                  </property>
                  <property name="text">
                   <string>Graphique détaillé
-Secteur Corporate (page 6)</string>
+Secteur Financier</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
+               <item row="5" column="1">
                 <widget class="QPushButton" name="btn_gCorp">
                  <property name="toolTip">
                   <string>Prévisualiser dans Access</string>
@@ -869,8 +692,34 @@ Secteur Corporate (page 6)</string>
                  </property>
                 </widget>
                </item>
+               <item row="3" column="0">
+                <widget class="QCheckBox" name="cb_gSecteur">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Graphique Secteur</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="0">
+                <widget class="QCheckBox" name="cb_emetteur">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Classement par Emetteur</string>
+                 </property>
+                </widget>
+               </item>
                <item row="3" column="2">
-                <widget class="QPushButton" name="btn_gCorpPDF">
+                <widget class="QPushButton" name="btn_gSecteurPDF">
                  <property name="toolTip">
                   <string>Générer un fichier PDF</string>
                  </property>
@@ -892,22 +741,8 @@ Secteur Corporate (page 6)</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
-                <widget class="QCheckBox" name="cb_gFin">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Graphique détaillé
-Secteur Financier (page 7)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QPushButton" name="btn_gFin">
+               <item row="2" column="1">
+                <widget class="QPushButton" name="btn_gRating">
                  <property name="toolTip">
                   <string>Prévisualiser dans Access</string>
                  </property>
@@ -929,7 +764,20 @@ Secteur Financier (page 7)</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="2">
+               <item row="2" column="0">
+                <widget class="QCheckBox" name="cb_gRating">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Graphique Rating</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="2">
                 <widget class="QPushButton" name="btn_gFinPDF">
                  <property name="toolTip">
                   <string>Générer un fichier PDF</string>
@@ -952,8 +800,8 @@ Secteur Financier (page 7)</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QCheckBox" name="cb_synthese">
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="cb_gType">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -961,12 +809,35 @@ Secteur Financier (page 7)</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Synthèse</string>
+                  <string>Graphique Type</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
-                <widget class="QPushButton" name="btn_synthese">
+               <item row="1" column="2">
+                <widget class="QPushButton" name="btn_gTypePDF">
+                 <property name="toolTip">
+                  <string>Générer un fichier PDF</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QPushButton" name="btn_gGovnt">
                  <property name="toolTip">
                   <string>Prévisualiser dans Access</string>
                  </property>
@@ -989,7 +860,195 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="5" column="2">
-                <widget class="QPushButton" name="btn_synthesePDF">
+                <widget class="QPushButton" name="btn_gCorpPDF">
+                 <property name="toolTip">
+                  <string>Générer un fichier PDF</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QPushButton" name="btn_gFin">
+                 <property name="toolTip">
+                  <string>Prévisualiser dans Access</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="2">
+                <widget class="QPushButton" name="btn_gGovntPDF">
+                 <property name="toolTip">
+                  <string>Générer un fichier PDF</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QCheckBox" name="cb_gCorp">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Graphique détaillé
+Secteur Corporate</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="2">
+                <widget class="QPushButton" name="btn_emetteurPDF">
+                 <property name="toolTip">
+                  <string>Générer un fichier PDF</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/pdf-48.png</normaloff>:/ressources/img/pdf-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QPushButton" name="btn_gType">
+                 <property name="toolTip">
+                  <string>Prévisualiser dans Access</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="1">
+                <widget class="QPushButton" name="btn_emetteur">
+                 <property name="toolTip">
+                  <string>Prévisualiser dans Access</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="cb_histoType">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Histogramme par Type</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="btn_histoType">
+                 <property name="toolTip">
+                  <string>Prévisualiser dans Access</string>
+                 </property>
+                 <property name="whatsThis">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../ressources.qrc">
+                   <normaloff>:/ressources/img/view-48.png</normaloff>:/ressources/img/view-48.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QPushButton" name="btn_histoTypePDF">
                  <property name="toolTip">
                   <string>Générer un fichier PDF</string>
                  </property>
@@ -1148,15 +1207,43 @@ Secteur Financier (page 7)</string>
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
               <layout class="QGridLayout" name="gridLayout_3">
-               <item row="4" column="1">
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Plus ou moins value par échéance</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="0">
+                <widget class="QLabel" name="label_6">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Exigence en Capital 
+Solvabilité2 + Classement par 
+Ratino</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
                 <widget class="QLineEdit" name="tb_echeancier">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
                 </widget>
                </item>
-               <item row="7" column="0">
-                <widget class="QLabel" name="label_8">
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_33">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -1164,27 +1251,14 @@ Secteur Financier (page 7)</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Histogramme par Type (page 1)</string>
+                  <string>Etat ESG</string>
                  </property>
                 </widget>
                </item>
-               <item row="8" column="1">
-                <widget class="QLineEdit" name="tb_gType">
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="tb_synthese">
                  <property name="enabled">
                   <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QLabel" name="label_7">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Classement par Emetteur</string>
                  </property>
                 </widget>
                </item>
@@ -1202,94 +1276,34 @@ Secteur Financier (page 7)</string>
                 </widget>
                </item>
                <item row="5" column="1">
+                <widget class="QLineEdit" name="tb_ESG">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_30">
+                 <property name="text">
+                  <string>Sommaire</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_29">
+                 <property name="text">
+                  <string>Titre</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="1">
                 <widget class="QLineEdit" name="tb_exigence">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_6">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Exigence en Capital 
-Solvabilité2 + Classement par 
-Ratino</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_5">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Remboursement par échéance</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="1">
-                <widget class="QLineEdit" name="tb_histoType">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="tb_sommaire">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                </widget>
-               </item>
                <item row="6" column="1">
-                <widget class="QLineEdit" name="tb_emetteur">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="0">
-                <widget class="QLabel" name="label_9">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Graphique Type (page 2)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_4">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Plus ou moins value par échéance</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
                 <widget class="QLineEdit" name="tb_echeplus">
                  <property name="enabled">
                   <bool>false</bool>
@@ -1302,28 +1316,53 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_16">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Synthèse</string>
+                 </property>
+                </widget>
+               </item>
                <item row="2" column="1">
+                <widget class="QLineEdit" name="tb_sommaire">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Remboursement par échéance</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
                 <widget class="QPushButton" name="btn_config_av">
                  <property name="text">
                   <string>Configuration</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_29">
-                 <property name="text">
-                  <string>Titre</string>
-                 </property>
-                </widget>
-               </item>
                <item row="1" column="0">
-                <widget class="QLabel" name="label_30">
-                 <property name="text">
-                  <string>Sommaire</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
                 <widget class="QLabel" name="label_31">
                  <property name="text">
                   <string>Avertissement</string>
@@ -1359,7 +1398,35 @@ Ratino</string>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
               <layout class="QGridLayout" name="gridLayout_4">
-               <item row="1" column="0">
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="tb_gRating">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="1">
+                <widget class="QLineEdit" name="tb_emetteur">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QLineEdit" name="tb_gFin">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="tb_gSecteur">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
                 <widget class="QLabel" name="label_11">
                  <property name="minimumSize">
                   <size>
@@ -1368,59 +1435,11 @@ Ratino</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Graphique Secteur (page 4)</string>
+                  <string>Graphique Secteur</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
-                <widget class="QLineEdit" name="tb_synthese">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QLineEdit" name="tb_gFin">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="tb_gRating">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="tb_gCorp">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_10">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Graphique Rating (page 3)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="tb_gGovnt">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
+               <item row="7" column="0">
                 <widget class="QLabel" name="label_12">
                  <property name="minimumSize">
                   <size>
@@ -1430,11 +1449,64 @@ Ratino</string>
                  </property>
                  <property name="text">
                   <string>Graphique Détaillé
-Secteur Gouvernement (page 5)</string>
+Secteur Gouvernement</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0">
+               <item row="8" column="0">
+                <widget class="QLabel" name="label_7">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Classement par Emetteur</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QLineEdit" name="tb_gGovnt">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QLineEdit" name="tb_gCorp">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_9">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Graphique Type</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_10">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Graphique Rating</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
                 <widget class="QLabel" name="label_14">
                  <property name="minimumSize">
                   <size>
@@ -1444,11 +1516,18 @@ Secteur Gouvernement (page 5)</string>
                  </property>
                  <property name="text">
                   <string>Graphique détaillé
-Secteur Corporate (page 6)</string>
+Secteur Corporate</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="tb_gType">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
                 <widget class="QLabel" name="label_15">
                  <property name="minimumSize">
                   <size>
@@ -1458,12 +1537,19 @@ Secteur Corporate (page 6)</string>
                  </property>
                  <property name="text">
                   <string>Graphique détaillé
-Secteur Financier (page 7)</string>
+Secteur Financier</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_16">
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="tb_histoType">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_8">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -1471,14 +1557,7 @@ Secteur Financier (page 7)</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Synthèse</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="tb_gSecteur">
-                 <property name="enabled">
-                  <bool>false</bool>
+                  <string>Histogramme par Type</string>
                  </property>
                 </widget>
                </item>
@@ -1652,8 +1731,8 @@ Secteur Financier (page 7)</string>
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <item>
               <layout class="QGridLayout" name="gridLayout_5">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_17">
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_19">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -1661,11 +1740,39 @@ Secteur Financier (page 7)</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Plus ou moins value par échéance</string>
+                  <string>Exigence en Capital 
+Solvabilité2 + Classement par 
+Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_28">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Synthèse</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_22">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Graphique Type</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
                 <widget class="QLineEdit" name="nb_echeplus">
                  <property name="enabled">
                   <bool>false</bool>
@@ -1684,8 +1791,8 @@ Secteur Financier (page 7)</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_18">
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_17">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -1693,11 +1800,11 @@ Secteur Financier (page 7)</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Remboursement par échéance</string>
+                  <string>Plus ou moins value par échéance</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1">
+               <item row="3" column="1">
                 <widget class="QLineEdit" name="nb_echeancier">
                  <property name="enabled">
                   <bool>false</bool>
@@ -1710,8 +1817,8 @@ Secteur Financier (page 7)</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_19">
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_21">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -1719,13 +1826,24 @@ Secteur Financier (page 7)</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Exigence en Capital 
-Solvabilité2 + Classement par 
-Ratino</string>
+                  <string>Histogramme par Type</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
+               <item row="7" column="1">
+                <widget class="QLineEdit" name="nb_gType">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
                 <widget class="QLineEdit" name="nb_exigence">
                  <property name="enabled">
                   <bool>false</bool>
@@ -1738,21 +1856,8 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_20">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Classement par Emetteur</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="nb_emetteur">
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="nb_synthese">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1764,8 +1869,8 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_21">
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_18">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -1773,11 +1878,11 @@ Ratino</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Histogramme par Type (page 1)</string>
+                  <string>Remboursement par échéance</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="1">
+               <item row="6" column="1">
                 <widget class="QLineEdit" name="nb_histoType">
                  <property name="enabled">
                   <bool>false</bool>
@@ -1790,8 +1895,8 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_22">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_32">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -1799,12 +1904,12 @@ Ratino</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Graphique Type (page 2)</string>
+                  <string>Etat ESG</string>
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
-                <widget class="QLineEdit" name="nb_gType">
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="nb_ESG">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1842,16 +1947,42 @@ Ratino</string>
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_23">
-                 <property name="minimumSize">
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="nb_gSecteur">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="maximumSize">
                   <size>
-                   <width>0</width>
-                   <height>48</height>
+                   <width>50</width>
+                   <height>16777215</height>
                   </size>
                  </property>
-                 <property name="text">
-                  <string>Graphique Rating (page 3)</string>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="nb_gCorp">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="nb_gFin">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
                  </property>
                 </widget>
                </item>
@@ -1868,6 +1999,19 @@ Ratino</string>
                  </property>
                 </widget>
                </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_20">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Classement par Emetteur</string>
+                 </property>
+                </widget>
+               </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_24">
                  <property name="minimumSize">
@@ -1877,47 +2021,7 @@ Ratino</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Graphique Secteur (page 4)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="nb_gSecteur">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_25">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>48</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Graphique Détaillé
-Secteur Gouvernement (page 5)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="nb_gGovnt">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
+                  <string>Graphique Secteur</string>
                  </property>
                 </widget>
                </item>
@@ -1931,12 +2035,12 @@ Secteur Gouvernement (page 5)</string>
                  </property>
                  <property name="text">
                   <string>Graphique détaillé
-Secteur Corporate (page 6)</string>
+Secteur Corporate</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="nb_gCorp">
+               <item row="6" column="1">
+                <widget class="QLineEdit" name="nb_emetteur">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1958,25 +2062,12 @@ Secteur Corporate (page 6)</string>
                  </property>
                  <property name="text">
                   <string>Graphique détaillé
-Secteur Financier (page 7)</string>
+Secteur Financier</string>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="1">
-                <widget class="QLineEdit" name="nb_gFin">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_28">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_23">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -1984,12 +2075,26 @@ Secteur Financier (page 7)</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Synthèse</string>
+                  <string>Graphique Rating</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_25">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Graphique Détaillé
+Secteur Gouvernement</string>
                  </property>
                 </widget>
                </item>
                <item row="5" column="1">
-                <widget class="QLineEdit" name="nb_synthese">
+                <widget class="QLineEdit" name="nb_gGovnt">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -2163,33 +2268,18 @@ Secteur Financier (page 7)</string>
   <tabstop>cb_exigence</tabstop>
   <tabstop>btn_exigence</tabstop>
   <tabstop>btn_exigencePDF</tabstop>
-  <tabstop>cb_emetteur</tabstop>
-  <tabstop>btn_emetteur</tabstop>
-  <tabstop>btn_emetteurPDF</tabstop>
-  <tabstop>cb_histoType</tabstop>
-  <tabstop>btn_histoType</tabstop>
-  <tabstop>btn_histoTypePDF</tabstop>
-  <tabstop>cb_gType</tabstop>
-  <tabstop>btn_gType</tabstop>
-  <tabstop>btn_gTypePDF</tabstop>
   <tabstop>cb_gRating</tabstop>
   <tabstop>btn_gRating</tabstop>
   <tabstop>btn_gRatingPDF</tabstop>
   <tabstop>cb_gSecteur</tabstop>
   <tabstop>btn_gSecteur</tabstop>
   <tabstop>btn_gSecteurPDF</tabstop>
-  <tabstop>cb_gGovnt</tabstop>
-  <tabstop>btn_gGovnt</tabstop>
-  <tabstop>btn_gGovntPDF</tabstop>
   <tabstop>cb_gCorp</tabstop>
   <tabstop>btn_gCorp</tabstop>
   <tabstop>btn_gCorpPDF</tabstop>
   <tabstop>cb_gFin</tabstop>
   <tabstop>btn_gFin</tabstop>
   <tabstop>btn_gFinPDF</tabstop>
-  <tabstop>cb_synthese</tabstop>
-  <tabstop>btn_synthese</tabstop>
-  <tabstop>btn_synthesePDF</tabstop>
   <tabstop>btn_PDF</tabstop>
  </tabstops>
  <resources>
