@@ -454,6 +454,20 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     break
 
             # CREATION DU SOMMAIRE
+            liste_generation_sommaire = []
+            bool_graph = False
+            for i in range(len(liste_generation)):
+                etat = liste_generation[i]
+                print(i)
+                if etat['type'] == 'graphiqueDetail':
+                    print('graph')
+                    if not bool_graph:
+                        bool_graph = True
+                        liste_generation_sommaire.append(liste_generation[i])
+                        print('ajout graph')
+                else:
+                    liste_generation_sommaire.append(liste_generation[i])
+
             if (self.cb_sommaire.isChecked() or nb_checked == 0) and not break_bool:
                 progress.setLabelText("Page de sommaire")
                 QtCore.QCoreApplication.processEvents()
@@ -462,19 +476,12 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 acc.OpenCurrentDatabase(self.fileBDD, True)
                 acc.DoCmd.OpenReport(self.sommaire['nomEtat'], win32.constants.acViewReport)
                 imax = 0
-                bool_graph = False
-                for i in range(len(liste_generation)):
-                    etat = liste_generation[i]
-                    if etat['type'] == 'graphiqueDetail':
-                        if not bool_graph:
-                            acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
-                            acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
-                            bool_graph = True
-                    else:
-                        acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
-                        acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
+                for i in range(len(liste_generation_sommaire)):
+                    etat = liste_generation_sommaire[i]
+                    acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
+                    acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
                     imax = i
-                for i in range(imax + 1, 6):
+                for i in range(imax + 1, 8):
                     acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = ""
                     acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = ""
                 acc.DoCmd.OutputTo(win32.constants.acOutputReport, self.sommaire['nomEtat'], win32.constants.acFormatPDF, file_sommaire)
