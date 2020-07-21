@@ -175,11 +175,11 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.modelObligation = ModelObligation()
         self.modelObligation.select()
 
-        date1 = self.calendarWidget.selectedDate()
+        self.calendarWidget.clicked.connect(self.prep_combobox)
 
-        self.comboBox_ListeOblig.setModel(self.modelObligation)
-        self.comboBox_ListeOblig.setModelColumn(self.modelObligation.fieldIndex('libelle'))
-        self.comboBox_ListeOblig.setCurrentIndex(-1)
+        #self.comboBox_ListeOblig.setModel(self.modelObligation)
+        #self.comboBox_ListeOblig.setModelColumn(self.modelObligation.fieldIndex('libelle'))
+        #self.comboBox_ListeOblig.setCurrentIndex(-1)
         self.comboBox_ListeOblig.activated.connect(self.rempli_ligne)
         self.pushButton_Valider.clicked.connect(self.mod_oblig)
 
@@ -255,15 +255,52 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.comboBox_SsSecteur.setModelColumn(self.modelSSecteur.fieldIndex('nomSousSecteur'))
         self.comboBox_SsSecteur.setCurrentIndex(-1)
 
+    def prep_combobox(self):
+#Construction de la combo box par une étape de sql
+        date1 = self.calendarWidget.selectedDate()
+        if len(str(date1.day())) < 2:
+            day = "0" + str(date1.day)
+        else: day = str(date1.day())
+
+        if len(str(date1.month())) <2:
+            month = "0" +str(date1.month)
+        else: month = str(date1.month())
+        date1str = str(day) + "/" + str(month) + "/" + str(date1.year())
+
+
+        liste = []
+        query_liste = QtSql.QSqlQuery()
+        query_liste.exec("SELECT libelle FROM Obligation WHERE DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
+
+        if query_liste.first():
+            liste.append(query_liste.value(0))
+            while query_liste.next():
+                liste.append(query_liste.value(0))
+        else:
+            error = self.modelObligation.lastError().text()
+            print("erreur 22")
+            QMessageBox.critical(self, "erreur 2", error)
+
+        self.comboBox_ListeOblig.addItems(liste)
+
     def rempli_ligne(self):
         date = self.calendarWidget.selectedDate()
-        datestr = date.toString()
+
+        if len(str(date.day())) < 2:
+            day2 = "0" + str(date.day)
+        else: day2 = str(date.day())
+
+        if len(str(date.month())) <2:
+            month2 = "0" +str(date.month)
+        else: month2 = str(date.month())
+        datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
+
         model = self.modelObligation
         obli_choisi = "'" + self.comboBox_ListeOblig.currentText() + "'"
         query = QtSql.QSqlQuery()
-        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " + datestr)
+        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
 
-        if query:
+        if query.next():
             isin = query.value(0)
             ticker = query.value(1)
             tauxremb = query.value(2)
@@ -314,6 +351,16 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
     def mod_oblig(self):
         date = self.calendarWidget.selectedDate()
 
+        if len(str(date.day())) < 2:
+            day2 = "0" + str(date.day)
+        else: day2 = str(date.day())
+
+        if len(str(date.month())) <2:
+            month2 = "0" +str(date.month)
+        else: month2 = str(date.month())
+        datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
+
+
         modISIN = self.lineEdit_ISIN.text()
         modNominal = self.lineEdit_Nominal.text()
         modCours = self.lineEdit_Cours.text()
@@ -322,6 +369,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         modDevisePrst = self.lineEdit_DevisePrst.text()
         modLibelle = self.lineEdit_Libelle.text()
         modRendement = self.lineEdit_Rendement.text()
+        modDuration = self.lineEdit_Duration.text()
         #TODO rajouter duration
         modSpreadBund = self.lineEdit_SpreadBund.text()
         #TODO rajouter interets courus
@@ -331,7 +379,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         modIndexation = self.lineEdit_Indexation.text()
 
         query = QtSql.QSqlQuery()
-        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Nominal = '"+ modNominal +"', Cours = '"+ modCours +"'Coupon = '" + modCoupon +"', Libelle = '" + modLibelle +"', Rendement = '"+ modRendement +"', SpreadBund = '"+ modSpreadBund +"'Sensibilite = '" + modSensibilite +"', Convexite = '"+ modConvexite +"'VieMoyenne = '" + modAvgLife+"' Indexation = '"+modIndexation+"'DeviseAchat = '"+ modDevisePassee+"' DeviseConversion = '"+ modDevisePrst+"' WHERE ISIN = '" + modISIN +"' OR DateMaj ='" + str(date))
+        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Nominal = '"+ modNominal +"', Cours = '"+ modCours +"'Coupon = '" + modCoupon +"', Libelle = '" + modLibelle +"', Rendement = '"+ modRendement +"', SpreadBund = '"+ modSpreadBund +"'    Duration ='"+modDuration+ "' Sensibilite = '" + modSensibilite +"', Convexite = '"+ modConvexite +"'VieMoyenne = '" + modAvgLife+"' Indexation = '"+modIndexation+"'DeviseAchat = '"+ modDevisePassee+"' DeviseConversion = '"+ modDevisePrst+"' WHERE ISIN = '" + modISIN +"' OR DateMaj =" +"format('" + datestr + "','dd/mm/yyyy')")
         #TODO rajouter classe duration et interets courus
         if query:
             QMessageBox.information(self, "Client Modifié", "Modification Reussie")
@@ -346,11 +394,18 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             #TODO rajouter duration
             self.lineEdit_SpreadBund.clear()
             #TODO rajouter interets courus
-            self.lineEdit_Sensibilite.clear())
-            self.lineEdit_Convexite.clear())
+            self.lineEdit_Sensibilite.clear()
+            self.lineEdit_Convexite.clear()
             self.lineEdit_AvgLife.clear()
             self.lineEdit_Indexation.clear()
         else:
             error = model.lastError().text()
             print("erreur")
             QMessageBox.critical(self, "erreur 1", error)
+
+
+    def srch_Ticker(self):
+        ticker = str(self.lineEdit_SrchTicker.text())
+
+        query = QtSql.QSqlQuey()
+        result = query.exec("SELECT Ticker FROM obligation WHERE Ticker =" +ticker)
