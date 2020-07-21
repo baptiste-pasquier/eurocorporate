@@ -181,8 +181,17 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         #self.comboBox_ListeOblig.setModelColumn(self.modelObligation.fieldIndex('libelle'))
         #self.comboBox_ListeOblig.setCurrentIndex(-1)
         self.comboBox_ListeOblig.activated.connect(self.rempli_ligne)
-        self.pushButton_Valider.clicked.connect(self.mod_oblig)
 
+
+#Combo box des recherches par ticker
+        self.lineEdit_SrchTicker.textEdited.connect(self.prep_comboboxSrchTicker)
+        self.comboBox_SrchTicker.activated.connect(self.rempli_ligne_srchticker)
+
+#Combo box des recherches par code
+        self.lineEdit_SrchCode.textEdited.connect(self.prep_comboboxSrchCode)
+        self.comboBox_SrchCode.activated.connect(self.rempli_ligne_srchcode)
+
+        self.pushButton_Valider.clicked.connect(self.mod_oblig)
 #ComboBox des Ratings
         self.modelRating = ModelRating()
         self.modelRating.select()
@@ -259,11 +268,11 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 #Construction de la combo box par une étape de sql
         date1 = self.calendarWidget.selectedDate()
         if len(str(date1.day())) < 2:
-            day = "0" + str(date1.day)
+            day = "0" + str(date1.day())
         else: day = str(date1.day())
 
         if len(str(date1.month())) <2:
-            month = "0" +str(date1.month)
+            month = "0" +str(date1.month())
         else: month = str(date1.month())
         date1str = str(day) + "/" + str(month) + "/" + str(date1.year())
 
@@ -279,19 +288,84 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         else:
             error = self.modelObligation.lastError().text()
             print("erreur 22")
-            QMessageBox.critical(self, "erreur 2", error)
+            QMessageBox.critical(self, "Erreur : aucun champ trouvé à cette date", error)
 
         self.comboBox_ListeOblig.addItems(liste)
+
+    def prep_comboboxSrchCode(self):
+#Construction de la combo box par une étape de sql
+
+        isin = self.lineEdit_SrchCode.text()
+        print(isin)
+        date1 = self.calendarWidget.selectedDate()
+        if len(str(date1.day())) < 2:
+            day = "0" + str(date1.day())
+        else: day = str(date1.day())
+
+        if len(str(date1.month())) <2:
+            month = "0" +str(date1.month())
+        else: month = str(date1.month())
+        date1str = str(day) + "/" + str(month) + "/" + str(date1.year())
+
+
+        liste = []
+        query_liste = QtSql.QSqlQuery()
+        query_liste.exec("SELECT libelle FROM Obligation WHERE ISIN LIKE '" + isin +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
+
+        if query_liste.first():
+            liste.append(query_liste.value(0))
+            while query_liste.next():
+                liste.append(query_liste.value(0))
+        else:
+            error = self.modelObligation.lastError().text()
+            print("erreur 22")
+            QMessageBox.critical(self, "Erreur : aucun champ trouvé pour cet  ISIN", error)
+
+        self.comboBox_SrchCode.addItems(liste)
+
+
+    def prep_comboboxSrchTicker(self):
+#Construction de la combo box par une étape de sql
+
+        ticker = self.lineEdit_SrchTicker.text()
+        print(ticker)
+        date1 = self.calendarWidget.selectedDate()
+        if len(str(date1.day())) < 2:
+            day = "0" + str(date1.day())
+        else: day = str(date1.day())
+
+        if len(str(date1.month())) <2:
+            month = "0" +str(date1.month())
+        else: month = str(date1.month())
+        date1str = str(day) + "/" + str(month) + "/" + str(date1.year())
+
+        print("SELECT libelle FROM Obligation WHERE ticker = '" + ticker +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
+
+
+        liste = []
+        query_liste = QtSql.QSqlQuery()
+        query_liste.exec("SELECT libelle FROM Obligation WHERE ticker LIKE '" + ticker +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
+
+        if query_liste.first():
+            liste.append(query_liste.value(0))
+            while query_liste.next():
+                liste.append(query_liste.value(0))
+        else:
+            error = self.modelObligation.lastError().text()
+            print("erreur 22")
+            QMessageBox.critical(self, "Erreur : aucun champ trouvé pour ce Ticker", error)
+
+        self.comboBox_SrchTicker.addItems(liste)
 
     def rempli_ligne(self):
         date = self.calendarWidget.selectedDate()
 
         if len(str(date.day())) < 2:
-            day2 = "0" + str(date.day)
+            day2 = "0" + str(date.day())
         else: day2 = str(date.day())
 
         if len(str(date.month())) <2:
-            month2 = "0" +str(date.month)
+            month2 = "0" +str(date.month())
         else: month2 = str(date.month())
         datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
 
@@ -339,7 +413,137 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.lineEdit_Libelle.setText(str(libelle2))
         self.lineEdit_Rendement.setText(str(rendement))
         self.lineEdit_Duration.setText(str(duration))
-        #TODO rajouter duration
+        #TODO rajouter classe duration
+        self.lineEdit_SpreadBund.setText(str(spreadbund))
+
+        #TODO rajouter interets courus
+        self.lineEdit_Sensibilite.setText(str(sensibilite))
+        self.lineEdit_Convexite.setText(str(convexite))
+        self.lineEdit_AvgLife.setText(str(avglife))
+        self.lineEdit_Indexation.setText(str(indexation))
+
+    def rempli_ligne_srchcode(self):
+        date = self.calendarWidget.selectedDate()
+
+        if len(str(date.day())) < 2:
+            day2 = "0" + str(date.day())
+        else: day2 = str(date.day())
+
+        if len(str(date.month())) <2:
+            month2 = "0" +str(date.month())
+        else: month2 = str(date.month())
+        datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
+
+        model = self.modelObligation
+        obli_choisi = "'" + self.comboBox_SrchCode.currentText() + "'"
+        query = QtSql.QSqlQuery()
+        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
+
+        if query.next():
+            isin = query.value(0)
+            ticker = query.value(1)
+            tauxremb = query.value(2)
+            nominal =  query.value(3)
+            notype =  query.value(4)
+            cours =  query.value(5)
+            coupon =  query.value(6)
+            deviseachat =  query.value(7)
+            deviseconversion =  query.value(8)
+            maturite =  query.value(9)
+            noregion =  query.value(10)
+            nosoussecteur =  query.value(11)
+            libelle2 =  query.value(12)
+            rendement =  query.value(13)
+            duration =  query.value(14)
+            spreadbund =  query.value(15)
+            sensibilite =  query.value(16)
+            convexite =  query.value(17)
+            avglife=  query.value(18)
+            indexation =  query.value(19)
+            rating =  query.value(20)
+            ratingsp =  query.value(21)
+            ratingfitch =  query.value(22)
+            ratingmoody =  query.value(23)
+        else:
+            error = model.lastError().text()
+            print(f"Insert Failed: {error}")
+            model.select()
+
+        self.lineEdit_ISIN.setText(str(isin))
+        self.lineEdit_Nominal.setText(str(nominal))
+        self.lineEdit_Cours.setText(str(cours))
+        self.lineEdit_Coupon.setText(str(coupon))
+        self.lineEdit_DevisePassee.setText(str(deviseachat))
+        self.lineEdit_DevisePrst.setText(str(deviseconversion))
+        self.lineEdit_Libelle.setText(str(libelle2))
+        self.lineEdit_Rendement.setText(str(rendement))
+        self.lineEdit_Duration.setText(str(duration))
+        #TODO rajouter classe duration
+        self.lineEdit_SpreadBund.setText(str(spreadbund))
+
+        #TODO rajouter interets courus
+        self.lineEdit_Sensibilite.setText(str(sensibilite))
+        self.lineEdit_Convexite.setText(str(convexite))
+        self.lineEdit_AvgLife.setText(str(avglife))
+        self.lineEdit_Indexation.setText(str(indexation))
+
+    def rempli_ligne_srchticker(self):
+        date = self.calendarWidget.selectedDate()
+
+        if len(str(date.day())) < 2:
+            day2 = "0" + str(date.day())
+        else: day2 = str(date.day())
+
+        if len(str(date.month())) <2:
+            month2 = "0" +str(date.month())
+        else: month2 = str(date.month())
+        datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
+
+        model = self.modelObligation
+        obli_choisi = "'" + self.comboBox_SrchTicker.currentText() + "'"
+        query = QtSql.QSqlQuery()
+        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
+
+        if query.next():
+            isin = query.value(0)
+            ticker = query.value(1)
+            tauxremb = query.value(2)
+            nominal =  query.value(3)
+            notype =  query.value(4)
+            cours =  query.value(5)
+            coupon =  query.value(6)
+            deviseachat =  query.value(7)
+            deviseconversion =  query.value(8)
+            maturite =  query.value(9)
+            noregion =  query.value(10)
+            nosoussecteur =  query.value(11)
+            libelle2 =  query.value(12)
+            rendement =  query.value(13)
+            duration =  query.value(14)
+            spreadbund =  query.value(15)
+            sensibilite =  query.value(16)
+            convexite =  query.value(17)
+            avglife=  query.value(18)
+            indexation =  query.value(19)
+            rating =  query.value(20)
+            ratingsp =  query.value(21)
+            ratingfitch =  query.value(22)
+            ratingmoody =  query.value(23)
+        else:
+            error = model.lastError().text()
+            print(f"Insert Failed: {error}")
+            model.select()
+
+        self.lineEdit_ISIN.setText(str(isin))
+        self.lineEdit_Nominal.setText(str(nominal))
+        self.lineEdit_Cours.setText(str(cours))
+        self.lineEdit_Coupon.setText(str(coupon))
+        self.lineEdit_DevisePassee.setText(str(deviseachat))
+        self.lineEdit_DevisePrst.setText(str(deviseconversion))
+        self.lineEdit_Libelle.setText(str(libelle2))
+        self.lineEdit_Rendement.setText(str(rendement))
+        self.lineEdit_Duration.setText(str(duration))
+        #TODO rajouter classe duration
         self.lineEdit_SpreadBund.setText(str(spreadbund))
 
         #TODO rajouter interets courus
@@ -352,11 +556,11 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         date = self.calendarWidget.selectedDate()
 
         if len(str(date.day())) < 2:
-            day2 = "0" + str(date.day)
+            day2 = "0" + str(date.day())
         else: day2 = str(date.day())
 
         if len(str(date.month())) <2:
-            month2 = "0" +str(date.month)
+            month2 = "0" +str(date.month())
         else: month2 = str(date.month())
         datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
 
@@ -370,7 +574,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         modLibelle = self.lineEdit_Libelle.text()
         modRendement = self.lineEdit_Rendement.text()
         modDuration = self.lineEdit_Duration.text()
-        #TODO rajouter duration
+        #TODO rajouter classe duration
         modSpreadBund = self.lineEdit_SpreadBund.text()
         #TODO rajouter interets courus
         modSensibilite = self.lineEdit_Sensibilite.text()
@@ -378,10 +582,10 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         modAvgLife = self.lineEdit_AvgLife.text()
         modIndexation = self.lineEdit_Indexation.text()
 
-        query = QtSql.QSqlQuery()
-        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Nominal = '"+ modNominal +"', Cours = '"+ modCours +"'Coupon = '" + modCoupon +"', Libelle = '" + modLibelle +"', Rendement = '"+ modRendement +"', SpreadBund = '"+ modSpreadBund +"'    Duration ='"+modDuration+ "' Sensibilite = '" + modSensibilite +"', Convexite = '"+ modConvexite +"'VieMoyenne = '" + modAvgLife+"' Indexation = '"+modIndexation+"'DeviseAchat = '"+ modDevisePassee+"' DeviseConversion = '"+ modDevisePrst+"' WHERE ISIN = '" + modISIN +"' OR DateMaj =" +"format('" + datestr + "','dd/mm/yyyy')")
+        query2 = QtSql.QSqlQuery()
+        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"' , DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+" WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
         #TODO rajouter classe duration et interets courus
-        if query:
+        if result:
             QMessageBox.information(self, "Client Modifié", "Modification Reussie")
             self.lineEdit_ISIN.clear()
             self.lineEdit_Nominal.clear()
@@ -407,5 +611,29 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
     def srch_Ticker(self):
         ticker = str(self.lineEdit_SrchTicker.text())
 
-        query = QtSql.QSqlQuey()
-        result = query.exec("SELECT Ticker FROM obligation WHERE Ticker =" +ticker)
+        date2 = self.calendarWidget.selectedDate()
+
+        if len(str(date2.day())) < 2:
+            day2 = "0" + str(date2.day())
+        else: day2 = str(date2.day())
+
+        if len(str(date2.month())) <2:
+            month2 = "0" +str(date2.month())
+        else: month2 = str(date2.month())
+        date2str = str(day2) + "/" + str(month2) + "/" + str(date2.year())
+
+
+        liste2 = []
+        query_liste2 = QtSql.QSqlQuey()
+        result = query_liste2.exec("SELECT libelle FROM obligation WHERE Ticker =" +ticker + " AND DateDeMaj = format('"+ date2str +"','dd/mm/yyyy')")
+        if result:
+            liste2.append(query_liste2.value(0))
+            while query_liste2.next():
+                liste2.append(query_liste2.value(0))
+        else:
+            error = self.modelObligation.lastError().text()
+            print("erreur 22")
+            QMessageBox.critical(self, "Erreur : aucun champ trouvé à cette date", error)
+
+
+
