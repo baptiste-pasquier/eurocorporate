@@ -1249,8 +1249,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 self.btn_transfert.setEnabled(True)
 
     def visualisation(self):
-        ### A FAIRE:
-        # Activer le bouton seulement si au moins une ligne dans le portefeuille
+        # TODO : Activer le bouton seulement si au moins une ligne dans le portefeuille
         # Attention aux liquidités !!!!!!!!!!
 
         if self.tb_liquidite_etat and not self.btn_liquidite.isEnabled():
@@ -1265,7 +1264,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             if query.next():
                 countObligation = query.value(0)
             if countContenir == countObligation:
-                ### A FAIRE
+                # TODO
                 self.etat_window = MainWindowEtat(self)
                 self.etat_window.init(self.clientChoisi, self.portefeuilleChoisi, self.dateChoisie)
                 self.etat_window.show()
