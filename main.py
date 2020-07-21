@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from Assistants.AssistantClient import MainWindowClient
 from Gestionnaires.GestionnairePortefeuille import MainWindowPortefeuille
-from Gestionnaires.GestionnaireObligataire import MainWindowObligation
+# from Gestionnaires.GestionnaireObligataire import MainWindowObligation
 from Tools.database import createconnection
 
 from MainMenuUI import Ui_MainWindowMenu

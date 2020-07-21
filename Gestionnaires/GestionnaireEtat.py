@@ -44,21 +44,40 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
         self.titre_save = {'nomEtat': "Titre"}
         self.sommaire_save = {'nomEtat': "Sommaire"}
-        self.echeplus_save = {'type': 'etat', 'nomEtat': "EchéancierValue", 'ordre': 0, 'titreSommaire': "Plus ou moins values par échéance"}
-        self.echeancier_save = {'type': 'etat', 'nomEtat': "Echéancier", 'ordre': 1, 'titreSommaire': "Remboursements par échéance"}
-        self.exigence_save = {'type': 'etat', 'nomEtat': "ExigenceCapital", 'ordre': 2, 'titreSommaire': 'Répartition par rating et selon les exigences en fonds propres "Solvabilité 2"'}
-        self.emetteur_save = {'type': 'etat', 'nomEtat': "Libelle", 'ordre': 3, 'titreSommaire': 'Classement par émetteurs'}
+        self.echeplus_save = {'type': 'etat', 'nomEtat': "EchéancierValue", 'ordre': 6, 'titreSommaire': "Plus ou moins values par échéance"}
+        self.echeancier_save = {'type': 'etat', 'nomEtat': "Echéancier", 'ordre': 7, 'titreSommaire': "Remboursements par échéance"}
+        self.exigence_save = {'type': 'etat', 'nomEtat': "ExigenceCapital", 'ordre': 8, 'titreSommaire': 'Répartition par rating et selon les exigences en fonds propres "Solvabilité 2"'}
+        
         self.gCorp_save = {'type': 'graphiqueDetail', 'nomEtat': "GraphCamLegend", 'nomEtat2': "Select_Secteur", 'nomGraphique': "Graphique", 'sourceSQL': "SELECT [nomSousSecteur], Sum([Remboursement]) AS Remb FROM Valorisation WHERE [noPortefeuille] = " + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "# AND [noSecteur]=2 GROUP BY [nomSousSecteur]",
                            'sourceSQL2': "SELECT Valorisation.noSecteur, Valorisation.nomSection, Valorisation.nomSousSecteur, Sum(Valorisation.[Remboursement]) AS [Total remboursement] FROM Valorisation WHERE [noPortefeuille]=" + self.strNoPort + "  AND DateDeMAJ= #" + self.strDate + "# AND [noSecteur]=2 GROUP BY Valorisation.noSecteur, Valorisation.nomSection, Valorisation.nomSousSecteur",
-                           'titre1': "DETAIL DE LA REPARTITION DES VALEURS DU SECTEUR CORPORATE", 'titre2': "Calculs réalisés avec les valeurs de remboursement", 'ordre': 10, 'titreSommaire': "Graphiques"}
-
+                           'titre1': "DÉTAIL DE LA RÉPARTITION DES VALEURS DU SECTEUR CORPORATE", 'titre2': "Calculs réalisés avec les valeurs de remboursement", 'ordre': 13, 'titreSommaire': "Graphiques"}
+        self.gFin_save = {'type': 'graphiqueDetail', 'nomEtat': "GraphCamLegend", 'nomEtat2': "Select_Secteur", 'nomGraphique': "Graphique", 'sourceSQL': "SELECT [nomSousSecteur], Sum([Remboursement]) AS Remb FROM Valorisation WHERE [noPortefeuille] = " + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "# AND [noSecteur]=3 GROUP BY [nomSousSecteur]",
+                          'sourceSQL2': "SELECT Valorisation.noSecteur, Valorisation.nomSection, Valorisation.nomSousSecteur, Sum(Valorisation.[Remboursement]) AS [Total remboursement] FROM Valorisation WHERE [noPortefeuille]=" + self.strNoPort + "  AND DateDeMAJ= #" + self.strDate + "# AND [noSecteur]=3 GROUP BY Valorisation.noSecteur, Valorisation.nomSection, Valorisation.nomSousSecteur",
+                          'titre1': "DÉTAIL DE LA RÉPARTITION DES VALEURS DU SECTEUR FINANCIER", 'titre2': "Calculs réalisés avec les valeurs de remboursement", 'ordre': 14, 'titreSommaire': "Graphiques"}
+        self.gGovnt_save = {'type': 'graphiqueDetail', 'nomEtat': "GraphCamLegend", 'nomEtat2': "Select_Secteur", 'nomGraphique': "Graphique", 'sourceSQL': "SELECT [nomSousSecteur], Sum([Remboursement]) AS Remb FROM Valorisation WHERE [noPortefeuille] = " + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "# AND [noSecteur]=4 GROUP BY [nomSousSecteur]",
+                            'sourceSQL2': "SELECT Valorisation.noSecteur, Valorisation.nomSection, Valorisation.nomSousSecteur, Sum(Valorisation.[Remboursement]) AS [Total remboursement] FROM Valorisation WHERE [noPortefeuille]=" + self.strNoPort + "  AND DateDeMAJ= #" + self.strDate + "# AND [noSecteur]=4 GROUP BY Valorisation.noSecteur, Valorisation.nomSection, Valorisation.nomSousSecteur",
+                            'titre1': "DÉTAIL DE LA RÉPARTITION DES VALEURS DU SECTEUR GOUVERNEMENT", 'titre2': "Calculs réalisés avec les valeurs de remboursement", 'ordre': 15, 'titreSommaire': "Graphiques"}
+        self.emetteur_save = {'type': 'etat', 'nomEtat': "Libelle", 'ordre': 16, 'titreSommaire': 'Classement par émetteurs'}
         self.titre = self.titre_save.copy()
         self.sommaire = self.sommaire_save.copy()
         self.echeplus = self.echeplus_save.copy()
         self.echeancier = self.echeancier_save.copy()
         self.exigence = self.exigence_save.copy()
-        self.emetteur = self.emetteur_save.copy()
         self.gCorp = self.gCorp_save.copy()
+        self.gFin = self.gFin_save.copy()
+        self.gGovnt = self.gGovnt_save.copy()
+        self.emetteur = self.emetteur_save.copy()
+
+        self.listePerso = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
+                           [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
+                           [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save],
+                           [self.tb_gCorp, self.gCorp, self.gCorp_save], [self.tb_gFin, self.gFin, self.gFin_save],
+                           [self.tb_gGovnt, self.gGovnt, self.gGovnt_save]]
+
+        self.listeOrdre = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
+                           [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save],
+                           [self.tb_gCorp, self.gCorp, self.gCorp_save], [self.tb_gFin, self.gFin, self.gFin_save],
+                           [self.tb_gGovnt, self.gGovnt, self.gGovnt_save]]
 
         self.on_btn_resetPerso_clicked()
         self.on_btn_resetOrdre_clicked()
@@ -80,10 +99,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_modifPerso_clicked(self):
-        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
-                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save],
-                 [self.tb_gCorp, self.gCorp, self.gCorp_save]]
+        liste = self.listePerso
 
         for elem in liste:
             elem[0].setEnabled(True)
@@ -97,10 +113,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_perso_clicked(self):
-        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
-                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save],
-                 [self.tb_gCorp, self.gCorp, self.gCorp_save]]
+        liste = self.listePerso
 
         for elem in liste:
             elem[1]['nomEtat'] = elem[0].text()
@@ -115,10 +128,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_resetPerso_clicked(self):
-        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
-                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_emetteur, self.emetteur, self.emetteur_save],
-                 [self.tb_gCorp, self.gCorp, self.gCorp_save]]
+        liste = self.listePerso
 
         for elem in liste:
             elem[1] = elem[2].copy()
@@ -134,9 +144,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_modifOrdre_clicked(self):
-        liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save],
-                 [self.nb_gCorp, self.gCorp, self.gCorp_save]]
+        liste = self.listeOrdre
 
         for elem in liste:
             elem[0].setEnabled(True)
@@ -150,9 +158,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_ordre_clicked(self):
-        liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save],
-                 [self.nb_gCorp, self.gCorp, self.gCorp_save]]
+        liste = self.listeOrdre
 
         for elem in liste:
             elem[1]['ordre'] = int(elem[0].text())
@@ -167,9 +173,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_resetOrdre_clicked(self):
-        liste = [[self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
-                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_emetteur, self.emetteur, self.emetteur_save],
-                 [self.nb_gCorp, self.gCorp, self.gCorp_save]]
+        liste = self.listeOrdre
 
         for elem in liste:
             elem[1] = elem[2].copy()
@@ -219,7 +223,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewReport, None, whereCondition)
 
             acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
-            acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour le " + self.date.toString("dd/MM/yyyy")
+            acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour du " + self.date.toString("dd/MM/yyyy")
             acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = '=[Page] + {}'.format(nb_pages)
 
             if action == "Ouvrir":
@@ -250,8 +254,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             acc.Reports.Item(nomEtat).Controls.Item("titre2").Caption = titre2
 
             acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
-            acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour le " + self.date.toString("dd/MM/yyyy")
-            acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = str(nb_pages + 1)
+            acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour du " + self.date.toString("dd/MM/yyyy")
+            acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = '=[Page] + {}'.format(nb_pages)
 
             if action == "Ouvrir":
                 # acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewPreview, None, whereCondition)
@@ -318,6 +322,27 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         action = "PDF"
         self.acc_graphiqueDetail(self, self.gCorp['nomEtat'], self.gCorp['nomEtat2'], self.gCorp['nomGraphique'], self.gCorp['sourceSQL'], self.gCorp['sourceSQL2'], self.gCorp['titre1'], self.gCorp['titre2'], action)
 
+    @pyqtSlot()
+    def on_btn_gFin_clicked(self):
+        action = "Ouvrir"
+        self.acc_graphiqueDetail(self, self.gFin['nomEtat'], self.gFin['nomEtat2'], self.gFin['nomGraphique'], self.gFin['sourceSQL'], self.gFin['sourceSQL2'], self.gFin['titre1'], self.gFin['titre2'], action)
+
+    @pyqtSlot()
+    def on_btn_gFinPDF_clicked(self):
+        action = "PDF"
+        self.acc_graphiqueDetail(self, self.gFin['nomEtat'], self.gFin['nomEtat2'], self.gFin['nomGraphique'], self.gFin['sourceSQL'], self.gFin['sourceSQL2'], self.gFin['titre1'], self.gFin['titre2'], action)
+
+    @pyqtSlot()
+    def on_btn_gGovnt_clicked(self):
+        action = "Ouvrir"
+        self.acc_graphiqueDetail(self, self.gGovnt['nomEtat'], self.gGovnt['nomEtat2'], self.gGovnt['nomGraphique'], self.gGovnt['sourceSQL'], self.gGovnt['sourceSQL2'], self.gGovnt['titre1'], self.gGovnt['titre2'], action)
+
+    @pyqtSlot()
+    def on_btn_gGovntPDF_clicked(self):
+        action = "PDF"
+        self.acc_graphiqueDetail(self, self.gGovnt['nomEtat'], self.gGovnt['nomEtat2'], self.gGovnt['nomGraphique'], self.gGovnt['sourceSQL'], self.gGovnt['sourceSQL2'], self.gGovnt['titre1'], self.gGovnt['titre2'], action)
+
+
     # Document complet
     @pyqtSlot()
     def on_btn_PDF_clicked(self):
@@ -346,9 +371,9 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             file_titre = tempdir.filePath("titre.pdf").replace("/", "\\")
             file_sommaire = tempdir.filePath("sommaire.pdf").replace("/", "\\")
 
-            # traiter graphique séparemment
+            # TODO traiter graphique séparemment
 
-            liste = [None] * 12
+            liste = [None] * 20
 
             if self.cb_echeplus.isChecked() or nb_checked == 0:
                 etat = self.echeplus
@@ -364,6 +389,12 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 liste[etat['ordre']] = etat
             if self.cb_gCorp.isChecked() or nb_checked == 0:
                 etat = self.gCorp
+                liste[etat['ordre']] = etat
+            if self.cb_gFin.isChecked() or nb_checked == 0:
+                etat = self.gFin
+                liste[etat['ordre']] = etat
+            if self.cb_gGovnt.isChecked() or nb_checked == 0:
+                etat = self.gGovnt
                 liste[etat['ordre']] = etat
 
             liste_generation = [item for index, item in enumerate(liste) if item]
@@ -411,7 +442,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 if etat['type'] == 'etat':
                     self.acc_etat(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
                 if etat['type'] == 'graphiqueDetail':
-                    self.acc_graphiqueDetail(self.gCorp['nomEtat'], self.gCorp['nomEtat2'], self.gCorp['nomGraphique'], self.gCorp['sourceSQL'], self.gCorp['sourceSQL2'], self.gCorp['titre1'], self.gCorp['titre2'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
+                    self.acc_graphiqueDetail(etat['nomEtat'], etat['nomEtat2'], etat['nomGraphique'], etat['sourceSQL'], etat['sourceSQL2'], etat['titre1'], etat['titre2'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
                 liste_generation[i]['first_page'] = nb_pages_total + 1
                 reader = PdfFileReader(file(i))
                 nb_pages = reader.getNumPages()
@@ -423,6 +454,20 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     break
 
             # CREATION DU SOMMAIRE
+            liste_generation_sommaire = []
+            bool_graph = False
+            for i in range(len(liste_generation)):
+                etat = liste_generation[i]
+                print(i)
+                if etat['type'] == 'graphiqueDetail':
+                    print('graph')
+                    if not bool_graph:
+                        bool_graph = True
+                        liste_generation_sommaire.append(liste_generation[i])
+                        print('ajout graph')
+                else:
+                    liste_generation_sommaire.append(liste_generation[i])
+
             if (self.cb_sommaire.isChecked() or nb_checked == 0) and not break_bool:
                 progress.setLabelText("Page de sommaire")
                 QtCore.QCoreApplication.processEvents()
@@ -431,19 +476,12 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 acc.OpenCurrentDatabase(self.fileBDD, True)
                 acc.DoCmd.OpenReport(self.sommaire['nomEtat'], win32.constants.acViewReport)
                 imax = 0
-                bool_graph = False
-                for i in range(len(liste_generation)):
-                    etat = liste_generation[i]
-                    if etat['type'] == 'graphiqueDetail':
-                        if not bool_graph:
-                            acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
-                            acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
-                            bool_graph = True
-                    else:
-                        acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
-                        acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
+                for i in range(len(liste_generation_sommaire)):
+                    etat = liste_generation_sommaire[i]
+                    acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = etat['titreSommaire'] + " ." * 200
+                    acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = "page " + str(etat['first_page'])
                     imax = i
-                for i in range(imax + 1, 6):
+                for i in range(imax + 1, 8):
                     acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_titre{}".format(i + 1)).Caption = ""
                     acc.Reports.Item(self.sommaire['nomEtat']).Controls.Item("txt_page{}".format(i + 1)).Caption = ""
                 acc.DoCmd.OutputTo(win32.constants.acOutputReport, self.sommaire['nomEtat'], win32.constants.acFormatPDF, file_sommaire)
