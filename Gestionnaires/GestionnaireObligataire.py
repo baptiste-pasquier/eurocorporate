@@ -761,6 +761,16 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
     #TODO réparer la recherche par ticker
 
     def nvl_oblig(self):
+        date = self.calendarWidget.selectedDate()
+
+        if len(str(date.day())) < 2:
+            day2 = "0" + str(date.day())
+        else: day2 = str(date.day())
+
+        if len(str(date.month())) <2:
+            month2 = "0" +str(date.month())
+        else: month2 = str(date.month())
+        datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
 
         model = self.modelObligation
         new_row = model.record()
@@ -816,7 +826,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         'Nominal' : Nominal,
         'Cours' : Cours,
         'Coupon' : Coupon,
-        'DeviseAchat' : DevisePasse,
+        'DeviseAchat' : DevisePassee,
         'DeviseConversion' : DevisePrst,
         'Libelle'  :Libelle,
         'Rendement' : Rendement,
@@ -833,7 +843,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         #Classe Duration, maturite
         }
 
-        for field, value in defaults.item():
+        for field, value in defaults.items():
             index = model.fieldIndex(field)
             new_row .setValue(index, value)
 
@@ -842,6 +852,9 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             error = model.lastError().text()
             print(f"Insert Failed: {error}")
             model.select()
+        if model.submitAll():
+            QMessageBox.information(self, "Nouveau Client", "Ajout réussi")
+
 
 
 
