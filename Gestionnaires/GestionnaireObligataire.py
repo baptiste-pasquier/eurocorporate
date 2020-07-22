@@ -296,7 +296,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 #Construction de la combo box par une étape de sql
 
         isin = self.lineEdit_SrchCode.text()
-        print(isin)
+
         date1 = self.calendarWidget.selectedDate()
         if len(str(date1.day())) < 2:
             day = "0" + str(date1.day())
@@ -328,7 +328,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 #Construction de la combo box par une étape de sql
 
         ticker = self.lineEdit_SrchTicker.text()
-        print(ticker)
+
         date1 = self.calendarWidget.selectedDate()
         if len(str(date1.day())) < 2:
             day = "0" + str(date1.day())
@@ -339,7 +339,6 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         else: month = str(date1.month())
         date1str = str(day) + "/" + str(month) + "/" + str(date1.year())
 
-        print("SELECT libelle FROM Obligation WHERE ticker = '" + ticker +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
 
 
         liste = []
@@ -422,6 +421,9 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.lineEdit_AvgLife.setText(str(avglife))
         self.lineEdit_Indexation.setText(str(indexation))
 
+        index_ticker = self.comboBox_Ticker.findText(str(ticker))
+        self.comboBox_Ticker.setCurrentIndex(index_ticker)
+
     def rempli_ligne_srchcode(self):
         date = self.calendarWidget.selectedDate()
 
@@ -487,6 +489,9 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.lineEdit_AvgLife.setText(str(avglife))
         self.lineEdit_Indexation.setText(str(indexation))
 
+        index_ticker = self.comboBox_Ticker.findText(str(ticker))
+        self.comboBox_Ticker.setCurrentIndex(index_ticker)
+
     def rempli_ligne_srchticker(self):
         date = self.calendarWidget.selectedDate()
 
@@ -545,12 +550,52 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.lineEdit_Duration.setText(str(duration))
         #TODO rajouter classe duration
         self.lineEdit_SpreadBund.setText(str(spreadbund))
-
         #TODO rajouter interets courus
         self.lineEdit_Sensibilite.setText(str(sensibilite))
         self.lineEdit_Convexite.setText(str(convexite))
         self.lineEdit_AvgLife.setText(str(avglife))
         self.lineEdit_Indexation.setText(str(indexation))
+
+        #Traitement des combo box
+        index_ticker = self.comboBox_Ticker.findText(str(ticker))
+        self.comboBox_Ticker.setCurrentIndex(index_ticker)
+
+        index_rating = self.comboBox_Rating.findText(str(rating))
+        self.comboBox_Rating.setCurrentIndex(index_rating)
+
+        index_ratingsp = self.comboBox_RatingSP.findText(str(ratingsp))
+        self.comboBox_RatingSP.setCurrentIndex(index_ratingsp)
+
+        index_ratingmoody = self.comboBox_RatingMoody.findText(str(ratingmoody))
+        self.comboBox_RatingMoody.setCurrentIndex(index_ratingmoody)
+
+        index_ratingfitch = self.comboBox_RatingFitch.findText(str(ratingfitch))
+        self.comboBox_RatingFitch.setCurrentIndex(index_ratingfitch)
+
+        index_ratingfitch = self.comboBox_RatingFitch.findText(str(ratingfitch))
+        self.comboBox_RatingFitch.setCurrentIndex(index_ratingfitch)
+
+        queryregion = QtSql.QSqlQuery()
+        resultregion = queryregion.exec("SELECT nomRegion FROM region WHERE noRegion =" + str(noregion))
+        if queryregion.first():
+            nomregion = queryregion.value(0)
+            index_region = self.comboBox_Region.findText(nomregion)
+            self.comboBox_Region.setCurrentIndex(index_region)
+
+        queryssecteur = QtSql.QSqlQuery()
+        resultssecteur = queryssecteur.exec("SELECT nomSousSecteur FROM SousSecteur WHERE nosoussecteur = " + str(nosoussecteur))
+        if queryssecteur.first():
+            nomsoussecteur = queryssecteur.value(0)
+            index_ssecteur = self.comboBox_SsSecteur.findText(nomsoussecteur)
+            self.comboBox_SsSecteur.setCurrentIndex(index_ssecteur)
+
+        querytype = QtSql.QSqlQuery()
+        resulttype = querytype.exec("SELECT nomType FROM TypeOblig WHERE noType = " + str(notype))
+        if querytype.first():
+            nomtype = querytype.value(0)
+            index_type = self.comboBox_Type.findText(nomtype)
+            self.comboBox_Type.setCurrentIndex(index_type)
+
 
     def mod_oblig(self):
         date = self.calendarWidget.selectedDate()
@@ -634,6 +679,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             error = self.modelObligation.lastError().text()
             print("erreur 22")
             QMessageBox.critical(self, "Erreur : aucun champ trouvé à cette date", error)
+
+    #TODO search code
 
 
 
