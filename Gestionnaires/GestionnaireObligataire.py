@@ -761,6 +761,10 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
     #TODO réparer la recherche par ticker
 
     def nvl_oblig(self):
+
+        model = self.modelObligation
+        new_row = model.record()
+
         ISIN = self.lineEdit_ISIN.text()
         Nominal = self.lineEdit_Nominal.text()
         Cours = self.lineEdit_Cours.text()
@@ -828,6 +832,16 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         'RatingFitch' : RatingFitch,
         #Classe Duration, maturite
         }
+
+        for field, value in defaults.item():
+            index = model.fieldIndex(field)
+            new_row .setValue(index, value)
+
+        inserted = model.insertRecord(-1, new_row)
+        if not inserted:
+            error = model.lastError().text()
+            print(f"Insert Failed: {error}")
+            model.select()
 
 
 
