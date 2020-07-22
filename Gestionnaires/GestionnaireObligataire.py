@@ -264,6 +264,10 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.comboBox_SsSecteur.setModelColumn(self.modelSSecteur.fieldIndex('nomSousSecteur'))
         self.comboBox_SsSecteur.setCurrentIndex(-1)
 
+#Action du bouton "nouvelle obligation"
+
+        self.pushBtton_NvlOblig.clicked.connect(self.nvl_oblig)
+
     def prep_combobox(self):
 #Construction de la combo box par une étape de sql
         date1 = self.calendarWidget.selectedDate()
@@ -307,10 +311,11 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         else: month = str(date1.month())
         date1str = str(day) + "/" + str(month) + "/" + str(date1.year())
 
-
+        print(isin)
         liste = []
         query_liste = QtSql.QSqlQuery()
         query_liste.exec("SELECT libelle FROM Obligation WHERE ISIN LIKE '" + isin +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
+        print("SELECT libelle FROM Obligation WHERE ISIN LIKE '" + isin +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
 
         if query_liste.first():
             liste.append(query_liste.value(0))
@@ -338,7 +343,6 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             month = "0" +str(date1.month())
         else: month = str(date1.month())
         date1str = str(day) + "/" + str(month) + "/" + str(date1.year())
-
 
 
         liste = []
@@ -424,6 +428,42 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         index_ticker = self.comboBox_Ticker.findText(str(ticker))
         self.comboBox_Ticker.setCurrentIndex(index_ticker)
 
+        index_rating = self.comboBox_Rating.findText(str(rating))
+        self.comboBox_Rating.setCurrentIndex(index_rating)
+
+        index_ratingsp = self.comboBox_RatingSP.findText(str(ratingsp))
+        self.comboBox_RatingSP.setCurrentIndex(index_ratingsp)
+
+        index_ratingmoody = self.comboBox_RatingMoody.findText(str(ratingmoody))
+        self.comboBox_RatingMoody.setCurrentIndex(index_ratingmoody)
+
+        index_ratingfitch = self.comboBox_RatingFitch.findText(str(ratingfitch))
+        self.comboBox_RatingFitch.setCurrentIndex(index_ratingfitch)
+
+        index_ratingfitch = self.comboBox_RatingFitch.findText(str(ratingfitch))
+        self.comboBox_RatingFitch.setCurrentIndex(index_ratingfitch)
+
+        queryregion = QtSql.QSqlQuery()
+        resultregion = queryregion.exec("SELECT nomRegion FROM region WHERE noRegion =" + str(noregion))
+        if queryregion.first():
+            nomregion = queryregion.value(0)
+            index_region = self.comboBox_Region.findText(nomregion)
+            self.comboBox_Region.setCurrentIndex(index_region)
+
+        queryssecteur = QtSql.QSqlQuery()
+        resultssecteur = queryssecteur.exec("SELECT nomSousSecteur FROM SousSecteur WHERE nosoussecteur = " + str(nosoussecteur))
+        if queryssecteur.first():
+            nomsoussecteur = queryssecteur.value(0)
+            index_ssecteur = self.comboBox_SsSecteur.findText(nomsoussecteur)
+            self.comboBox_SsSecteur.setCurrentIndex(index_ssecteur)
+
+        querytype = QtSql.QSqlQuery()
+        resulttype = querytype.exec("SELECT nomType FROM TypeOblig WHERE noType = " + str(notype))
+        if querytype.first():
+            nomtype = querytype.value(0)
+            index_type = self.comboBox_Type.findText(nomtype)
+            self.comboBox_Type.setCurrentIndex(index_type)
+
     def rempli_ligne_srchcode(self):
         date = self.calendarWidget.selectedDate()
 
@@ -491,6 +531,42 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
         index_ticker = self.comboBox_Ticker.findText(str(ticker))
         self.comboBox_Ticker.setCurrentIndex(index_ticker)
+
+        index_rating = self.comboBox_Rating.findText(str(rating))
+        self.comboBox_Rating.setCurrentIndex(index_rating)
+
+        index_ratingsp = self.comboBox_RatingSP.findText(str(ratingsp))
+        self.comboBox_RatingSP.setCurrentIndex(index_ratingsp)
+
+        index_ratingmoody = self.comboBox_RatingMoody.findText(str(ratingmoody))
+        self.comboBox_RatingMoody.setCurrentIndex(index_ratingmoody)
+
+        index_ratingfitch = self.comboBox_RatingFitch.findText(str(ratingfitch))
+        self.comboBox_RatingFitch.setCurrentIndex(index_ratingfitch)
+
+        index_ratingfitch = self.comboBox_RatingFitch.findText(str(ratingfitch))
+        self.comboBox_RatingFitch.setCurrentIndex(index_ratingfitch)
+
+        queryregion = QtSql.QSqlQuery()
+        resultregion = queryregion.exec("SELECT nomRegion FROM region WHERE noRegion =" + str(noregion))
+        if queryregion.first():
+            nomregion = queryregion.value(0)
+            index_region = self.comboBox_Region.findText(nomregion)
+            self.comboBox_Region.setCurrentIndex(index_region)
+
+        queryssecteur = QtSql.QSqlQuery()
+        resultssecteur = queryssecteur.exec("SELECT nomSousSecteur FROM SousSecteur WHERE nosoussecteur = " + str(nosoussecteur))
+        if queryssecteur.first():
+            nomsoussecteur = queryssecteur.value(0)
+            index_ssecteur = self.comboBox_SsSecteur.findText(nomsoussecteur)
+            self.comboBox_SsSecteur.setCurrentIndex(index_ssecteur)
+
+        querytype = QtSql.QSqlQuery()
+        resulttype = querytype.exec("SELECT nomType FROM TypeOblig WHERE noType = " + str(notype))
+        if querytype.first():
+            nomtype = querytype.value(0)
+            index_type = self.comboBox_Type.findText(nomtype)
+            self.comboBox_Type.setCurrentIndex(index_type)
 
     def rempli_ligne_srchticker(self):
         date = self.calendarWidget.selectedDate()
@@ -627,8 +703,37 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         modAvgLife = self.lineEdit_AvgLife.text()
         modIndexation = self.lineEdit_Indexation.text()
 
+        modTicker = self.comboBox_Ticker.currentText()
+
+        modType = self.comboBox_Type.currentText()
+        qType =  QtSql.QSqlQuery()
+        rType = qType.exec("SELECT noType FROM Type WHERE nomType = " + modType)
+        if qType.first():
+            smodType = qType.value(0)
+
+        modRegion = self.comboBox_Region.currentText()
+        qRegion =  QtSql.QSqlQuery()
+        rRegion = qRegion.exec("SELECT noRegion FROM Region WHERE nomRegion = " + modRegion)
+        if qRegion.first():
+            smodRegion = qRegion.value(0)
+
+        modSsecteur = self.comboBox_SsSecteur.currentText()
+        qSsecteur =  QtSql.QSqlQuery()
+        rSsecteur = qSsecteur.exec("SELECT noSousSecteur FROM SousSecteur WHERE nomSousSecteur = " + modSsecteur)
+        if qSsecteur.first():
+            smodSsecteur = qSsecteur.value(0)
+
+        modMaturite  = self.comboBox_Maturite.currentText()
+        modClasseDuration = self.comboBox_ClasseDuration.currentText() #???
+
+        modRating = self.comboBox_Rating.currentText()
+        modRatingSP = self.comboBox_RatingSP.currentText()
+        modRatingMoody = self.comboBox_RatingMoody.currentText()
+        modRatingFitch = self.comboBox_RatingFitch.currentText()
+
+
         query2 = QtSql.QSqlQuery()
-        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"' , DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+" WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
+        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+modType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
         #TODO rajouter classe duration et interets courus
         if result:
             QMessageBox.information(self, "Client Modifié", "Modification Reussie")
@@ -652,35 +757,78 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             print("erreur")
             QMessageBox.critical(self, "erreur 1", error)
 
+    #TODO nouvelle obligation
+    #TODO réparer la recherche par ticker
 
-    def srch_Ticker(self):
-        ticker = str(self.lineEdit_SrchTicker.text())
+    def nvl_oblig(self):
+        ISIN = self.lineEdit_ISIN.text()
+        Nominal = self.lineEdit_Nominal.text()
+        Cours = self.lineEdit_Cours.text()
+        Coupon = self.lineEdit_Coupon.text()
+        DevisePassee = self.lineEdit_DevisePassee.text()
+        DevisePrst = self.lineEdit_DevisePrst.text()
+        Libelle = self.lineEdit_Libelle.text()
+        Rendement = self.lineEdit_Rendement.text()
+        Duration = self.lineEdit_Duration.text()
+        #TODO rajouter classe duration
+        SpreadBund = self.lineEdit_SpreadBund.text()
+        #TODO rajouter interets courus
+        Sensibilite = self.lineEdit_Sensibilite.text()
+        Convexite = self.lineEdit_Convexite.text()
+        AvgLife = self.lineEdit_AvgLife.text()
+        Indexation = self.lineEdit_Indexation.text()
 
-        date2 = self.calendarWidget.selectedDate()
 
-        if len(str(date2.day())) < 2:
-            day2 = "0" + str(date2.day())
-        else: day2 = str(date2.day())
+        Ticker = self.comboBox_Ticker.currentText()
 
-        if len(str(date2.month())) <2:
-            month2 = "0" +str(date2.month())
-        else: month2 = str(date2.month())
-        date2str = str(day2) + "/" + str(month2) + "/" + str(date2.year())
+        Type = self.comboBox_Type.currentText()
+        qType =  QtSql.QSqlQuery()
+        rType = qType.exec("SELECT noType FROM Type WHERE nomType = " + Type)
+        if qType.first():
+            sType = qType.value(0)
 
+        Region = self.comboBox_Region.currentText()
+        qRegion =  QtSql.QSqlQuery()
+        rRegion = qRegion.exec("SELECT noRegion FROM Region WHERE nomRegion = " + Region)
+        if qRegion.first():
+            sRegion = qRegion.value(0)
 
-        liste2 = []
-        query_liste2 = QtSql.QSqlQuey()
-        result = query_liste2.exec("SELECT libelle FROM obligation WHERE Ticker =" +ticker + " AND DateDeMaj = format('"+ date2str +"','dd/mm/yyyy')")
-        if result:
-            liste2.append(query_liste2.value(0))
-            while query_liste2.next():
-                liste2.append(query_liste2.value(0))
-        else:
-            error = self.modelObligation.lastError().text()
-            print("erreur 22")
-            QMessageBox.critical(self, "Erreur : aucun champ trouvé à cette date", error)
+        Ssecteur = self.comboBox_SsSecteur.currentText()
+        qSsecteur =  QtSql.QSqlQuery()
+        rSsecteur = qSsecteur.exec("SELECT noSousSecteur FROM SousSecteur WHERE nomSousSecteur = " + Ssecteur)
+        if qSsecteur.first():
+            sSsecteur = qSsecteur.value(0)
 
-    #TODO search code
+        Maturite  = self.comboBox_Maturite.currentText()
+        ClasseDuration = self.comboBox_ClasseDuration.currentText() #???
+
+        Rating = self.comboBox_Rating.currentText()
+        RatingSP = self.comboBox_RatingSP.currentText()
+        RatingMoody = self.comboBox_RatingMoody.currentText()
+        RatingFitch = self.comboBox_RatingFitch.currentText()
+
+        defaults = {
+        'ISIN': ISIN,
+        'Nominal' : Nominal,
+        'Cours' : Cours,
+        'Coupon' : Coupon,
+        'DeviseAchat' : DevisePasse,
+        'DeviseConversion' : DevisePrst,
+        'Libelle'  :Libelle,
+        'Rendement' : Rendement,
+        'Duration' : Duration,
+        'SpreadBund' : SpreadBund,
+        'Sensibilite' : Sensibilite,
+        'Convexite' : Convexite,
+        'VieMoyenne' : AvgLife,
+        'Indexation' : Indexation,
+        'Rating' : Rating,
+        'RatingSP' : RatingSP,
+        'RatingMoody' : RatingMoody,
+        'RatingFitch' : RatingFitch,
+        #Classe Duration, maturite
+        }
+
 
 
 

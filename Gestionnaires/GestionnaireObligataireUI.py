@@ -13,11 +13,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindowObligation(object):
     def setupUi(self, MainWindowObligation):
         MainWindowObligation.setObjectName("MainWindowObligation")
-        MainWindowObligation.resize(666, 777)
+        MainWindowObligation.resize(678, 709)
         self.centralwidget = QtWidgets.QWidget(MainWindowObligation)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 0, 635, 757))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 0, 635, 661))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
