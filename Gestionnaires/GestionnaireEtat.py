@@ -333,16 +333,26 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     def acc_ESG(self, nomEtat, action, fileName="", nb_pages=0):
         try:
-            nomEtatTableau = 'ESG tableau'
-
             # Ouverture de la base de données
             acc = win32.gencache.EnsureDispatch('Access.Application')
             acc.OpenCurrentDatabase(self.fileBDD, True)
 
             acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewReport)
-            acc.Reports.Item(nomEtat).Report.RecordSource = "SELECT SUM(IIf([TotEuro]<>0,[TotEuro]*[Valo par le prix]))/SUM(IIf([TotEuro]<>0,[Valo par le prix])) AS NoteFinale FROM Valorisation WHERE noPortefeuille=" + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "#"
-            acc.Reports.Item(nomEtat).Controls.Item(nomEtatTableau).Report.RecordSource = "SELECT TOP 10 * FROM (SELECT A.*, (SELECT COUNT(*) FROM Valorisation WHERE [noPortefeuille]= " + self.strNoPort + " AND [DateDeMAJ]= #" + self.strDate + "# AND A.TotEuro <= TotEuro) AS RowNum, [Valo par le prix]/(SELECT SUM([Valo par le prix]) FROM Valorisation WHERE [noPortefeuille]= " + self.strNoPort + " AND [DateDeMAJ]= #" + self.strDate + "#) AS Pourcentage FROM Valorisation AS A WHERE (((A.noPortefeuille)= " + self.strNoPort + ") AND ((A.DateDeMAJ)= #" + self.strDate + "#)) ORDER BY A.TotEuro DESC);"
-
+            acc.Reports.Item(nomEtat).Report.RecordSource = "SELECT SUM(IIf([TotEuro]<>0,[TotEuro]*[Valo par le prix]))/SUM(IIf([TotEuro]<>0,[Valo par le prix])) AS NoteESG FROM Valorisation WHERE noPortefeuille=" + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "#"
+            acc.Reports.Item(nomEtat).Controls.Item('ESG tableau').Report.RecordSource = "SELECT TOP 10 * FROM (SELECT A.*, (SELECT COUNT(*) FROM Valorisation WHERE [noPortefeuille]= " + self.strNoPort + " AND [DateDeMAJ]= #" + self.strDate + "# AND A.TotEuro <= TotEuro) AS RowNum, [Valo par le prix]/(SELECT SUM([Valo par le prix]) FROM Valorisation WHERE [noPortefeuille]= " + self.strNoPort + " AND [DateDeMAJ]= #" + self.strDate + "#) AS Pourcentage FROM Valorisation AS A WHERE (((A.noPortefeuille)= " + self.strNoPort + ") AND ((A.DateDeMAJ)= #" + self.strDate + "#)) ORDER BY A.TotEuro DESC);"
+            acc.Reports.Item(nomEtat).Controls.Item('Graphique').RowSource = "\
+            SELECT ID, Iif(EXPR1 IS NULL, 0, EXPR1) FROM ( SELECT CatTotEuro, Count(CatTotEuro) / (\
+                            SELECT COUNT(*) FROM Valorisation WHERE TotEuro IS NOT NULL AND noPortefeuille = {} AND DateDeMAJ = #{}#) AS EXPR1\
+                            FROM ( SELECT Iif(TotEuro >= 90,90,\
+                                            Iif(TotEuro >= 80,80,\
+                                                Iif(TotEuro >= 70,70,\
+                                                    Iif(TotEuro >= 60,60,\
+                                                        Iif(TotEuro >= 50,50,\
+                                                            Iif(TotEuro >= 40,40,\
+                                                                Iif(TotEuro >= 30,30,\
+                                                                    Iif(TotEuro >= 20,20,\
+                                                                        Iif(TotEuro >= 10,10,0))))))))) AS CatTotEuro\
+                                    FROM Valorisation WHERE TotEuro IS NOT NULL AND noPortefeuille = {} AND DateDeMAJ = #{}#) GROUP BY CatTotEuro) AS A RIGHT JOIN HistoESG ON A.CatTotEuro = HistoESG.ID ORDER BY ID;".format(self.strNoPort, self.strDate, self.strNoPort, self.strDate)
             acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
             acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour du " + self.date.toString("dd/MM/yyyy")
             acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = '=[Page] + {}'.format(nb_pages)
