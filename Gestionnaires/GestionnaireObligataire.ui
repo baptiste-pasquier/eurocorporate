@@ -2,407 +2,434 @@
 <ui version="4.0">
  <class>MainWindowObligation</class>
  <widget class="QMainWindow" name="MainWindowObligation">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>678</width>
-    <height>709</height>
+    <width>844</width>
+    <height>782</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Gestionnaire Obligataire</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../ressources.qrc">
+    <normaloff>:/ressources/img/icone.png</normaloff>:/ressources/img/icone.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>635</width>
-      <height>661</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_ListeOblig">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Liste des obligations</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBox_ListeOblig"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushBtton_NvlOblig">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Nouvelle obligation</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_SrchCode">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Recherche par code  </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_SrchCode"/>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBox_SrchCode"/>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLabel" name="label_ISN">
-             <property name="text">
-              <string>ISIN</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Libelle">
-             <property name="text">
-              <string>Libelle</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Ticker">
-             <property name="text">
-              <string>Ticker</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Remb">
-             <property name="text">
-              <string>Taux Remb</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Type">
-             <property name="text">
-              <string>Type</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Nominal">
-             <property name="text">
-              <string>Nominal</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Cours">
-             <property name="text">
-              <string>Cours</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Coupon">
-             <property name="text">
-              <string>Coupon</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_DevisePassee">
-             <property name="text">
-              <string>Devise Acquisition</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_DevisePrst">
-             <property name="text">
-              <string>Devise Actuelle</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Region">
-             <property name="text">
-              <string>Région</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_SsSecteur">
-             <property name="text">
-              <string>Sous Secteur</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Maturite">
-             <property name="text">
-              <string>Maturite</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QLineEdit" name="lineEdit_ISIN"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Libelle"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_Ticker"/>
-           </item>
-           <item>
-            <widget class="QSpinBox" name="spinBox_rembrmt"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_Type"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Nominal"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Cours"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Coupon"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_DevisePassee"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_DevisePrst"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_Region"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_SsSecteur"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_Maturite"/>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox">
-         <property name="text">
-          <string>Mise à jour automatique</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QCalendarWidget" name="calendarWidget">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_SrchTicker">
-         <property name="text">
-          <string>Recherche par Ticker</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_SrchTicker"/>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBox_SrchTicker"/>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <widget class="QLabel" name="label_Rendement">
-             <property name="text">
-              <string>Rendement</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Duration">
-             <property name="text">
-              <string>Duration</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_ClasseDuration">
-             <property name="text">
-              <string>Classe Duration</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_SpreadBund">
-             <property name="text">
-              <string>Spread Bund</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_InteretsCourus">
-             <property name="text">
-              <string>Intérêts Courus</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Sensibilite">
-             <property name="text">
-              <string>Sensibilité</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Convexite">
-             <property name="text">
-              <string>Convexite</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_AvgLife">
-             <property name="text">
-              <string>Vie Moyenne</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Indexation">
-             <property name="text">
-              <string>Indéxation</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Rating">
-             <property name="text">
-              <string>Rating</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_RatingSP">
-             <property name="text">
-              <string>Rating SP</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_RatingMoody">
-             <property name="text">
-              <string>Rating MOODY</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Rating FITCH</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Rendement"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Duration"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_ClasseDuration"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_SpreadBund"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_InteretsCourus"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Sensibilite"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Convexite"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_AvgLife"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Indexation"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_Rating"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_RatingSP"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_RatingMoody"/>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_RatingFitch"/>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_Valider">
-         <property name="text">
-          <string>Valider Modification</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_ListeOblig">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Liste des obligations</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_ListeOblig"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushBtton_NvlOblig">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Nouvelle obligation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_SrchCode">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Recherche par code  </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_SrchCode"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_SrchCode">
+        <property name="minimumSize">
+         <size>
+          <width>392</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_ISN">
+            <property name="text">
+             <string>ISIN</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Libelle">
+            <property name="text">
+             <string>Libelle</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Ticker">
+            <property name="text">
+             <string>Ticker</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Remb">
+            <property name="text">
+             <string>Taux Remb</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Type">
+            <property name="text">
+             <string>Type</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Nominal">
+            <property name="text">
+             <string>Nominal</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Cours">
+            <property name="text">
+             <string>Cours</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Coupon">
+            <property name="text">
+             <string>Coupon</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_DevisePassee">
+            <property name="text">
+             <string>Devise Acquisition</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_DevisePrst">
+            <property name="text">
+             <string>Devise Actuelle</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Region">
+            <property name="text">
+             <string>Région</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_SsSecteur">
+            <property name="text">
+             <string>Sous Secteur</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Maturite">
+            <property name="text">
+             <string>Maturite</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_ISIN"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Libelle"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_Ticker"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_rembrmt"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_Type"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Nominal"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Cours"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Coupon"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_DevisePassee"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_DevisePrst"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_Region"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_SsSecteur"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_Maturite"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Mise à jour automatique</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCalendarWidget" name="calendarWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_SrchTicker">
+        <property name="text">
+         <string>Recherche par Ticker</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_SrchTicker"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_SrchTicker">
+        <property name="minimumSize">
+         <size>
+          <width>392</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_Rendement">
+            <property name="text">
+             <string>Rendement</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Duration">
+            <property name="text">
+             <string>Duration</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_ClasseDuration">
+            <property name="text">
+             <string>Classe Duration</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_SpreadBund">
+            <property name="text">
+             <string>Spread Bund</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_InteretsCourus">
+            <property name="text">
+             <string>Intérêts Courus</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Sensibilite">
+            <property name="text">
+             <string>Sensibilité</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Convexite">
+            <property name="text">
+             <string>Convexite</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_AvgLife">
+            <property name="text">
+             <string>Vie Moyenne</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Indexation">
+            <property name="text">
+             <string>Indéxation</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_Rating">
+            <property name="text">
+             <string>Rating</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_RatingSP">
+            <property name="text">
+             <string>Rating SP</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_RatingMoody">
+            <property name="text">
+             <string>Rating MOODY</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Rating FITCH</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Rendement"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Duration"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_ClasseDuration"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_SpreadBund"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_InteretsCourus"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Sensibilite"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Convexite"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_AvgLife"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_Indexation"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_Rating"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_RatingSP"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_RatingMoody"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_RatingFitch"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_Valider">
+        <property name="text">
+         <string>Valider Modification</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
