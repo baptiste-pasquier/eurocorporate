@@ -674,6 +674,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
 
     def mod_oblig(self):
+        model = self.modelObligation
         date = self.calendarWidget.selectedDate()
 
         if len(str(date.day())) < 2:
@@ -707,21 +708,22 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
         modType = self.comboBox_Type.currentText()
         qType =  QtSql.QSqlQuery()
-        rType = qType.exec("SELECT noType FROM Type WHERE nomType = " + modType)
+        rType = qType.exec("SELECT noType FROM TypeOblig WHERE nomType = '" + modType +"'")
         if qType.first():
-            smodType = qType.value(0)
+            smodType = str(qType.value(0))
 
         modRegion = self.comboBox_Region.currentText()
         qRegion =  QtSql.QSqlQuery()
-        rRegion = qRegion.exec("SELECT noRegion FROM Region WHERE nomRegion = " + modRegion)
+        rRegion = qRegion.exec("SELECT noRegion FROM Region WHERE nomRegion = '" + str(modRegion) + "'")
+        print("SELECT noRegion FROM Region WHERE nomRegion = '" + str(modRegion) + "'")
         if qRegion.first():
-            smodRegion = qRegion.value(0)
+            smodRegion = str(qRegion.value(0))
 
         modSsecteur = self.comboBox_SsSecteur.currentText()
         qSsecteur =  QtSql.QSqlQuery()
-        rSsecteur = qSsecteur.exec("SELECT noSousSecteur FROM SousSecteur WHERE nomSousSecteur = " + modSsecteur)
+        rSsecteur = qSsecteur.exec("SELECT noSousSecteur FROM SousSecteur WHERE nomSousSecteur = '" + modSsecteur +"'")
         if qSsecteur.first():
-            smodSsecteur = qSsecteur.value(0)
+            smodSsecteur = str(qSsecteur.value(0))
 
         modMaturite  = self.comboBox_Maturite.currentText()
         modClasseDuration = self.comboBox_ClasseDuration.currentText() #???
@@ -733,7 +735,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
 
         query2 = QtSql.QSqlQuery()
-        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+modType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
+        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+smodType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
+        print("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+modType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
         #TODO rajouter classe duration et interets courus
         if result:
             QMessageBox.information(self, "Client Modifié", "Modification Reussie")
@@ -775,85 +778,85 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         model = self.modelObligation
         new_row = model.record()
 
-        ISIN = self.lineEdit_ISIN.text()
+        ISIN = "'" + self.lineEdit_ISIN.text() +"'"
         Nominal = self.lineEdit_Nominal.text()
         Cours = self.lineEdit_Cours.text()
         Coupon = self.lineEdit_Coupon.text()
         DevisePassee = self.lineEdit_DevisePassee.text()
         DevisePrst = self.lineEdit_DevisePrst.text()
-        Libelle = self.lineEdit_Libelle.text()
-        Rendement = self.lineEdit_Rendement.text()
-        Duration = self.lineEdit_Duration.text()
+        Libelle = "'" + self.lineEdit_Libelle.text() +"'"
+        Rendement =self.lineEdit_Rendement.text()
+        Duration =self.lineEdit_Duration.text()
         #TODO rajouter classe duration
-        SpreadBund = self.lineEdit_SpreadBund.text()
+        SpreadBund =self.lineEdit_SpreadBund.text()
         #TODO rajouter interets courus
-        Sensibilite = self.lineEdit_Sensibilite.text()
+        Sensibilite =self.lineEdit_Sensibilite.text()
         Convexite = self.lineEdit_Convexite.text()
-        AvgLife = self.lineEdit_AvgLife.text()
-        Indexation = self.lineEdit_Indexation.text()
+        AvgLife =self.lineEdit_AvgLife.text()
+        Indexation =self.lineEdit_Indexation.text()
 
 
-        Ticker = self.comboBox_Ticker.currentText()
+        Ticker =  "'"+ self.comboBox_Ticker.currentText() +"'"
 
         Type = self.comboBox_Type.currentText()
-        qType =  QtSql.QSqlQuery()
-        rType = qType.exec("SELECT noType FROM Type WHERE nomType = " + Type)
-        if qType.first():
-            sType = qType.value(0)
+        if Type != '':
+            qType =  QtSql.QSqlQuery()
+            rType = qType.exec("SELECT noType FROM TypeOblig WHERE nomType = '" + Type +"'")
+            if qType.first():
+                sType = "'" + str(qType.value(0)) + "'"
+        else: sType  = 0
 
         Region = self.comboBox_Region.currentText()
-        qRegion =  QtSql.QSqlQuery()
-        rRegion = qRegion.exec("SELECT noRegion FROM Region WHERE nomRegion = " + Region)
-        if qRegion.first():
-            sRegion = qRegion.value(0)
+        if Region != '':
+            qRegion =  QtSql.QSqlQuery()
+            rRegion = qRegion.exec("SELECT noRegion FROM Region WHERE nomRegion = '" + Region +"'")
+            if qRegion.first():
+                sRegion = "'" + str(qRegion.value(0)) +"'"
+        else : sRegion = 0
 
         Ssecteur = self.comboBox_SsSecteur.currentText()
-        qSsecteur =  QtSql.QSqlQuery()
-        rSsecteur = qSsecteur.exec("SELECT noSousSecteur FROM SousSecteur WHERE nomSousSecteur = " + Ssecteur)
-        if qSsecteur.first():
-            sSsecteur = qSsecteur.value(0)
+        if Ssecteur != '':
+            qSsecteur =  QtSql.QSqlQuery()
+            rSsecteur = qSsecteur.exec("SELECT noSousSecteur FROM SousSecteur WHERE nomSousSecteur = '" + Ssecteur +"'")
+            if qSsecteur.first():
+                sSsecteur = "'" + str(qSsecteur.value(0)) +"'"
+        else : sSsecteur =0
 
         Maturite  = self.comboBox_Maturite.currentText()
         ClasseDuration = self.comboBox_ClasseDuration.currentText() #???
 
-        Rating = self.comboBox_Rating.currentText()
-        RatingSP = self.comboBox_RatingSP.currentText()
-        RatingMoody = self.comboBox_RatingMoody.currentText()
-        RatingFitch = self.comboBox_RatingFitch.currentText()
+        Rating = "'" + self.comboBox_Rating.currentText() +"'"
+        RatingSP = "'" + self.comboBox_RatingSP.currentText() + "'"
+        RatingMoody = "'" + self.comboBox_RatingMoody.currentText() +"'"
+        RatingFitch = "'"+ self.comboBox_RatingFitch.currentText() +"'"
 
-        defaults = {
-        'ISIN': ISIN,
-        'Nominal' : Nominal,
-        'Cours' : Cours,
-        'Coupon' : Coupon,
-        'DeviseAchat' : DevisePassee,
-        'DeviseConversion' : DevisePrst,
-        'Libelle'  :Libelle,
-        'Rendement' : Rendement,
-        'Duration' : Duration,
-        'SpreadBund' : SpreadBund,
-        'Sensibilite' : Sensibilite,
-        'Convexite' : Convexite,
-        'VieMoyenne' : AvgLife,
-        'Indexation' : Indexation,
-        'Rating' : Rating,
-        'RatingSP' : RatingSP,
-        'RatingMoody' : RatingMoody,
-        'RatingFitch' : RatingFitch,
-        #Classe Duration, maturite
-        }
+        Tstr=[]
+        T=[]
 
-        for field, value in defaults.items():
-            index = model.fieldIndex(field)
-            new_row .setValue(index, value)
+        L = [ISIN, Libelle, Ticker, Nominal, Cours, Coupon, DevisePassee, DevisePrst, Rendement, Duration, SpreadBund, Sensibilite, Convexite, AvgLife, Indexation, Rating, RatingSP, RatingMoody, RatingFitch, sRegion, sSsecteur, sType]
+        Lstr = ['ISIN', 'Libelle', 'Ticker', 'Nominal', 'Cours', 'Coupon', 'DeviseAchat', 'DeviseConversion', 'Rendement', 'Duration', 'SpreadBund', 'Sensibilite', 'Convexite', 'VieMoyenne', 'Indexation', 'Rating', 'RatingSP', 'RatingMoody', 'RatingFitch', 'noRegion', 'noSousSecteur', 'noType']
+        for index in range(len(L)):
+            if L[index] != '':
+                T.append(L[index])
+                Tstr.append(Lstr[index])
+        s='('
+        s2='('
+        for index in range(len(Tstr)-1):
+            s  = s+ Tstr[index] + ', '
+            s2 = s2 + str(T[index]) + ', '
+        s = s + Tstr[-1] + ')'
+        s2 = s2 + str(T[-1]) + ')'
 
-        inserted = model.insertRecord(-1, new_row)
-        if not inserted:
-            error = model.lastError().text()
-            print(f"Insert Failed: {error}")
-            model.select()
-        if model.submitAll():
+        qinsert = QtSql.QSqlQuery()
+        rinsert = qinsert.exec("INSERT INTO obligation " + s + " VALUES " + s2)
+        print("INSERT INTO obligation " + s + " VALUES " + s2)
+
+        if rinsert:
             QMessageBox.information(self, "Nouveau Client", "Ajout réussi")
+        else:
+            error = model.lastError().text()
+            QMessageBox.critical(self, "Database returned an error", error)
+
 
 
 
