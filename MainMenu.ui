@@ -59,7 +59,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Assistant de Gestion Obligataire</string>
+          <string>Assistant de gestion Obligataire</string>
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
@@ -98,7 +98,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Assistant de Gestion : Client</string>
+          <string>Assistant de gestion : Client</string>
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
@@ -137,7 +137,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Assistant de Gestion : Portefeuille</string>
+          <string>Assistant de gestion : Portefeuille</string>
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
@@ -191,7 +191,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Accéder à Access (IS_BeC)</string>
+          <string>Accéder à Access (IS_beC)</string>
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
@@ -214,7 +214,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Accéder à Access (Création d'état)</string>
+          <string>Accéder à Access (ISC_beC)</string>
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
@@ -237,7 +237,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Configuration (ISC_BeC)</string>
+          <string>Configuration (ISC_beC)</string>
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">
@@ -254,7 +254,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Configuration (IS_BeC)</string>
+          <string>Configuration (IS_beC)</string>
          </property>
          <property name="icon">
           <iconset resource="ressources.qrc">

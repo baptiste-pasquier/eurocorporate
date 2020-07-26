@@ -34,7 +34,7 @@ class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
         self.btn_config_2.clicked.connect(self.config2)
 
     def config(self):
-        QMessageBox.information(self, "Configuration", "Sélectionner la base de données ISC_BeC (contenant la requête et les états)")
+        QMessageBox.information(self, "Configuration", "Sélectionner le fichier ISC_beC.mdb (contenant les requêtes et les états)")
         settings = QSettings()
         BDD = settings.value("BDD", defaultValue='')
         if BDD == '':
@@ -48,7 +48,7 @@ class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
             QMessageBox.warning(self, "Configuration", "Relancer l'application pour prendre en compte le changement")
 
     def config2(self):
-        QMessageBox.information(self, "Configuration", "Sélectionner la base de données IS_BeC")
+        QMessageBox.information(self, "Configuration", "Sélectionner le fichier IS_beC.mdb (base de données)")
         settings = QSettings()
         BDD_IS_BEC = settings.value("BDD_IS_BEC", defaultValue='')
         if BDD_IS_BEC == '':

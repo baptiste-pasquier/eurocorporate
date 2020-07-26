@@ -819,7 +819,7 @@ class Ui_MainWindowEtat(object):
 
     def retranslateUi(self, MainWindowEtat):
         _translate = QtCore.QCoreApplication.translate
-        MainWindowEtat.setWindowTitle(_translate("MainWindowEtat", "Menu Visuels"))
+        MainWindowEtat.setWindowTitle(_translate("MainWindowEtat", "Menu Visualisation"))
         self.label.setText(_translate("MainWindowEtat", "Client :"))
         self.label_2.setText(_translate("MainWindowEtat", "Portefeuille :"))
         self.label_3.setText(_translate("MainWindowEtat", "Date de valorisation :"))
