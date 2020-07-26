@@ -13,6 +13,8 @@ from PyQt5.QtCore import Qt
 
 from Gestionnaires.GestionnaireObligataireUI import Ui_MainWindowObligation
 
+
+#Création des Model pour les différentes combo box
 class ModelRating(QtSql.QSqlTableModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -177,9 +179,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
         self.calendarWidget.clicked.connect(self.prep_combobox)
 
-        #self.comboBox_ListeOblig.setModel(self.modelObligation)
-        #self.comboBox_ListeOblig.setModelColumn(self.modelObligation.fieldIndex('libelle'))
-        #self.comboBox_ListeOblig.setCurrentIndex(-1)
+
         self.comboBox_ListeOblig.activated.connect(self.rempli_ligne)
 
 
@@ -311,7 +311,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         else: month = str(date1.month())
         date1str = str(day) + "/" + str(month) + "/" + str(date1.year())
 
-        print(isin)
+
         liste = []
         query_liste = QtSql.QSqlQuery()
         query_liste.exec("SELECT libelle FROM Obligation WHERE ISIN LIKE '" + isin +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
@@ -323,7 +323,6 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
                 liste.append(query_liste.value(0))
         else:
             error = self.modelObligation.lastError().text()
-            print("erreur 22")
             QMessageBox.critical(self, "Erreur : aucun champ trouvé pour cet  ISIN", error)
 
         self.comboBox_SrchCode.addItems(liste)
@@ -355,7 +354,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
                 liste.append(query_liste.value(0))
         else:
             error = self.modelObligation.lastError().text()
-            print("erreur 22")
+
             QMessageBox.critical(self, "Erreur : aucun champ trouvé pour ce Ticker", error)
 
         self.comboBox_SrchTicker.addItems(liste)
@@ -569,6 +568,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             self.comboBox_Type.setCurrentIndex(index_type)
 
     def rempli_ligne_srchticker(self):
+
+        #Fonction de recherche dans la base ACCESS via le TICKER à la date saisie dans le Calendrier
         date = self.calendarWidget.selectedDate()
 
         if len(str(date.day())) < 2:
@@ -674,6 +675,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
 
     def mod_oblig(self):
+
+        #Modifie la base ACCESS selon les données saisies par l'utilisateur
         model = self.modelObligation
         date = self.calendarWidget.selectedDate()
 
@@ -715,7 +718,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         modRegion = self.comboBox_Region.currentText()
         qRegion =  QtSql.QSqlQuery()
         rRegion = qRegion.exec("SELECT noRegion FROM Region WHERE nomRegion = '" + str(modRegion) + "'")
-        print("SELECT noRegion FROM Region WHERE nomRegion = '" + str(modRegion) + "'")
+
         if qRegion.first():
             smodRegion = str(qRegion.value(0))
 
@@ -736,7 +739,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
         query2 = QtSql.QSqlQuery()
         result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+smodType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
-        print("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+modType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
+
         #TODO rajouter classe duration et interets courus
         if result:
             QMessageBox.information(self, "Client Modifié", "Modification Reussie")
@@ -757,15 +760,15 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             self.lineEdit_Indexation.clear()
         else:
             error = model.lastError().text()
-            print("erreur")
+
             QMessageBox.critical(self, "erreur 1", error)
 
-    #TODO nouvelle obligation
-    #TODO réparer la recherche par ticker
 
     def nvl_oblig(self):
-        date = self.calendarWidget.selectedDate()
 
+        #Fonction permet d'insérer les champs rentrés par l'utilisateur dans la base de donneés ACCESS
+        date = self.calendarWidget.selectedDate()
+        #Mise en forme de la date
         if len(str(date.day())) < 2:
             day2 = "0" + str(date.day())
         else: day2 = str(date.day())
@@ -778,6 +781,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         model = self.modelObligation
         new_row = model.record()
 
+        #Récupération des données saisies par l'utilisateur
         ISIN = "'" + self.lineEdit_ISIN.text() +"'"
         Nominal = self.lineEdit_Nominal.text()
         Cours = self.lineEdit_Cours.text()
@@ -795,9 +799,13 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         AvgLife =self.lineEdit_AvgLife.text()
         Indexation =self.lineEdit_Indexation.text()
 
-
         Ticker =  "'"+ self.comboBox_Ticker.currentText() +"'"
+        Rating = "'" + self.comboBox_Rating.currentText() +"'"
+        RatingSP = "'" + self.comboBox_RatingSP.currentText() + "'"
+        RatingMoody = "'" + self.comboBox_RatingMoody.currentText() +"'"
+        RatingFitch = "'"+ self.comboBox_RatingFitch.currentText() +"'"
 
+        #Puis celle qui nécéssitent une autre table
         Type = self.comboBox_Type.currentText()
         if Type != '':
             qType =  QtSql.QSqlQuery()
@@ -825,16 +833,16 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         Maturite  = self.comboBox_Maturite.currentText()
         ClasseDuration = self.comboBox_ClasseDuration.currentText() #???
 
-        Rating = "'" + self.comboBox_Rating.currentText() +"'"
-        RatingSP = "'" + self.comboBox_RatingSP.currentText() + "'"
-        RatingMoody = "'" + self.comboBox_RatingMoody.currentText() +"'"
-        RatingFitch = "'"+ self.comboBox_RatingFitch.currentText() +"'"
+
 
         Tstr=[]
         T=[]
 
         L = [ISIN, Libelle, Ticker, Nominal, Cours, Coupon, DevisePassee, DevisePrst, Rendement, Duration, SpreadBund, Sensibilite, Convexite, AvgLife, Indexation, Rating, RatingSP, RatingMoody, RatingFitch, sRegion, sSsecteur, sType]
         Lstr = ['ISIN', 'Libelle', 'Ticker', 'Nominal', 'Cours', 'Coupon', 'DeviseAchat', 'DeviseConversion', 'Rendement', 'Duration', 'SpreadBund', 'Sensibilite', 'Convexite', 'VieMoyenne', 'Indexation', 'Rating', 'RatingSP', 'RatingMoody', 'RatingFitch', 'noRegion', 'noSousSecteur', 'noType']
+
+
+        #On va construire la requête SQL avec une liste contenant les champs
         for index in range(len(L)):
             if L[index] != '':
                 T.append(L[index])
@@ -849,7 +857,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
         qinsert = QtSql.QSqlQuery()
         rinsert = qinsert.exec("INSERT INTO obligation " + s + " VALUES " + s2)
-        print("INSERT INTO obligation " + s + " VALUES " + s2)
+
 
         if rinsert:
             QMessageBox.information(self, "Nouveau Client", "Ajout réussi")

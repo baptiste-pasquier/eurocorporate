@@ -113,7 +113,6 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
         else:
             error = model.lastError().text()
-            print("erreur")
             QMessageBox.critical(self, "erreur 1", error)
         query.clear()
 
@@ -160,8 +159,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
                 old_mail_contact = ""
         else:
             error = model.lastError().text()
-            print("erreur")
-            QMessageBox.critical(self, "erreur 1", error)
+            QMessageBox.critical(self, "Le client n'a pas été trouvé'", error)
 
         query.clear()
 
