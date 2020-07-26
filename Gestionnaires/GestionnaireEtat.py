@@ -44,6 +44,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
         self.titre_save = {'nomEtat': "Titre"}
         self.sommaire_save = {'nomEtat': "Sommaire"}
+        self.synthese_save = {'type': 'synthese', 'nomEtat': "Synthese", 'ordre': 4, 'titreSommaire': "Synthèse"}
         self.ESG_save = {'type': 'ESG', 'nomEtat': "ESG", 'ordre': 5, 'titreSommaire': "Rapport ESG"}
         self.echeplus_save = {'type': 'etat', 'nomEtat': "EchéancierValue", 'ordre': 6, 'titreSommaire': "Plus ou moins values par échéance"}
         self.echeancier_save = {'type': 'etat', 'nomEtat': "Echéancier", 'ordre': 7, 'titreSommaire': "Remboursements par échéance"}
@@ -73,6 +74,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
         self.titre = self.titre_save.copy()
         self.sommaire = self.sommaire_save.copy()
+        self.synthese = self.synthese_save.copy()
         self.ESG = self.ESG_save.copy()
         self.echeplus = self.echeplus_save.copy()
         self.echeancier = self.echeancier_save.copy()
@@ -85,25 +87,6 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         self.gFin = self.gFin_save.copy()
         self.gGovnt = self.gGovnt_save.copy()
         self.emetteur = self.emetteur_save.copy()
-
-        [self.tb_histoType, self.histoType, self.histoType_save]
-
-        self.listePerso = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
-                           [self.tb_ESG, self.ESG, self.ESG_save],
-                           [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
-                           [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_histoType, self.histoType, self.histoType_save],
-                           [self.tb_gType, self.gType, self.gType_save],
-                           [self.tb_gRating, self.gRating, self.gRating_save], [self.tb_gSecteur, self.gSecteur, self.gSecteur_save],
-                           [self.tb_gCorp, self.gCorp, self.gCorp_save], [self.tb_gFin, self.gFin, self.gFin_save],
-                           [self.tb_gGovnt, self.gGovnt, self.gGovnt_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
-
-        self.listeOrdre = [[self.tb_ESG, self.ESG, self.ESG_save],
-                           [self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
-                           [self.nb_exigence, self.exigence, self.exigence_save], [self.tb_histoType, self.histoType, self.histoType_save],
-                           [self.tb_gType, self.gType, self.gType_save],
-                           [self.tb_gRating, self.gRating, self.gRating_save], [self.tb_gSecteur, self.gSecteur, self.gSecteur_save],
-                           [self.tb_gCorp, self.gCorp, self.gCorp_save], [self.tb_gFin, self.gFin, self.gFin_save],
-                           [self.tb_gGovnt, self.gGovnt, self.gGovnt_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
 
         self.on_btn_resetPerso_clicked()
         self.on_btn_resetOrdre_clicked()
@@ -127,7 +110,14 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_modifPerso_clicked(self):
-        liste = self.listePerso
+        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
+                 [self.tb_synthese, self.synthese, self.synthese_save], [self.tb_ESG, self.ESG, self.ESG_save],
+                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_histoType, self.histoType, self.histoType_save],
+                 [self.tb_gType, self.gType, self.gType_save],
+                 [self.tb_gRating, self.gRating, self.gRating_save], [self.tb_gSecteur, self.gSecteur, self.gSecteur_save],
+                 [self.tb_gCorp, self.gCorp, self.gCorp_save], [self.tb_gFin, self.gFin, self.gFin_save],
+                 [self.tb_gGovnt, self.gGovnt, self.gGovnt_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
 
         for elem in liste:
             elem[0].setEnabled(True)
@@ -141,7 +131,14 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_perso_clicked(self):
-        liste = self.listePerso
+        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
+                 [self.tb_synthese, self.synthese, self.synthese_save], [self.tb_ESG, self.ESG, self.ESG_save],
+                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_histoType, self.histoType, self.histoType_save],
+                 [self.tb_gType, self.gType, self.gType_save],
+                 [self.tb_gRating, self.gRating, self.gRating_save], [self.tb_gSecteur, self.gSecteur, self.gSecteur_save],
+                 [self.tb_gCorp, self.gCorp, self.gCorp_save], [self.tb_gFin, self.gFin, self.gFin_save],
+                 [self.tb_gGovnt, self.gGovnt, self.gGovnt_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
 
         for elem in liste:
             elem[1]['nomEtat'] = elem[0].text()
@@ -156,7 +153,14 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_resetPerso_clicked(self):
-        liste = self.listePerso
+        liste = [[self.tb_titre, self.titre, self.titre_save], [self.tb_sommaire, self.sommaire, self.sommaire_save],
+                 [self.tb_synthese, self.synthese, self.synthese_save], [self.tb_ESG, self.ESG, self.ESG_save],
+                 [self.tb_echeplus, self.echeplus, self.echeplus_save], [self.tb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.tb_exigence, self.exigence, self.exigence_save], [self.tb_histoType, self.histoType, self.histoType_save],
+                 [self.tb_gType, self.gType, self.gType_save],
+                 [self.tb_gRating, self.gRating, self.gRating_save], [self.tb_gSecteur, self.gSecteur, self.gSecteur_save],
+                 [self.tb_gCorp, self.gCorp, self.gCorp_save], [self.tb_gFin, self.gFin, self.gFin_save],
+                 [self.tb_gGovnt, self.gGovnt, self.gGovnt_save], [self.tb_emetteur, self.emetteur, self.emetteur_save]]
 
         for elem in liste:
             elem[1] = elem[2].copy()
@@ -172,7 +176,13 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_modifOrdre_clicked(self):
-        liste = self.listeOrdre
+        liste = [[self.nb_synthese, self.synthese, self.synthese_save], [self.nb_ESG, self.ESG, self.ESG_save],
+                 [self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_histoType, self.histoType, self.histoType_save],
+                 [self.nb_gType, self.gType, self.gType_save],
+                 [self.nb_gRating, self.gRating, self.gRating_save], [self.nb_gSecteur, self.gSecteur, self.gSecteur_save],
+                 [self.nb_gCorp, self.gCorp, self.gCorp_save], [self.nb_gFin, self.gFin, self.gFin_save],
+                 [self.nb_gGovnt, self.gGovnt, self.gGovnt_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
 
         for elem in liste:
             elem[0].setEnabled(True)
@@ -186,7 +196,13 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
 
     @pyqtSlot()
     def on_btn_ordre_clicked(self):
-        liste = self.listeOrdre
+        liste = [[self.nb_synthese, self.synthese, self.synthese_save], [self.nb_ESG, self.ESG, self.ESG_save],
+                 [self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_histoType, self.histoType, self.histoType_save],
+                 [self.nb_gType, self.gType, self.gType_save],
+                 [self.nb_gRating, self.gRating, self.gRating_save], [self.nb_gSecteur, self.gSecteur, self.gSecteur_save],
+                 [self.nb_gCorp, self.gCorp, self.gCorp_save], [self.nb_gFin, self.gFin, self.gFin_save],
+                 [self.nb_gGovnt, self.gGovnt, self.gGovnt_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
 
         for elem in liste:
             elem[1]['ordre'] = int(elem[0].text())
@@ -199,9 +215,17 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
         self.tabWidget.setTabEnabled(1, True)
         QTimer.singleShot(350, lambda: self.repaint())
 
+
+
     @pyqtSlot()
     def on_btn_resetOrdre_clicked(self):
-        liste = self.listeOrdre
+        liste = [[self.nb_synthese, self.synthese, self.synthese_save], [self.nb_ESG, self.ESG, self.ESG_save],
+                 [self.nb_echeplus, self.echeplus, self.echeplus_save], [self.nb_echeancier, self.echeancier, self.echeancier_save],
+                 [self.nb_exigence, self.exigence, self.exigence_save], [self.nb_histoType, self.histoType, self.histoType_save],
+                 [self.nb_gType, self.gType, self.gType_save],
+                 [self.nb_gRating, self.gRating, self.gRating_save], [self.nb_gSecteur, self.gSecteur, self.gSecteur_save],
+                 [self.nb_gCorp, self.gCorp, self.gCorp_save], [self.nb_gFin, self.gFin, self.gFin_save],
+                 [self.nb_gGovnt, self.gGovnt, self.gGovnt_save], [self.nb_emetteur, self.emetteur, self.emetteur_save]]
 
         for elem in liste:
             elem[1] = elem[2].copy()
@@ -238,7 +262,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
                 acc.Quit()
         except pythoncom.com_error as error:
-            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
+            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Merci de vérifier que la base de données n'est pas ouverte.", str(error))
             self.error = True
 
     def acc_etat(self, nomEtat, action, fileName="", nb_pages=0):
@@ -267,7 +291,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
                 acc.Quit()
         except pythoncom.com_error as error:
-            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
+            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Merci de vérifier que la base de données n'est pas ouverte.", str(error))
             self.error = True
 
     def acc_graphique(self, nomEtat, nomGraphique, sourceSQL, action, fileName="", nb_pages=0):
@@ -296,7 +320,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
                 acc.Quit()
         except pythoncom.com_error as error:
-            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
+            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Merci de vérifier que la base de données n'est pas ouverte.", str(error))
             self.error = True
 
     def acc_graphiqueDetail(self, nomEtat, nomEtat2, nomGraphique, sourceSQL, sourceSQL2, titre1, titre2, action, fileName="", nb_pages=0):
@@ -328,7 +352,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
                 acc.Quit()
         except pythoncom.com_error as error:
-            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
+            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Merci de vérifier que la base de données n'est pas ouverte.", str(error))
             self.error = True
 
     def acc_ESG(self, nomEtat, action, fileName="", nb_pages=0):
@@ -338,6 +362,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             acc.OpenCurrentDatabase(self.fileBDD, True)
 
             acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewReport)
+
             acc.Reports.Item(nomEtat).Report.RecordSource = "SELECT SUM(IIf([TotEuro]<>0,[TotEuro]*[Valo par le prix]))/SUM(IIf([TotEuro]<>0,[Valo par le prix])) AS NoteESG FROM Valorisation WHERE noPortefeuille=" + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "#"
             acc.Reports.Item(nomEtat).Controls.Item('ESG tableau').Report.RecordSource = "SELECT TOP 10 * FROM (SELECT A.*, (SELECT COUNT(*) FROM Valorisation WHERE [noPortefeuille]= " + self.strNoPort + " AND [DateDeMAJ]= #" + self.strDate + "# AND A.TotEuro <= TotEuro) AS RowNum, [Valo par le prix]/(SELECT SUM([Valo par le prix]) FROM Valorisation WHERE [noPortefeuille]= " + self.strNoPort + " AND [DateDeMAJ]= #" + self.strDate + "#) AS Pourcentage FROM Valorisation AS A WHERE (((A.noPortefeuille)= " + self.strNoPort + ") AND ((A.DateDeMAJ)= #" + self.strDate + "#)) ORDER BY A.TotEuro DESC);"
             acc.Reports.Item(nomEtat).Controls.Item('Graphique').RowSource = "\
@@ -351,7 +376,7 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                                                             Iif(TotEuro >= 40,40,\
                                                                 Iif(TotEuro >= 30,30,\
                                                                     Iif(TotEuro >= 20,20,\
-                                                                        Iif(TotEuro >= 10,10,0))))))))) AS CatTotEuro\
+                                                                        Iif(TotEuro >= 10,10,0))))))))) AS CatTotEuro \
                                     FROM Valorisation WHERE TotEuro IS NOT NULL AND noPortefeuille = {} AND DateDeMAJ = #{}#) GROUP BY CatTotEuro) AS A RIGHT JOIN HistoESG ON A.CatTotEuro = HistoESG.ID ORDER BY ID;".format(self.strNoPort, self.strDate, self.strNoPort, self.strDate)
             acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
             acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour du " + self.date.toString("dd/MM/yyyy")
@@ -371,8 +396,57 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 else:
                     acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
                 acc.Quit()
+                return note
+
+            if action == "Value":
+                acc.Quit()
+                return note
         except pythoncom.com_error as error:
-            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Ouverture impossible. Merci de vérifier que la base de données n'est pas ouverte.", str(error))
+            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Merci de vérifier que la base de données n'est pas ouverte.", str(error))
+            self.error = True
+
+    def acc_synthese(self, nomEtat, action, fileName="", nb_pages=0, noteESG=False):
+        try:
+            if not noteESG:
+                noteESG = self.acc_ESG(self.ESG['nomEtat'], "Value")
+
+            whereCondition = "[noPortefeuille] = " + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "#"
+
+            # Ouverture de la base de données
+            acc = win32.gencache.EnsureDispatch('Access.Application')
+            acc.OpenCurrentDatabase(self.fileBDD, True, )
+
+            acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewReport, None, whereCondition)
+
+            acc.Reports.Item(nomEtat).Controls.Item('SE_Synthese_rating').Report.RecordSource = "SELECT RATING.[Description pour la synthese], Sum(Valorisation.[Valeur d'acquisition]) AS [SommeDeValeur d'acquisition], Sum(Valorisation.[Valo par le prix]) AS [SommeDeValorisation par le prix], Sum(Valorisation.Remboursement) AS [SommeDeValorisation par le principal], RATING.Ordre, Sum(Valorisation.[+ ou - Value]) AS [SommeDe+ ou - Value], Sum(IIf([Valorisation].[Sensibilite] Is Not Null,[Valorisation].[Sensibilite]*[Valo par le prix]))/Sum(IIf([Valorisation].[Sensibilite] Is Not Null,[Valo par le prix])) AS Sensiblité, Sum(IIf([Valorisation].[Rendement] Is Not Null,[Valorisation].[Rendement]*[Valo par le prix]))/Sum(IIf([Valorisation].[Rendement] Is Not Null,[Valo par le prix])) AS Rendement, Sum(IIf([Valorisation].[Duration] Is Not Null,[Valorisation].[Duration]*[Valo par le prix]))/Sum(IIf([Valorisation].[Duration] Is Not Null,[Valo par le prix])) AS Duration \
+                                                                                                 FROM RATING INNER JOIN Valorisation ON RATING.[Rating] = Valorisation.RatingEmetteur \
+                                                                                                 WHERE (((RATING.Ordre)=1 Or (RATING.Ordre)=2 Or (RATING.Ordre)=3 Or (RATING.Ordre)=4 Or (RATING.Ordre)=5 Or (RATING.Ordre)=6 Or (RATING.Ordre)=7 Or (RATING.Ordre)=8) AND ((Valorisation.noPortefeuille)= " + self.strNoPort + ") AND ((Valorisation.DateDeMAJ)=#" + self.strDate + "#)) \
+                                                                                                 GROUP BY RATING.[Description pour la synthese], RATING.Ordre ORDER BY RATING.Ordre;"
+            acc.Reports.Item(nomEtat).Controls.Item('SE_Synthese_secteur').Report.RecordSource = "SELECT Sum(Valorisation.[Valeur d'acquisition]) AS [SommeDeValeur d'acquisition], Sum(Valorisation.[Valo par le prix]) AS [SommeDeValorisation par le prix], Sum(Valorisation.Remboursement) AS [SommeDeValorisation par le principal], Sum(Valorisation.[+ ou - Value]) AS [SommeDe+ ou - Value], Valorisation.nomSection, Sum(IIf([Valorisation].[Sensibilite] Is Not Null,[Valorisation].[Sensibilite]*[Valo par le prix]))/Sum(IIf([Valorisation].[Sensibilite] Is Not Null,[Valo par le prix])) AS Sensiblité, Sum(IIf([Valorisation].[Rendement] Is Not Null,[Valorisation].[Rendement]*[Valo par le prix]))/Sum(IIf([Valorisation].[Rendement] Is Not Null,[Valo par le prix])) AS Rendement, Sum(IIf([Valorisation].[Duration] Is Not Null,[Valorisation].[Duration]*[Valo par le prix]))/Sum(IIf([Valorisation].[Duration] Is Not Null,[Valo par le prix])) AS Duration \
+                                                                                                  FROM RATING INNER JOIN Valorisation ON RATING.Rating = Valorisation.Rating \
+                                                                                                  WHERE (((Valorisation.noPortefeuille)=" + self.strNoPort + ") AND ((Valorisation.DateDeMAJ)=#" + self.strDate + "#)) GROUP BY Valorisation.nomSection;"
+            acc.Reports.Item(nomEtat).Controls.Item('Graphique').RowSource = "SELECT [Description pour la synthese], Sum([Remboursement]) AS Remb FROM Valorisation WHERE [noPortefeuille] = " + self.strNoPort + " AND DateDeMAJ = #" + self.strDate + "# GROUP BY [Description pour la synthese],[Ordre] ORDER BY [Ordre]"
+            acc.Reports.Item(nomEtat).Controls.Item("titre").Caption = "VUE D'ENSEMBLE DU PORTEFEUILLE – " + self.legendePort.upper()
+            acc.Reports.Item(nomEtat).Controls.Item("txt_nomportefeuille").Caption = self.legendePort
+            acc.Reports.Item(nomEtat).Controls.Item("txt_datemaj").Caption = "Mise à jour du " + self.date.toString("dd/MM/yyyy")
+            acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = '=[Page] + {}'.format(nb_pages)
+
+            acc.Reports.Item(nomEtat).Controls.Item("Note").Caption = str(round(noteESG))
+            acc.Reports.Item(nomEtat).Controls.Item("PetiteFleche").Move((0.5 + (11.598 - 0.5) * noteESG / 100) * 567)
+
+            if action == "Ouvrir":
+                # acc.DoCmd.OpenReport(nomEtat, win32.constants.acViewPreview, None, whereCondition)
+                acc.DoCmd.Maximize()
+                acc.Visible = True
+
+            if action == "PDF":
+                if fileName:
+                    acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF, fileName)
+                else:
+                    acc.DoCmd.OutputTo(win32.constants.acOutputReport, nomEtat, win32.constants.acFormatPDF)
+                acc.Quit()
+        except pythoncom.com_error as error:
+            detailed_message(self, QMessageBox.Critical, "Erreur Access", "Merci de vérifier que la base de données n'est pas ouverte.", str(error))
             self.error = True
 
     @pyqtSlot()
@@ -386,6 +460,14 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
     @pyqtSlot()
     def on_btn_avertissementPDF_clicked(self):
         os.startfile(self.file_avertissement)
+
+    @pyqtSlot()
+    def on_btn_synthese_clicked(self):
+        self.acc_synthese(self.synthese['nomEtat'], "Ouvrir")
+
+    @pyqtSlot()
+    def on_btn_synthesePDF_clicked(self):
+        self.acc_synthese(self.synthese['nomEtat'], "PDF")
 
     @pyqtSlot()
     def on_btn_ESG_clicked(self):
@@ -527,8 +609,11 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             file_titre = tempdir.filePath("titre.pdf").replace("/", "\\")
             file_sommaire = tempdir.filePath("sommaire.pdf").replace("/", "\\")
 
-            liste = [None] * 20
+            liste = [None] * 100
 
+            if self.cb_synthese.isChecked() or nb_checked == 0:
+                etat = self.synthese
+                liste[etat['ordre']] = etat
             if self.cb_ESG.isChecked() or nb_checked == 0:
                 etat = self.ESG
                 liste[etat['ordre']] = etat
@@ -600,6 +685,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 if progress.wasCanceled():
                     break_bool = True
 
+            noteESG = False
+
             for i in range(len(liste_generation)):
                 etat = liste_generation[i]
                 print(etat['nomEtat'])
@@ -608,8 +695,10 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                 if progress.wasCanceled():
                     break_bool = True
                     break
+                if etat['type'] == 'synthese':
+                    self.acc_synthese(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total, noteESG=noteESG)
                 if etat['type'] == 'ESG':
-                    self.acc_ESG(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
+                    noteESG = self.acc_ESG(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
                 if etat['type'] == 'etat':
                     self.acc_etat(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
                 if etat['type'] == 'graphique':
