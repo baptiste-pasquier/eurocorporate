@@ -1341,3 +1341,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             QMessageBox.warning(self, "Lignes problématiques", "Transfert annulé")
             wb.Close(False)
             xls.Quit()
+
+
+# TODO enlever bouton client et portefeuille dans barre en haut
+# TODO rajouter fiche client et ajouter client
