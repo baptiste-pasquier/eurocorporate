@@ -353,7 +353,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
         self.affichage_liquidite()
         self.activation_transfert()
-        ####
+
+        #### TODO
         # A MODIFIER
 
         ####
@@ -1205,6 +1206,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.date_changed()
 
     def transfert(self):
+        # TODO
         # A rajouter dans l'activation du bouton
         # If MonthCalendar1.BoldedDates.Length > 0 Then
         # et vérification date actuelle différente de la date max
@@ -1250,7 +1252,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
     def visualisation(self):
         # TODO : Activer le bouton seulement si au moins une ligne dans le portefeuille
-        # Attention aux liquidités !!!!!!!!!!
+        # TODO Attention aux liquidités !!!!!!!!!!
 
         if self.tb_liquidite_etat and not self.btn_liquidite.isEnabled():
             # On vérifie que toutes les lignes sont mise à jour à la date choisi, si oui, on lance le menu visuel, si NON, on établi un fichier excel répertoriant les obligations non mise à jour avec leur date de derniere maj.
