@@ -374,7 +374,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         model = self.modelObligation
         obli_choisi = "'" + self.comboBox_ListeOblig.currentText() + "'"
         query = QtSql.QSqlQuery()
-        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
+        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY, TauxRemb   FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
 
         if query.next():
             isin = query.value(0)
@@ -401,10 +401,13 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             ratingsp =  query.value(21)
             ratingfitch =  query.value(22)
             ratingmoody =  query.value(23)
+            tauxremb = query.value(24)
         else:
             error = model.lastError().text()
             print(f"Insert Failed: {error}")
             model.select()
+
+        self.spinBox_rembrmt.setValue(tauxremb)
 
         self.lineEdit_ISIN.setText(str(isin))
         self.lineEdit_Nominal.setText(str(nominal))
@@ -463,6 +466,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             index_type = self.comboBox_Type.findText(nomtype)
             self.comboBox_Type.setCurrentIndex(index_type)
 
+
+
     def rempli_ligne_srchcode(self):
         date = self.calendarWidget.selectedDate()
 
@@ -478,7 +483,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         model = self.modelObligation
         obli_choisi = "'" + self.comboBox_SrchCode.currentText() + "'"
         query = QtSql.QSqlQuery()
-        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
+        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY , TauxRemb FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
 
         if query.next():
             isin = query.value(0)
@@ -505,10 +510,13 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             ratingsp =  query.value(21)
             ratingfitch =  query.value(22)
             ratingmoody =  query.value(23)
+            tauxremb = query.value(24)
         else:
             error = model.lastError().text()
             print(f"Insert Failed: {error}")
             model.select()
+
+        self.spinBox_rembrmt.setValue(tauxremb)
 
         self.lineEdit_ISIN.setText(str(isin))
         self.lineEdit_Nominal.setText(str(nominal))
@@ -584,7 +592,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         model = self.modelObligation
         obli_choisi = "'" + self.comboBox_SrchTicker.currentText() + "'"
         query = QtSql.QSqlQuery()
-        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
+        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY, TauxRemb  FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
 
         if query.next():
             isin = query.value(0)
@@ -611,10 +619,13 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             ratingsp =  query.value(21)
             ratingfitch =  query.value(22)
             ratingmoody =  query.value(23)
+            tauxremb = query.value(24)
         else:
             error = model.lastError().text()
             print(f"Insert Failed: {error}")
             model.select()
+
+        self.spinBox_rembrmt.setValue(tauxremb)
 
         self.lineEdit_ISIN.setText(str(isin))
         self.lineEdit_Nominal.setText(str(nominal))
@@ -689,6 +700,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         else: month2 = str(date.month())
         datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
 
+        modtauxremb = self.spinBox_rembrmt.value()
 
         modISIN = self.lineEdit_ISIN.text()
         modNominal = self.lineEdit_Nominal.text()
@@ -738,7 +750,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
 
         query2 = QtSql.QSqlQuery()
-        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+smodType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
+        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+smodType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"', TauxRemb = "+ modtauxremb +"  AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
 
         #TODO rajouter classe duration et interets courus
         if result:
@@ -799,6 +811,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         AvgLife =self.lineEdit_AvgLife.text()
         Indexation =self.lineEdit_Indexation.text()
 
+        Tauxremb = self.spinBox_rembrmt.value()
+
         Ticker =  "'"+ self.comboBox_Ticker.currentText() +"'"
         Rating = "'" + self.comboBox_Rating.currentText() +"'"
         RatingSP = "'" + self.comboBox_RatingSP.currentText() + "'"
@@ -838,8 +852,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         Tstr=[]
         T=[]
 
-        L = [ISIN, Libelle, Ticker, Nominal, Cours, Coupon, DevisePassee, DevisePrst, Rendement, Duration, SpreadBund, Sensibilite, Convexite, AvgLife, Indexation, Rating, RatingSP, RatingMoody, RatingFitch, sRegion, sSsecteur, sType]
-        Lstr = ['ISIN', 'Libelle', 'Ticker', 'Nominal', 'Cours', 'Coupon', 'DeviseAchat', 'DeviseConversion', 'Rendement', 'Duration', 'SpreadBund', 'Sensibilite', 'Convexite', 'VieMoyenne', 'Indexation', 'Rating', 'RatingSP', 'RatingMoody', 'RatingFitch', 'noRegion', 'noSousSecteur', 'noType']
+        L = [ISIN, Libelle, Ticker, Nominal, Cours, Coupon, DevisePassee, DevisePrst, Rendement, Duration, SpreadBund, Sensibilite, Convexite, AvgLife, Indexation, Rating, RatingSP, RatingMoody, RatingFitch, sRegion, sSsecteur, sType, Tauxremb]
+        Lstr = ['ISIN', 'Libelle', 'Ticker', 'Nominal', 'Cours', 'Coupon', 'DeviseAchat', 'DeviseConversion', 'Rendement', 'Duration', 'SpreadBund', 'Sensibilite', 'Convexite', 'VieMoyenne', 'Indexation', 'Rating', 'RatingSP', 'RatingMoody', 'RatingFitch', 'noRegion', 'noSousSecteur', 'noType', 'TauxRemb']
 
 
         #On va construire la requête SQL avec une liste contenant les champs
