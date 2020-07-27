@@ -211,7 +211,14 @@
            <widget class="QComboBox" name="comboBox_Ticker"/>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_rembrmt"/>
+           <widget class="QSpinBox" name="spinBox_rembrmt">
+            <property name="maximum">
+             <number>1000</number>
+            </property>
+            <property name="value">
+             <number>100</number>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QComboBox" name="comboBox_Type"/>

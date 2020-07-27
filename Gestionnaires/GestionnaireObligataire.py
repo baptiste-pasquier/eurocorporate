@@ -268,8 +268,22 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
         self.pushBtton_NvlOblig.clicked.connect(self.nvl_oblig)
 
+        self.update_highlight_calendar()
+
+    def update_highlight_calendar(self):
+
+        # Dates de mise à jour
+        query = QtSql.QSqlQuery()
+        query.exec("SELECT DISTINCT DateDeMAJ FROM Obligation")
+        datemax = QDate.currentDate()
+        while query.next():
+            datemax = query.value(0).date()
+            self.calendarWidget.highlight.append(datemax)
+        query.clear()
+
     def prep_combobox(self):
 #Construction de la combo box par une étape de sql
+        self.comboBox_ListeOblig.clear()
         date1 = self.calendarWidget.selectedDate()
         if len(str(date1.day())) < 2:
             day = "0" + str(date1.day())
@@ -291,14 +305,13 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
                 liste.append(query_liste.value(0))
         else:
             error = self.modelObligation.lastError().text()
-            print("erreur 22")
             QMessageBox.critical(self, "Erreur : aucun champ trouvé à cette date", error)
 
         self.comboBox_ListeOblig.addItems(liste)
 
     def prep_comboboxSrchCode(self):
 #Construction de la combo box par une étape de sql
-
+        self.comboBox_SrchCode.clear()
         isin = self.lineEdit_SrchCode.text()
 
         date1 = self.calendarWidget.selectedDate()
@@ -315,7 +328,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         liste = []
         query_liste = QtSql.QSqlQuery()
         query_liste.exec("SELECT libelle FROM Obligation WHERE ISIN LIKE '" + isin +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
-        print("SELECT libelle FROM Obligation WHERE ISIN LIKE '" + isin +"%' AND DateDeMaj = format('" + date1str + "','dd/mm/yyyy')")
+
 
         if query_liste.first():
             liste.append(query_liste.value(0))
@@ -330,7 +343,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
     def prep_comboboxSrchTicker(self):
 #Construction de la combo box par une étape de sql
-
+        self.comboBox_SrchTicker.clear()
         ticker = self.lineEdit_SrchTicker.text()
 
         date1 = self.calendarWidget.selectedDate()
@@ -374,9 +387,9 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         model = self.modelObligation
         obli_choisi = "'" + self.comboBox_ListeOblig.currentText() + "'"
         query = QtSql.QSqlQuery()
-        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY, TauxRemb   FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
+        query.exec("SELECT ISIN,Ticker,TauxRemb, Nominal, noType, Cours, Coupon, DeviseAchat, DeviseConversion, Maturite, noRegion, noSousSecteur, Libelle, Rendement, Duration, SpreadBund, Sensibilite, Convexite, VieMoyenne, Indexation, Rating, RatingSP, RatingFITCH, RatingMOODY   FROM obligation WHERE libelle = " + obli_choisi + " AND DateDeMaj = " +"format('" + datestr + "','dd/mm/yyyy')")
 
-        if query.next():
+        if query.first():
             isin = query.value(0)
             ticker = query.value(1)
             tauxremb = query.value(2)
@@ -401,10 +414,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             ratingsp =  query.value(21)
             ratingfitch =  query.value(22)
             ratingmoody =  query.value(23)
-            tauxremb = query.value(24)
         else:
             error = model.lastError().text()
-            print(f"Insert Failed: {error}")
             model.select()
 
         self.spinBox_rembrmt.setValue(tauxremb)
@@ -510,10 +521,9 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             ratingsp =  query.value(21)
             ratingfitch =  query.value(22)
             ratingmoody =  query.value(23)
-            tauxremb = query.value(24)
+
         else:
             error = model.lastError().text()
-            print(f"Insert Failed: {error}")
             model.select()
 
         self.spinBox_rembrmt.setValue(tauxremb)
@@ -619,10 +629,9 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
             ratingsp =  query.value(21)
             ratingfitch =  query.value(22)
             ratingmoody =  query.value(23)
-            tauxremb = query.value(24)
+
         else:
             error = model.lastError().text()
-            print(f"Insert Failed: {error}")
             model.select()
 
         self.spinBox_rembrmt.setValue(tauxremb)
