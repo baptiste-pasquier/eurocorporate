@@ -354,10 +354,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.affichage_liquidite()
         self.activation_transfert()
 
-        #### TODO
-        # A MODIFIER
-
-        ####
 
     def update_modelContenir(self):
         self.modelContenir.setFilter('noPortefeuille = {} AND DateDeMAJ = #{}#'.format(self.portefeuilleChoisi.noPortefeuille, self.dateChoisie.toString("MM/dd/yyyy")))
@@ -1206,10 +1202,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             self.date_changed()
 
     def transfert(self):
-        # TODO
-        # A rajouter dans l'activation du bouton
-        # If MonthCalendar1.BoldedDates.Length > 0 Then
-        # et vérification date actuelle différente de la date max
         noPortefeuille = self.portefeuilleChoisi.noPortefeuille
         datemax = self.calendarWidget.highlight[-1]
 
@@ -1251,30 +1243,29 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                 self.btn_transfert.setEnabled(True)
 
     def visualisation(self):
-        # TODO : Activer le bouton seulement si au moins une ligne dans le portefeuille
-        # TODO Attention aux liquidités !!!!!!!!!!
+        if self.modelContenir.rowCount() != 0:
+            if self.tb_liquidite_etat and not self.btn_liquidite.isEnabled():
+                # On vérifie que toutes les lignes sont mise à jour à la date choisi, si oui, on lance le menu visuel, si NON, on établi un fichier excel répertoriant les obligations non mise à jour avec leur date de derniere maj.
+                # On fait la liaison entre les obligations mise à jour et le contenu du portefeuille
+                noPortefeuille = self.portefeuilleChoisi.noPortefeuille
+                date = self.dateChoisie
+                countContenir = self.modelContenir.rowCount()
 
-        if self.tb_liquidite_etat and not self.btn_liquidite.isEnabled():
-            # On vérifie que toutes les lignes sont mise à jour à la date choisi, si oui, on lance le menu visuel, si NON, on établi un fichier excel répertoriant les obligations non mise à jour avec leur date de derniere maj.
-            # On fait la liaison entre les obligations mise à jour et le contenu du portefeuille
-            noPortefeuille = self.portefeuilleChoisi.noPortefeuille
-            date = self.dateChoisie
-            countContenir = self.modelContenir.rowCount()
-
-            query = QtSql.QSqlQuery()
-            query.exec("SELECT Count(*) FROM Obligation WHERE Obligation.ISIN In (SELECT ISIN FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AND Obligation.DateDeMAJ =#" + date.toString("MM/dd/yyyy") + "#")
-            if query.next():
-                countObligation = query.value(0)
-            if countContenir == countObligation:
-                # TODO
-                self.etat_window = MainWindowEtat(self)
-                self.etat_window.init(self.clientChoisi, self.portefeuilleChoisi, self.dateChoisie)
-                self.etat_window.show()
+                query = QtSql.QSqlQuery()
+                query.exec("SELECT Count(*) FROM Obligation WHERE Obligation.ISIN In (SELECT ISIN FROM Contenir WHERE noPortefeuille = " + str(noPortefeuille) + " AND DateDeMAJ = #" + date.toString("MM/dd/yyyy") + "#) AND Obligation.DateDeMAJ =#" + date.toString("MM/dd/yyyy") + "#")
+                if query.next():
+                    countObligation = query.value(0)
+                if countContenir == countObligation:
+                    self.etat_window = MainWindowEtat(self)
+                    self.etat_window.init(self.clientChoisi, self.portefeuilleChoisi, self.dateChoisie)
+                    self.etat_window.show()
+                else:
+                    QMessageBox.warning(self, "Visualisation", str(countContenir - countObligation) + " lignes ne sont pas à jour.\nPour empêcher les erreurs de valorisation, merci de vérifier les lignes qui vont apparaitre dans l'outil Excel.\nPour un traitement facilité : utiliser le gestionnaire obligataire et mettre l'obligation à jour à la date voulu.")
+                    self.export_lignesNoMaj()
             else:
-                QMessageBox.warning(self, "Visualisation", str(countContenir - countObligation) + " lignes ne sont pas à jour.\nPour empêcher les erreurs de valorisation, merci de vérifier les lignes qui vont apparaitre dans l'outil Excel.\nPour un traitement facilité : utiliser le gestionnaire obligataire et mettre l'obligation à jour à la date voulu.")
-                self.export_lignesNoMaj()
+                QMessageBox.critical(self, "Visualisation", 'Veuillez remplir et valider le champ "Liquidité"')
         else:
-            QMessageBox.critical(self, "Visualisation", 'Veuillez remplir et valider le champ "Liquidité"')
+            QMessageBox.critical(self, "Visualisation", 'Aucune valeur')
 
     def export_lignesNoMaj(self):
         noPortefeuille = self.portefeuilleChoisi.noPortefeuille
