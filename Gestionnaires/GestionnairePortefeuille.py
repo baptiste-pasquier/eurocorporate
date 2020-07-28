@@ -3,7 +3,7 @@ from PyQt5 import QtCore, QtSql, QtWidgets
 from PyQt5.QtCore import QDate, Qt, QTimer
 from PyQt5.QtWidgets import (QDialogButtonBox, QFileDialog, QMessageBox,
                              QProgressDialog)
-
+from Assistants.AssistantClient import MainWindowClient
 from Assistants.AddPortefeuille import WindowAddPortefeuille
 from Assistants.FindISIN import WindowFindISIN
 from Assistants.ModifyPortefeuille import WindowModifyPortefeuille
@@ -13,6 +13,7 @@ from Classes.obligation import ObligationContenir
 from Tools import regex
 from Tools.message import detailed_message
 from Gestionnaires.GestionnaireEtat import MainWindowEtat
+
 
 # qt_creator_file = "Gestionnaires/GestionnairePortefeuille.ui"
 # Ui_MainWindowPortefeuille, QtBaseClass = uic.loadUiType(qt_creator_file)
@@ -104,6 +105,20 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         Ui_MainWindowPortefeuille.__init__(self)
         self.setupUi(self)
 
+        # Toolbar
+        label1 = QtWidgets.QLabel("Client", self)
+        label1.setMargin(10)
+        self.toolBar.addWidget(label1)
+        self.toolBar.addAction(self.action_addClient)
+        self.toolBar.addAction(self.action_ficheClient)
+        self.toolBar.addSeparator()
+        label2 = QtWidgets.QLabel("Portefeuille", self)
+        label2.setMargin(10)
+        self.toolBar.addWidget(label2)
+        self.toolBar.addAction(self.action_deletePortefeuille)
+        self.toolBar.addAction(self.action_modifyPortefeuilleName)
+        
+
         # crée le modèle et sa liaison avec la base SQL ouverte
         self.modelContenir = ModelContenir()
 
@@ -150,6 +165,8 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.action_deletePortefeuille.setEnabled(False)
         self.action_modifyPortefeuilleName.triggered.connect(self.modify_portefeuille)
         self.action_modifyPortefeuilleName.setEnabled(False)
+        self.action_addClient.triggered.connect(self.show_client)
+        self.action_ficheClient.setEnabled(False)
 
         # Table vide
         self.update_modelContenir()
@@ -238,6 +255,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             self.btn_newPortefeuille.setEnabled(True)
 
+            self.action_addClient.setEnabled(False)
             self.btn_unlockClient.setEnabled(True)
             self.btn_chooseClient.setEnabled(False)
             self.comboBox_clients.setEnabled(False)
@@ -257,6 +275,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             QMessageBox.warning(self, '', 'Veuillez choisir un client.')
 
     def client_unlock(self):
+        self.action_addClient.setEnabled(True)
         self.btn_unlockClient.setEnabled(False)
         self.btn_chooseClient.setEnabled(True)
         self.comboBox_clients.setEnabled(True)
@@ -1335,6 +1354,9 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             wb.Close(False)
             xls.Quit()
 
+    def show_client(self):
+        client_window = MainWindowClient(self)
+        client_window.set_cbClient_portefeuille(self.comboBox_clients)
+        client_window.show()
 
-# TODO enlever bouton client et portefeuille dans barre en haut
 # TODO rajouter fiche client et ajouter client

@@ -52,6 +52,8 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         self.comboBox_SupprClient.setCurrentIndex(-1)
         self.pushButton_SupprValider.clicked.connect(self.suppr_client)
 
+        self.cbClient_portefeuille = None
+
     def new_client(self):
 
         nom_entreprise = self.lineEdit_Entreprise.text()
@@ -90,6 +92,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
             if model.submitAll():
                 QMessageBox.information(self, "Nouveau Client", "Ajout réussi")
+                self.update_cbClient_portefeuille()
             else:
                 error = model.lastError().text()
                 QMessageBox.critical(self, "Database returned an error", error)
@@ -178,7 +181,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             self.lineEdit_ContactName.clear()
             self.lineEdit_ContactForename.clear()
             self.lineEdit_Mail.clear()
-
+            self.update_cbClient_portefeuille()
         else:
             error = model.lastError().text()
             QMessageBox.critical(self, "Database returned an error", error)
@@ -193,6 +196,15 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
         if result:
             QMessageBox.information(self, "Client Supprimé", "Modification Reussie")
+            self.update_cbClient_portefeuille()
         else:
             error = model.lastError().text()
             QMessageBox.critical(self, "Database returned an error", error)
+
+    def set_cbClient_portefeuille(self, cb):
+        self.cbClient_portefeuille = cb
+
+    def update_cbClient_portefeuille(self):
+        if self.cbClient_portefeuille:
+            self.cbClient_portefeuille.model().select()
+            self.cbClient_portefeuille.setCurrentIndex(-1)
