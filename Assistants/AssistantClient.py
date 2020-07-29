@@ -36,7 +36,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
         self.pushButton_Valider.clicked.connect(self.new_client)
 
-# Liste des clients
+        # Liste des clients
         self.modelClient = ModelClient()
         # self.clientChoisi = Client()
 
@@ -52,7 +52,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         self.comboBox_SupprClient.setCurrentIndex(-1)
         self.pushButton_SupprValider.clicked.connect(self.suppr_client)
 
-        self.cbClient_portefeuille = None
+        self.cbClient_portefeuille = None   # Pour mettre à jour le modelClient dans le gestionnaire de portefeuille, si ouvert depuis le gestionnaire de portefeuille
 
     def new_client(self):
 
@@ -92,7 +92,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
             if model.submitAll():
                 QMessageBox.information(self, "Nouveau Client", "Ajout réussi")
-                self.update_cbClient_portefeuille()
+                self.update_cbClient_portefeuille() # Pour mettre à jour le modelClient dans le gestionnaire de portefeuille, si ouvert depuis le gestionnaire de portefeuille
             else:
                 error = model.lastError().text()
                 QMessageBox.critical(self, "Database returned an error", error)
@@ -181,7 +181,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             self.lineEdit_ContactName.clear()
             self.lineEdit_ContactForename.clear()
             self.lineEdit_Mail.clear()
-            self.update_cbClient_portefeuille()
+            self.update_cbClient_portefeuille() # Pour mettre à jour le modelClient dans le gestionnaire de portefeuille, si ouvert depuis le gestionnaire de portefeuille
         else:
             error = model.lastError().text()
             QMessageBox.critical(self, "Database returned an error", error)
@@ -196,15 +196,17 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
         if result:
             QMessageBox.information(self, "Client Supprimé", "Modification Reussie")
-            self.update_cbClient_portefeuille()
+            self.update_cbClient_portefeuille() # Pour mettre à jour le modelClient dans le gestionnaire de portefeuille, si ouvert depuis le gestionnaire de portefeuille
         else:
             error = model.lastError().text()
             QMessageBox.critical(self, "Database returned an error", error)
 
     def set_cbClient_portefeuille(self, cb):
+        # Pour mettre à jour le modelClient dans le gestionnaire de portefeuille, si ouvert depuis le gestionnaire de portefeuille
         self.cbClient_portefeuille = cb
 
     def update_cbClient_portefeuille(self):
+        # Pour mettre à jour le modelClient dans le gestionnaire de portefeuille, si ouvert depuis le gestionnaire de portefeuille
         if self.cbClient_portefeuille:
             self.cbClient_portefeuille.model().select()
             self.cbClient_portefeuille.setCurrentIndex(-1)
