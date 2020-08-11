@@ -606,6 +606,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             tempdir = QTemporaryDir()
             # print(tempdir.path())
 
+            self.error = False
+
             def file(i):
                 return tempdir.filePath("{}.pdf".format(i)).replace("/", "\\")
             file_titre = tempdir.filePath("titre.pdf").replace("/", "\\")
