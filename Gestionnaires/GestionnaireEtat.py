@@ -383,6 +383,8 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
             acc.Reports.Item(nomEtat).Controls.Item("txt_page").ControlSource = '=[Page] + {}'.format(nb_pages)
 
             note = acc.Reports.Item(nomEtat).Controls.Item("Note").Value
+            if not note:
+                note = 0
             acc.Reports.Item(nomEtat).Controls.Item("PetiteFleche").Move((6 + (19.9 - 6) * note / 100) * 567)
 
             if action == "Ouvrir":
