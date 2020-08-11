@@ -60,6 +60,8 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         nom_contact = self.lineEdit_ContactName.text()
         prenom_contact = self.lineEdit_ContactForename.text()
         mail_contact = self.lineEdit_Mail.text()
+        tel_contact = int(self.lineEdit_Tel.text())
+        comment = self.textEdit_Comment.text()
 
         if nom_entreprise != '':
             model = self.modelClient
@@ -77,7 +79,9 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
                 'nomEntreprise': nom_entreprise,
                 'nomContact': nom_contact,
                 'prenomContact': prenom_contact,
-                'mailContact': mail_contact
+                'mailContact': mail_contact,
+                'telContact' : tel_contact,
+                'commentaire' : comment
                 }
 
             for field, value in defaults.items():
@@ -93,6 +97,12 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             if model.submitAll():
                 QMessageBox.information(self, "Nouveau Client", "Ajout réussi")
                 self.update_cbClient_portefeuille() # Pour mettre à jour le modelClient dans le gestionnaire de portefeuille, si ouvert depuis le gestionnaire de portefeuille
+                self.lineEdit_Entreprise.clear()
+                self.lineEdit_ContactName.clear()
+                self.lineEdit_ContactForename.clear()
+                self.lineEdit_Mail.clear()
+                self.lineEdit_Tel.clear()
+                self.textEdit_Comment.clear()
             else:
                 error = model.lastError().text()
                 QMessageBox.critical(self, "Database returned an error", error)
@@ -105,7 +115,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         # le client et ses mod. sont récupérés dans les ligne éditables
         client_choisi = "'" + self.comboBox_ModClient.currentText() + "'"
         query = QtSql.QSqlQuery()
-        query.exec("SELECT noClient, nomEntreprise, nomContact,prenomContact, mailContact FROM Client WHERE nomEntreprise =" + client_choisi)
+        query.exec("SELECT noClient, nomEntreprise, nomContact,prenomContact, mailContact, telContact, commentaire FROM Client WHERE nomEntreprise =" + client_choisi)
 
         if query.next():
 
@@ -113,6 +123,8 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             nomcontact2 =str(query.value(2))
             prenomcontact2 = str(query.value(3))
             mailcontact2 = str(query.value(4))
+            numcontact2 = int(query.value(5))
+            comment2 = str(query.value(6))
 
         else:
             error = model.lastError().text()
@@ -123,6 +135,8 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         self.lineEdit_ModContactName.setText(nomcontact2)
         self.lineEdit_ModContactForename.setText(prenomcontact2)
         self.lineEdit_ModMail.setText(mailcontact2)
+        self.lineEdit_ModTel.setText(numcontact2)
+        self.textEdit_ModComment.setText(comment2)
 
     def mod_client(self):
         model = self.modelClient
@@ -133,13 +147,17 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         nom_contact = self.lineEdit_ModContactName.text()
         prenom_contact = self.lineEdit_ModContactForename.text()
         mail_contact = self.lineEdit_ModMail.text()
+        tel_contact = int(self.lineEdit_ModTel.text())
+        comment = self.textEdit_ModComment.text()
 
         old_nom_entreprise = ""
         old_nom_contact = ""
         old_prenom_contact = ""
         old_mail_contact = ""
+        old_num = 0
+        old_comment = ""
         query = QtSql.QSqlQuery()
-        query.exec("SELECT noClient, nomEntreprise, nomContact,prenomContact, mailContact FROM Client WHERE nomEntreprise =" + client_choisi)
+        query.exec("SELECT noClient, nomEntreprise, nomContact,prenomContact, mailContact, telContact, commentaire FROM Client WHERE nomEntreprise =" + client_choisi)
 
         if query.next():
 
@@ -160,6 +178,14 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
                 old_mail_contact = query.value(4)
             else:
                 old_mail_contact = ""
+            if type(query.value(5)) == int:
+                old_num = query.value(5)
+            else:
+                old_num = 0
+            if type(query.value(6)) ==str:
+                old_comment = query.value(6)
+            else:
+                old_comment = ""
         else:
             error = model.lastError().text()
             QMessageBox.critical(self, "Le client n'a pas été trouvé'", error)
@@ -171,16 +197,22 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         modPrenom = str(prenom_contact * (prenom_contact != '') + old_prenom_contact * (prenom_contact == ''))
         modMail = str(mail_contact * (mail_contact != '') + old_mail_contact * (mail_contact == ''))
 
+        modTel = tel_contact * (tel_contact != 0) + old_num * (tel_contact ==0)
+        modComment = str(comment * (comment != '') + old_comment * (comment == ''))
+
 
         query2 = QtSql.QSqlQuery()
-        result = query2.exec("UPDATE Client SET nomEntreprise = '" + modEntreprise + "', nomContact = '" + modNom + "', prenomContact = '" + modPrenom + "', mailContact = '" + modMail + "' WHERE noClient = " + str(no_client))
+        result = query2.exec("UPDATE Client SET nomEntreprise = '" + modEntreprise + "', nomContact = '" + modNom + "', prenomContact = '" + modPrenom + "', mailContact = '" + modMail + "' , telContact = "+ modTel + ", commentaire = '" + modComment  + "' WHERE noClient = " + str(no_client))
 
         if result:
             QMessageBox.information(self, "Client Modifié", "Modification Reussie")
-            self.lineEdit_Entreprise.clear()
-            self.lineEdit_ContactName.clear()
-            self.lineEdit_ContactForename.clear()
-            self.lineEdit_Mail.clear()
+            self.lineEdit_ModEntreprise.clear()
+            self.lineEdit_ModContactName.clear()
+            self.lineEdit_ModContactForename.clear()
+            self.lineEdit_ModMail.clear()
+            self.lineEdit_ModTel.clear()
+            self.textEdit_ModComment.clear()
+
             self.update_cbClient_portefeuille() # Pour mettre à jour le modelClient dans le gestionnaire de portefeuille, si ouvert depuis le gestionnaire de portefeuille
         else:
             error = model.lastError().text()
