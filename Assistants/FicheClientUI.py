@@ -11,15 +11,15 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindowFicheClient(object):
-    def setupUi(self, MainWindowFicheClient):
-        MainWindowFicheClient.setObjectName("MainWindowFicheClient")
-        MainWindowFicheClient.setWindowModality(QtCore.Qt.WindowModal)
-        MainWindowFicheClient.resize(584, 497)
+class Ui_WindowFicheClient(object):
+    def setupUi(self, WindowFicheClient):
+        WindowFicheClient.setObjectName("WindowFicheClient")
+        WindowFicheClient.setWindowModality(QtCore.Qt.WindowModal)
+        WindowFicheClient.resize(584, 497)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/ressources/img/icone.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        MainWindowFicheClient.setWindowIcon(icon)
-        self.centralwidget = QtWidgets.QWidget(MainWindowFicheClient)
+        WindowFicheClient.setWindowIcon(icon)
+        self.centralwidget = QtWidgets.QWidget(WindowFicheClient)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -82,22 +82,22 @@ class Ui_MainWindowFicheClient(object):
         self.textEdit_Commentaires.setObjectName("textEdit_Commentaires")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.textEdit_Commentaires)
         self.verticalLayout.addLayout(self.formLayout)
-        MainWindowFicheClient.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindowFicheClient)
+        WindowFicheClient.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(WindowFicheClient)
         self.statusbar.setObjectName("statusbar")
-        MainWindowFicheClient.setStatusBar(self.statusbar)
+        WindowFicheClient.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindowFicheClient)
-        QtCore.QMetaObject.connectSlotsByName(MainWindowFicheClient)
+        self.retranslateUi(WindowFicheClient)
+        QtCore.QMetaObject.connectSlotsByName(WindowFicheClient)
 
-    def retranslateUi(self, MainWindowFicheClient):
+    def retranslateUi(self, WindowFicheClient):
         _translate = QtCore.QCoreApplication.translate
-        MainWindowFicheClient.setWindowTitle(_translate("MainWindowFicheClient", "Fiche Client"))
-        self.label.setText(_translate("MainWindowFicheClient", "Client"))
-        self.label_Entreprise_2.setText(_translate("MainWindowFicheClient", "Entreprise"))
-        self.label_Name_2.setText(_translate("MainWindowFicheClient", "Nom du contact"))
-        self.label_Forename_2.setText(_translate("MainWindowFicheClient", "Prénom du Contact"))
-        self.label_Mail_2.setText(_translate("MainWindowFicheClient", "Mail du Contact"))
-        self.label_Mail_3.setText(_translate("MainWindowFicheClient", "Mail du Contact"))
-        self.label_Mail_4.setText(_translate("MainWindowFicheClient", "Commentaires"))
+        WindowFicheClient.setWindowTitle(_translate("WindowFicheClient", "Fiche Client"))
+        self.label.setText(_translate("WindowFicheClient", "Client"))
+        self.label_Entreprise_2.setText(_translate("WindowFicheClient", "Entreprise"))
+        self.label_Name_2.setText(_translate("WindowFicheClient", "Nom du contact"))
+        self.label_Forename_2.setText(_translate("WindowFicheClient", "Prénom du Contact"))
+        self.label_Mail_2.setText(_translate("WindowFicheClient", "Mail du Contact"))
+        self.label_Mail_3.setText(_translate("WindowFicheClient", "N°l du Contact"))
+        self.label_Mail_4.setText(_translate("WindowFicheClient", "Commentaires"))
 import ressources_rc

@@ -7,6 +7,7 @@ from Assistants.AssistantClient import MainWindowClient
 from Assistants.AddPortefeuille import WindowAddPortefeuille
 from Assistants.FindISIN import WindowFindISIN
 from Assistants.ModifyPortefeuille import WindowModifyPortefeuille
+from Assistants.FicheClient import WindowFicheClient
 from Classes.client import Client
 from Classes.portefeuille import Portefeuille
 from Classes.obligation import ObligationContenir
@@ -167,6 +168,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.action_modifyPortefeuilleName.setEnabled(False)
         self.action_addClient.triggered.connect(self.show_client)
         self.action_ficheClient.setEnabled(False)
+        self.action_ficheClient.triggered.connect(self.show_ficheClient)
 
         # Table vide
         self.update_modelContenir()
@@ -255,6 +257,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             self.btn_newPortefeuille.setEnabled(True)
 
+            self.action_ficheClient.setEnabled(True)
             self.action_addClient.setEnabled(False)
             self.btn_unlockClient.setEnabled(True)
             self.btn_chooseClient.setEnabled(False)
@@ -275,6 +278,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             QMessageBox.warning(self, '', 'Veuillez choisir un client.')
 
     def client_unlock(self):
+        self.action_ficheClient.setEnabled(False)
         self.action_addClient.setEnabled(True)
         self.btn_unlockClient.setEnabled(False)
         self.btn_chooseClient.setEnabled(True)
@@ -1359,4 +1363,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         client_window.set_cbClient_portefeuille(self.comboBox_clients)
         client_window.show()
 
-# TODO rajouter fiche client et ajouter client
+    def show_ficheClient(self):
+        ficheClient_window = WindowFicheClient(self)
+        ficheClient_window.show()

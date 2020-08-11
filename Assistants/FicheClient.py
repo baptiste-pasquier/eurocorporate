@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtSql
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMessageBox
 
-from Assistants.FicheClientUI import Ui_MainWindowFicheClient
+from Assistants.FicheClientUI import Ui_WindowFicheClient
 
 
 class ModelClient(QtSql.QSqlTableModel):
@@ -24,10 +24,10 @@ class ModelClient(QtSql.QSqlTableModel):
             return value
         return super().data(index, role)
 
-class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowFicheClient):
+class WindowFicheClient(QtWidgets.QMainWindow, Ui_WindowFicheClient):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
-        Ui_MainWindowClient.__init__(self)
+        Ui_WindowFicheClient.__init__(self)
         self.setupUi(self)
 
 
@@ -43,7 +43,7 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowFicheClient):
         self.comboBox_Client.setCurrentIndex(-1)
         self.comboBox_Client.activated.connect(self.rempli)
 
-        def rempli(self):
+    def rempli(self):
         model = self.modelClient
         # le client et ses mod. sont récupérés dans les ligne éditables
         client_choisi = "'" + self.comboBox_ModClient.currentText() + "'"
