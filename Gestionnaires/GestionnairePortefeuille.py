@@ -167,7 +167,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
         self.action_modifyPortefeuilleName.triggered.connect(self.modify_portefeuille)
         self.action_modifyPortefeuilleName.setEnabled(False)
         self.action_addClient.triggered.connect(self.show_client)
-        self.action_ficheClient.setEnabled(False)
+        self.action_ficheClient.setEnabled(True)
         self.action_ficheClient.triggered.connect(self.show_ficheClient)
 
         # Table vide
@@ -257,7 +257,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
 
             self.btn_newPortefeuille.setEnabled(True)
 
-            self.action_ficheClient.setEnabled(True)
             self.action_addClient.setEnabled(False)
             self.btn_unlockClient.setEnabled(True)
             self.btn_chooseClient.setEnabled(False)
@@ -278,7 +277,6 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             QMessageBox.warning(self, '', 'Veuillez choisir un client.')
 
     def client_unlock(self):
-        self.action_ficheClient.setEnabled(False)
         self.action_addClient.setEnabled(True)
         self.btn_unlockClient.setEnabled(False)
         self.btn_chooseClient.setEnabled(True)

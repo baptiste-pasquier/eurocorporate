@@ -82,6 +82,9 @@
           <height>26</height>
          </size>
         </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="1" column="0">
@@ -98,6 +101,9 @@
           <width>0</width>
           <height>26</height>
          </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -122,6 +128,9 @@
           <height>26</height>
          </size>
         </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="3" column="0">
@@ -139,22 +148,28 @@
           <height>26</height>
          </size>
         </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="label_Mail_3">
         <property name="text">
-         <string>N°l du Contact</string>
+         <string>N° du Contact</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="lineEdit_Mail_2">
+       <widget class="QLineEdit" name="lineEdit_Tel">
         <property name="minimumSize">
          <size>
           <width>0</width>
           <height>26</height>
          </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -166,7 +181,7 @@
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QPlainTextEdit" name="textEdit_Commentaires">
+       <widget class="QTextEdit" name="textEdit_Commentaires">
         <property name="readOnly">
          <bool>true</bool>
         </property>

@@ -44,24 +44,22 @@ class WindowFicheClient(QtWidgets.QMainWindow, Ui_WindowFicheClient):
         self.comboBox_Client.activated.connect(self.rempli)
 
     def rempli(self):
-        model = self.modelClient
         # le client et ses mod. sont récupérés dans les ligne éditables
-        client_choisi = "'" + self.comboBox_ModClient.currentText() + "'"
+        client_choisi = "'" + self.comboBox_Client.currentText() + "'"
         query = QtSql.QSqlQuery()
-        query.exec("SELECT noClient, nomEntreprise, nomContact,prenomContact, mailContact, telContact, commentaire FROM Client WHERE nomEntreprise =" + client_choisi)
+        query.exec("SELECT noClient, nomEntreprise, nomContact, prenomContact, mailContact, telContact, commentaires FROM Client WHERE nomEntreprise =" + client_choisi)
 
         if query.first():
             nomentreprise = str(query.value(1))
             nomcontact = str(query.value(2))
             prenomcontact = str(query.value(3))
             mailcontact = str(query.value(4))
-            telcontact = query.value(5)
-            commentaire = str(query.value(6))
-
+            telcontact = str(query.value(5))
+            commentaires = str(query.value(6))
 
         self.lineEdit_Entreprise.setText(nomentreprise)
         self.lineEdit_ContactName.setText(nomcontact)
         self.lineEdit_ContactForename.setText(prenomcontact)
         self.lineEdit_Mail.setText(mailcontact)
         self.lineEdit_Tel.setText(telcontact)
-        self.textEdit_Commentaires.setText(commentaire)
+        self.textEdit_Commentaires.setText(commentaires)

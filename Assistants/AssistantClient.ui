@@ -25,7 +25,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget_Valider">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -90,7 +90,7 @@
             <item>
              <widget class="QLabel" name="label_Comment">
               <property name="text">
-               <string>Commentaire</string>
+               <string>Commentaires</string>
               </property>
              </widget>
             </item>
@@ -321,7 +321,7 @@
               <item>
                <widget class="QLabel" name="label_ModComment">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Commentaires</string>
                 </property>
                </widget>
               </item>
