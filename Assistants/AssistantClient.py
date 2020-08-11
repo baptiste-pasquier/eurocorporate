@@ -131,7 +131,6 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
             mailcontact2 = str(query.value(4))
             numcontact2 = str(query.value(5))
             comment2 = str(query.value(6))
-            print("Bonjour2 " + comment2)
 
         else:
             error = query.lastError().text()
@@ -158,7 +157,6 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
         mail_contact = self.lineEdit_ModMail.text()
         tel_contact = self.lineEdit_ModTel.text()
         comment = self.textEdit_ModComment.toPlainText()
-        print("Bonjour " + comment)
 
         query = QtSql.QSqlQuery()
         query.exec("SELECT noClient, nomEntreprise, nomContact,prenomContact, mailContact, telContact, commentaires FROM Client WHERE nomEntreprise =" + client_choisi)
@@ -181,7 +179,6 @@ class MainWindowClient(QtWidgets.QMainWindow, Ui_MainWindowClient):
 
         query2 = QtSql.QSqlQuery()
         chaine = "UPDATE Client SET nomEntreprise = '" + modEntreprise + "', nomContact = '" + modNom + "', prenomContact = '" + modPrenom + "', mailContact = '" + modMail + "', telContact = '" + modTel + "', commentaires = '" + modComment + "' WHERE noClient = " + str(no_client)
-        print(chaine)
         result = query2.exec(chaine)
 
         if result:
