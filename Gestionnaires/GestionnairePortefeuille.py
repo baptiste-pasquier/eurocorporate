@@ -1140,20 +1140,20 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
             if str(ws.Cells(1, 1).Value).lower() == 'isin' and str(ws.Cells(1, 2).Value).lower() == 'nombre' and str(ws.Cells(1, 3).Value).lower() == "prix d'achat":
                 progress.setLabelText('Vérification du format des données')
 
-                # On vérifie les ISIN, le nombre et le valo d'achat
+                # On vérifie les ISIN, le nombre et le prix d'achat
                 error_string = ""
                 for numRow in range(2, 2 + nb_lignes):
                     isin = str(ws.Cells(numRow, 1).Value)
                     nombre = ws.Cells(numRow, 2).Value
-                    valo = ws.Cells(numRow, 3).Value
+                    prix = ws.Cells(numRow, 3).Value
                     progress.setValue(numRow)
 
                     if not regex.VerifISIN(isin):
                         error_string += "Ligne {} : ISIN invalide \n".format(numRow)
                     if not isinstance(nombre, float):
                         error_string += "Ligne {} : Nombre invalide \n".format(numRow)
-                    if not isinstance(valo, float):
-                        error_string += "Ligne {} : valo d'achat invalide \n".format(numRow)
+                    if not isinstance(prix, float):
+                        error_string += "Ligne {} : Prix d'achat invalide \n".format(numRow)
 
                 if error_string:
                     # ERROR
@@ -1169,7 +1169,7 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                     for numRow in range(2, 2 + nb_lignes):
                         isin = str(ws.Cells(numRow, 1).Value)
                         nombre = str(ws.Cells(numRow, 2).Value)
-                        valo = str(ws.Cells(numRow, 3).Value)
+                        prix = str(ws.Cells(numRow, 3).Value)
 
                         # ISIN existe dans la base?
                         query = QtSql.QSqlQuery()
@@ -1190,17 +1190,18 @@ class MainWindowPortefeuille(QtWidgets.QMainWindow, Ui_MainWindowPortefeuille):
                             count = int(query.value(0))
 
                         if count == 0:
-                            result = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, valoAchat) VALUES (" + str(noPortefeuille) + ",'" + isin + "', #" + date + "#, " + nombre + ", " + valo + ")")
+                            result = query.exec("INSERT INTO Contenir (noPortefeuille, ISIN, DateDeMAJ, nombre, prixAchat) VALUES (" + str(noPortefeuille) + ",'" + isin + "', #" + date + "#, " + nombre + ", " + prix + ")")
                             if not result:
                                 error_string += "Ligne {} : Échec de l'insertion dans la table Contenir\n".format(numRow)
+                                error_string += "Ligne {} : {}\n".format(numRow, query.lastError().text())
                             else:
-                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(valo))
+                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(prix))
                         elif count == 1:
-                            result = query.exec("UPDATE Contenir SET nombre = " + nombre + ", valoAchat = " + valo + " WHERE noPortefeuille = " + str(noPortefeuille) + " AND ISIN = '" + isin + "' AND DateDeMAJ = #" + date + "#")
+                            result = query.exec("UPDATE Contenir SET nombre = " + nombre + ", prixAchat = " + prix + " WHERE noPortefeuille = " + str(noPortefeuille) + " AND ISIN = '" + isin + "' AND DateDeMAJ = #" + date + "#")
                             if not result:
                                 error_string += "Ligne {} : Échec de la mise à jour dans la table Contenir\n".format(numRow)
                             else:
-                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(valo))
+                                self.RajoutObligDateFutur(isin, noPortefeuille, str(nombre), str(prix))
                         else:
                             error_string += "Ligne {} : Obligation déjà existante en multiple dans la table Contenir\n".format(numRow)
                         progress.setValue(numRow)
