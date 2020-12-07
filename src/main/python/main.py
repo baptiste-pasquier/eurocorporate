@@ -13,7 +13,7 @@ from Tools.database import createconnection
 from MainMenuUI import Ui_MainWindowMenu
 
 # fbs
-# from fbs_runtime.application_context.PyQt5 import ApplicationContext
+from fbs_runtime.application_context.PyQt5 import ApplicationContext
 
 
 class MainWindowMenu(QtWidgets.QMainWindow, Ui_MainWindowMenu):
@@ -111,9 +111,9 @@ class Controller:
 
 if __name__ == '__main__':
     # fbs
-    # appctxt = ApplicationContext()
+    appctxt = ApplicationContext()
     # python
-    app = QtWidgets.QApplication(sys.argv)
+    # app = QtWidgets.QApplication(sys.argv)
 
     QtCore.QCoreApplication.setOrganizationName("ENSAE Junior Etudes")
     QtCore.QCoreApplication.setApplicationName("Eurocorporate IS")
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     controller.show_main_menu()
 
     # python
-    sys.exit(app.exec_())
+    # sys.exit(app.exec_())
     # fbs
-    # exit_code = appctxt.app.exec_()
-    # sys.exit(exit_code)
+    exit_code = appctxt.app.exec_()
+    sys.exit(exit_code)
