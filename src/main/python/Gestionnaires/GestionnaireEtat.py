@@ -2,7 +2,7 @@ import win32com.client as win32
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QDir, QSettings, pyqtSlot, QStandardPaths, QTemporaryDir, QTimer, Qt
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QProgressDialog
-from PyPDF2 import PdfFileMerger, PdfFileReader
+from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 
 from Gestionnaires.GestionnaireEtatUI import Ui_MainWindowEtat
 from Tools.message import detailed_message
@@ -703,6 +703,15 @@ class MainWindowEtat(QtWidgets.QMainWindow, Ui_MainWindowEtat):
                     self.acc_synthese(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total, noteESG=noteESG)
                 if etat['type'] == 'ESG':
                     noteESG = self.acc_ESG(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
+                    # Correction du problème de page blanche en trop
+                    with open(file(i), 'rb') as infile:
+                        reader = PdfFileReader(infile)
+                        writer = PdfFileWriter()
+                        writer.addPage(reader.getPage(0))
+                        with open(file('output'), 'wb') as outfile:
+                            writer.write(outfile)
+                    os.remove(file(i))
+                    os.rename(file('output'), file(i))
                 if etat['type'] == 'etat':
                     self.acc_etat(etat['nomEtat'], "PDF", fileName=file(i), nb_pages=nb_pages_total)
                 if etat['type'] == 'graphique':
