@@ -421,6 +421,8 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         self.spinBox_rembrmt.setValue(tauxremb)
 
         self.lineEdit_ISIN.setText(str(isin))
+        global premierisin
+        premierisin = self.lineEdit_ISIN.text()
         self.lineEdit_Nominal.setText(str(nominal))
         self.lineEdit_Cours.setText(str(cours))
         self.lineEdit_Coupon.setText(str(coupon))
@@ -709,7 +711,7 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
         else: month2 = str(date.month())
         datestr = str(day2) + "/" + str(month2) + "/" + str(date.year())
 
-        modtauxremb = self.spinBox_rembrmt.value()
+        modtauxremb = str(self.spinBox_rembrmt.value())
 
         modISIN = self.lineEdit_ISIN.text()
         modNominal = self.lineEdit_Nominal.text()
@@ -759,11 +761,11 @@ class MainWindowObligation(QtWidgets.QMainWindow, Ui_MainWindowObligation):
 
 
         query2 = QtSql.QSqlQuery()
-        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+modTicker +"', noType = "+smodType+" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee+", DeviseConversion = "+ modDevisePrst+", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"'  WHERE ISIN = '" + modISIN +"', TauxRemb = "+ modtauxremb +"  AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
+        result = query2.exec("UPDATE Obligation SET ISIN = '" + modISIN +"', Libelle = '" + modLibelle +"', Ticker = '"+ modTicker +"', noType = "+ smodType +" ,Nominal = "+ modNominal +", Cours = "+ modCours +", Coupon = " + modCoupon +", DeviseAchat = "+ modDevisePassee +", DeviseConversion = "+ modDevisePrst +", noRegion = "+ smodRegion +", noSousSecteur = "+ smodSsecteur+", Rendement = "+ modRendement +", SpreadBund = "+ modSpreadBund +", Duration = "+ modDuration + ", Sensibilite = " + modSensibilite +", Convexite = "+ modConvexite +", VieMoyenne = " + modAvgLife +", Indexation = '"+ modIndexation +"', TauxRemb = "+ modtauxremb +"  WHERE ISIN = '" + premierisin +"' AND DateDeMaj =  format('" + datestr + "','dd/mm/yyyy')")
 
         #TODO rajouter classe duration et interets courus
         if result:
-            QMessageBox.information(self, "Client Modifié", "Modification Reussie")
+            QMessageBox.information(self, "Obligation Modifié", "Modification Reussie")
             self.lineEdit_ISIN.clear()
             self.lineEdit_Nominal.clear()
             self.lineEdit_Cours.clear()

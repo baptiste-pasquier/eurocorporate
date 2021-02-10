@@ -2,5 +2,5 @@
     "app_name": "Eurocorporate IS",
     "author": "ENSAE Junior Etudes",
     "main_module": "src/main/python/main.py",
-    "version": "1.0.1"
+    "version": "1.0.2"
 }
